@@ -10,4 +10,4 @@ const Recipe = ({name, date}) => {
     );
 };
 
-export default Recipe;
+export default Recipe; //
