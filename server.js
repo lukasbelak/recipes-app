@@ -5,6 +5,7 @@ require('dotenv/config');
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.static('./client/build/'));
 
 const recipes = require('./routes/api/recipes');
 app.use('/api/recipes', recipes);
@@ -22,6 +23,10 @@ const uri = process.env.DB_CONNECTION;
 const mongoose = require('mongoose');
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology:true }, ()=>{
     console.log('mongoose connected');
+});
+
+app.get('/*', (req,res) => {
+    res.sendFile('index.html',{root: __dirname+'/client/build/'});
 });
 
 const port=process.env.PORT || 5000;
