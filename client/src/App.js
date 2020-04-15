@@ -14,7 +14,7 @@ function App() {
   }, [query]);
 
   const getRecipes =async (filter)=>{
-    console.log('getrecipes');
+    console.log('getrecipes '+filter);
     let data=[];
     if(filter){
       const resp = await fetch('/api/recipes/' + filter);
@@ -25,7 +25,7 @@ function App() {
     }
     console.log(data);
     setRecipes(data);
-    //console.log(recipes);
+    console.log('end getrecipes');
   };
 
   const updateSearch = (e)=>{

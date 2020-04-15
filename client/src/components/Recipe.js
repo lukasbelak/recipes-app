@@ -5,7 +5,11 @@ const Recipe = ({name, date}) => {
     return (
         <div className={style.recipe}>
             <h1>{name}</h1>
-            <p>{date}</p>
+            <p>{new Intl.DateTimeFormat('en-GB',{
+                year: "numeric",
+                month:"long",
+                day:"2-digit"
+            }).format(new Date(date))}</p>
         </div>
     );
 };
