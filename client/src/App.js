@@ -17,7 +17,7 @@ function App() {
     console.log('getrecipes '+filter);
     let data=[];
     if(filter){
-      const resp = await fetch('/api/recipes/' + filter);
+      const resp = await fetch('/api/recipes/byfilter/' + filter);
       data = await resp.json();
     }else{
       const resp = await fetch('/api/recipes');
@@ -47,7 +47,7 @@ function App() {
       </form>
       <div className="recipes">
         {recipes.map(recipe => (
-          <Recipe key={recipe.name} name= {recipe.name} date= {recipe.date} />
+          <Recipe key={recipe.name} name= {recipe.name} description={recipe.description} date= {recipe.date} ingredients={recipe.ingredients} />
         ))}
       </div>
     </div>

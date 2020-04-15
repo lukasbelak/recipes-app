@@ -6,11 +6,19 @@ const RecipeSchema = new Schema({
         type: String, 
         required:true
     },
+    description:{
+        type: String,
+        required:true
+    },
     date:{
-        type:Date,
+        type: Date,
         default:Date.now
-    }
+    },
+    ingredients:[{
+        type: mongoose.ObjectId, 
+        ref: 'Ingredient'
+    }]
 });
 
 // eslint-disable-next-line no-undef
-module.exports= Recipe =mongoose.model('recipe', RecipeSchema);
+module.exports= Recipe =mongoose.model('Recipe', RecipeSchema, 'recipes');
