@@ -4,10 +4,21 @@ const router = express.Router();
 const Recipe = require('../../models/Recipe');
 
 // @route GET api/recipes
-router.get('/',async(req,res)=>{
+router.get('/',async(req,res)=>{ 
     try{
-    await Recipe.find()
-        .then(recipes=>res.json(recipes))
+        await Recipe.find()
+            .then(recipes => res.json(recipes))
+    }catch(err){
+        res.json({message:err})
+    }
+});
+
+// @route GET api/recipes/:filter
+router.get('/:filter',async(req,res)=>{
+    try{
+        let filter = req.params.filter;
+        await Recipe.find({name :new RegExp(filter, 'i')}) //{ $contains: filter }
+            .then(recipes => res.json(recipes))
     }catch(err){
         res.json({message:err})
     }
