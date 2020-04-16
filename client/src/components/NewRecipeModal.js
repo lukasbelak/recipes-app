@@ -1,10 +1,11 @@
-import React from 'react';
-import { Button, Modal,Form,TextArea } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Button, Modal,Form,TextArea,Input } from 'semantic-ui-react';
 
 const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
+    const [ingredients, setIngredients]=useState([]);
+
     const handleNewRecipe=(value)=>{
-        debugger;
         createRecipe(value);
     };
 
@@ -15,6 +16,28 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
     const handleCancelCreate = () =>{
         cancelCreateRecipe();
+    };
+
+    const handleAddIngredient=()=>{
+        setIngredients(oldIngredients=>[...oldIngredients, {
+
+        }]);
+    };
+
+    const handleAddIngredientName=(e,index)=>{
+        debugger;
+        let value=e.target.value;
+        ingredients[index].name=value;
+    };
+
+    const handleAddIngredientQuantity=(e,index)=>{
+        let value=e.target.value;
+        ingredients[index].quantity=value;
+    };
+
+    const handleAddIngredientUnit=(e,index)=>{
+        let value=e.target.value;
+        ingredients[index].unit=value;
     };
 
     return(
@@ -29,12 +52,25 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
                     <input type="text" />
                 </Form.Field>
                 <Form.Field>
-                    <label>Description</label>
-                    <TextArea rows="5" />
+                    <label>Ingredients</label>
+                    {
+                        ingredients.map((ingredient,index)=>{
+                            return(
+                                <div key={index} className="floatLeft">
+                                    <div className="floatLeft"><Input placeholder='name' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
+                                    <div className="floatLeft"><Input placeholder='quantity' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
+                                    <div className="floatLeft"><Input placeholder='unit' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
+                                </div>
+                            );
+                        })
+                    }
+                    <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Add</Button></div>
+                    
                 </Form.Field>
                 <Form.Field>
-                
-                </Form.Field>
+                    <label>Description</label>
+                    <TextArea rows="5" />
+                </Form.Field>            
                 <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
                 <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
             </Form>
