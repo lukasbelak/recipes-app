@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Modal,Form,TextArea,Input } from 'semantic-ui-react';
+import SearchCategory from './SearchCategory';
 
 const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
     const [ingredients, setIngredients]=useState([]);
     const [name, setName]=useState('');
     const [description, setDescription]=useState('');
+    const [category, setCategory]=useState('');
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
@@ -19,9 +21,10 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
         const recipe = {
             name:name,
             description:description,
-            ingredients: ingredients
+            ingredients: ingredients,
+            category: category
         };
-
+debugger;
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -78,6 +81,10 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
         setDescription(e.target.value);
     };
 
+    const getCategory=(value)=>{
+        setCategory(value);
+    };
+
     return(
         <div>
         <Modal open={openModal} trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
@@ -85,6 +92,11 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
             <Modal.Content>
             <Modal.Description>
                 <Form>
+                    <Form.Field>
+                        <label>Category</label>
+                        <SearchCategory
+                        getCategory={getCategory} />
+                    </Form.Field>
                 <Form.Field>
                     <label>Name</label>
                     <input type="text" value={name} onChange={updateName} />
@@ -112,7 +124,7 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
                 </Form.Field>            
                 <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
                 <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
-            </Form>
+                </Form>
             </Modal.Description>
             </Modal.Content>
         </Modal>

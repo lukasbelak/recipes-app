@@ -17,7 +17,11 @@ const RecipeSchema = new Schema({
     ingredients:[{
         type: mongoose.ObjectId, 
         ref: 'Ingredient'
-    }]
+    }],
+    category: {
+        type: mongoose.ObjectId,
+        ref: 'Category'
+    }
 });
 
 // eslint-disable-next-line no-undef

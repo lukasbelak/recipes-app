@@ -9,6 +9,8 @@ app.use(express.static('./client/build/'));
 
 const recipes = require('./routes/api/recipes');
 app.use('/api/recipes', recipes);
+const categories = require('./routes/api/categories');
+app.use('/api/categories', categories);
 
 // const MongoClient = require('mongodb').MongoClient;
 const uri = process.env.DB_CONNECTION;

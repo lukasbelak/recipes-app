@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Recipe = require('../../models/Recipe');
 const Ingredient = require('../../models/Ingredient');
+const Category = require('../../models/Category');
 
 // @route GET api/recipes
 router.get('/',async(req,res)=>{ 
@@ -48,9 +49,13 @@ const createIngredient = (ingredients) => {
 
 // @route POST api/recipes
 router.post('/', async(req,res)=>{
+    debugger;
+    var category = await Category.find({name:req.body.category});
+
     const newRecipe={
         name:req.body.name,
-        description:req.body.description
+        description:req.body.description,
+        category: category._id
     };
 
     try{
