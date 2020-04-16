@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Recipe from './components/Recipe';
 import NewRecipeModal from './components/NewRecipeModal';
-import {Grid} from 'semantic-ui-react';
+//import {Grid} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 
 const App=()=> {
@@ -56,9 +56,9 @@ const App=()=> {
 
       <form className="search-form" onSubmit={getSearch}>
       
-        <div class="ui action input">
+        <div className="ui action input">
           <input type="text" placeholder="Search..." value={search} onChange={updateSearch} />
-          <button class="ui button blue" type="submit">Search</button>
+          <button className="ui button blue" type="submit">Search</button>
         </div>
         <NewRecipeModal 
           className="new-recipe-button"
