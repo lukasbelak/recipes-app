@@ -10,12 +10,13 @@ const App=()=> {
   const [recipes, setRecipes]=useState([]);
   const [search, setSearch]=useState('');
   const [query, setQuery]=useState('');
+  const [recipeCreated, setRecipeCreated]=useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(()=>{
     getRecipes(query);
     console.log('effect run');
-  }, [query]);
+  }, [query,recipeCreated]);
 
   const getRecipes =async (filter)=>{
     console.log('getrecipes '+filter);
@@ -45,6 +46,7 @@ const App=()=> {
   const createRecipe=(value)=>{
     // todo
     setOpenModal(value);
+    setRecipeCreated(value);
   };
 
   const cancelCreateRecipe=()=>{

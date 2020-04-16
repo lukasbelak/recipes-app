@@ -4,14 +4,38 @@ import { Button, Modal,Form,TextArea,Input } from 'semantic-ui-react';
 const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
     const [ingredients, setIngredients]=useState([]);
+    const [name, setName]=useState('');
+    const [description, setDescription]=useState('');
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
     };
 
     const handleCreate = (value) =>{
-        debugger;
-        createRecipe(value);
+        createRecipeWithIngredients(value);
+    };
+
+    const createRecipeWithIngredients=(value)=>{
+        const recipe = {
+            name:name,
+            description:description,
+            ingredients: ingredients
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(recipe)
+        };
+        fetch('/api/recipes', requestOptions)
+        .then(resp=>resp.json())
+        .then(()=>{
+            setIngredients([]);
+            setName('');
+            setDescription('');
+
+            createRecipe(value);
+        });
     };
 
     const handleCancelCreate = () =>{
@@ -20,7 +44,6 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
     const handleAddIngredient=()=>{
         setIngredients([...ingredients, {
-
         }]);
     };
 
@@ -47,6 +70,14 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
         setIngredients(ingredients);
     };
 
+    const updateName=(e)=>{
+        setName(e.target.value);
+    };
+
+    const updateDescription=(e)=>{
+        setDescription(e.target.value);
+    };
+
     return(
         <div>
         <Modal open={openModal} trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
@@ -56,7 +87,7 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
                 <Form>
                 <Form.Field>
                     <label>Name</label>
-                    <input type="text" />
+                    <input type="text" value={name} onChange={updateName} />
                 </Form.Field>
                 <Form.Field>
                     <label>Ingredients</label>
@@ -77,7 +108,7 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Description</label>
-                    <TextArea rows="5" />
+                    <TextArea rows="5" value={description} onChange={updateDescription} />
                 </Form.Field>            
                 <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
                 <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
