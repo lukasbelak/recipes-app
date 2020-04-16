@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Modal,Form } from 'semantic-ui-react';
+import { Button, Modal,Form,TextArea } from 'semantic-ui-react';
 
-const NewRecipeModal = ({openModal, createRecipe}) => {
+const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
     const handleNewRecipe=(value)=>{
         debugger;
@@ -11,6 +11,10 @@ const NewRecipeModal = ({openModal, createRecipe}) => {
     const handleCreate = (value) =>{
         debugger;
         createRecipe(value);
+    };
+
+    const handleCancelCreate = () =>{
+        cancelCreateRecipe();
     };
 
     return(
@@ -25,12 +29,14 @@ const NewRecipeModal = ({openModal, createRecipe}) => {
                     <input type="text" />
                 </Form.Field>
                 <Form.Field>
-                    
+                    <label>Description</label>
+                    <TextArea rows="5" />
                 </Form.Field>
                 <Form.Field>
                 
                 </Form.Field>
-                <Button type='submit' onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
+                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
+                <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
             </Form>
             </Modal.Description>
             </Modal.Content>

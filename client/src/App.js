@@ -47,6 +47,10 @@ const App=()=> {
     setOpenModal(value);
   };
 
+  const cancelCreateRecipe=()=>{
+    setOpenModal(false);
+  };
+
   return (
     <div className="App">
 
@@ -59,7 +63,8 @@ const App=()=> {
         <NewRecipeModal 
           className="new-recipe-button"
           openModal={openModal}
-          createRecipe={createRecipe} />
+          createRecipe={createRecipe}
+          cancelCreateRecipe={cancelCreateRecipe} />
       </form>
 
       <div className="recipes">
