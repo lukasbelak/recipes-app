@@ -24,6 +24,10 @@ color: white;
 font-weight: bold;
 }
 
+.new-recipe-button{
+    margin: 10px 50px; 
+}
+
 .recipes{
     display: flex;
     justify-content: space-around;

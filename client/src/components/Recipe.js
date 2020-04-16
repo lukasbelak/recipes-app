@@ -20,4 +20,4 @@ const Recipe = ({name, description, date, ingredients}) => {
     );
 };
 
-export default Recipe; //
+export default Recipe;

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Recipe from './components/Recipe';
+import NewRecipeModal from './components/NewRecipeModal';
+import {Grid} from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css'
 
-function App() {
+const App=()=> {
 
   const [recipes, setRecipes]=useState([]);
   const [search, setSearch]=useState('');
   const [query, setQuery]=useState('');
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(()=>{
     getRecipes(query);
@@ -38,18 +42,32 @@ function App() {
     setSearch('');
   };
 
+  const createRecipe=(value)=>{
+    // todo
+    setOpenModal(value);
+  };
+
   return (
     <div className="App">
-      <form className="search-form" onSubmit={getSearch}>
-        <input className="search-bar" type="text" value={search} onChange={updateSearch} />
-        <button className="search-button" type="submit" >Search</button>
 
+      <form className="search-form" onSubmit={getSearch}>
+      
+        <div class="ui action input">
+          <input type="text" placeholder="Search..." value={search} onChange={updateSearch} />
+          <button class="ui button blue" type="submit">Search</button>
+        </div>
+        <NewRecipeModal 
+          className="new-recipe-button"
+          openModal={openModal}
+          createRecipe={createRecipe} />
       </form>
+
       <div className="recipes">
         {recipes.map(recipe => (
           <Recipe key={recipe.name} name= {recipe.name} description={recipe.description} date= {recipe.date} ingredients={recipe.ingredients} />
         ))}
       </div>
+
     </div>
   );
 }
