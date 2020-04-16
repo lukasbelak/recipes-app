@@ -17,7 +17,7 @@ router.get('/',async(req,res)=>{
 router.get('/byfilter/:filter',async(req,res)=>{
     try{
         let filter = req.params.filter;
-        await Recipe.find({name :new RegExp(filter, 'i')}).populate('ingredients') //{ $contains: filter }
+        await Recipe.find({name :new RegExp(filter, 'i')}).populate('ingredients')
             .then(recipes => res.json(recipes))
     }catch(err){
         res.json({message:err.message})
@@ -40,9 +40,9 @@ const createRecipe = (recipe) => {
         return docRecipe;});
 };
 
-const createIngredient = (ingredient) => {
-    return Ingredient.create(ingredient).then(docIngredient => {
-        return docIngredient;
+const createIngredient = (ingredients) => {
+    return Ingredient.create(ingredients).then(docIngredients => {
+        return docIngredients;
     });
 };
 
@@ -56,19 +56,21 @@ router.post('/', async(req,res)=>{
     try{
         let recipe = await createRecipe(newRecipe);
 
-        req.body.ingredients.forEach(async ingredient=>{
+        let ingredients = [];
+        req.body.ingredients.forEach(ingredient=>{
             let newIngredient = {
                 recipe: recipe._id,
                 name:ingredient.name,
                 quantity:ingredient.quantity,
                 unit:ingredient.unit
             }
-            
-            ingredient = await createIngredient(newIngredient);
-            recipe.ingredients.push(ingredient);
-            await recipe.save();
+            ingredients.push(newIngredient);
         });
-                  
+
+        let newIngredients= await createIngredient(ingredients)
+        recipe.ingredients=newIngredients;       
+        await recipe.save();
+
         res.json(recipe._id);
     }catch(err){
         res.json({message:err.message})
@@ -94,10 +96,19 @@ router.patch('/:id', async(req,res)=>{
 });
 
 // @route DELETE api/recipes/:id
-router.delete('/:id',async(req,res)=>{
+router.delete('/:id',async(req,res,next)=>{
     try{
-        await Recipe.deleteOne({_id:req.params.id})
-        .then(recipe=>res.json(recipe));
+        await Recipe.findById({_id:req.params.id})
+        .then(recipe=>{
+            Ingredient.deleteMany({recipe:recipe._id}, (err, result)=>{
+                if(err) {
+                    res.json(err.message);
+                } else {
+                    recipe.deleteOne();
+                    res.json(recipe);
+                }
+            });
+        });
     }catch(err){
         res.json({message:err.message})
     }
