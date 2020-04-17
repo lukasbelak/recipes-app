@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const Recipe = require('../../models/Recipe');
 const Ingredient = require('../../models/Ingredient');
 
@@ -47,11 +46,18 @@ const createIngredient = (ingredients) => {
 };
 
 // @route POST api/recipes
-router.post('/', async(req,res)=>{
+router.post('/', async(req,res,next)=>{
+    let fileDataSplit = req.body.img.data.split(',');
+    let imgData = Buffer.from(fileDataSplit[1], "base64");
+
     const newRecipe={
         name:req.body.name,
         description:req.body.description,
-        category: req.body.category
+        category: req.body.category,
+        img: {
+            data: imgData,
+            contentType: req.body.img.contentType
+        }
     };
 
     try{

@@ -14,7 +14,6 @@ const SearchCategory =({getCategory})=> {
   },[]);
   
   const getCategories=async ()=>{
-    debugger;
       const resp = await fetch('/api/categories');
 
       let data = await resp.json();

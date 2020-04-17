@@ -21,6 +21,11 @@ const RecipeSchema = new Schema({
     category: {
         type: String,
         required: true
+    },
+    img: { 
+        data: Buffer, 
+        contentType: String,
+        //type:String
     }
 });
 

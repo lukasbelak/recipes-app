@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal,Form,TextArea,Input } from 'semantic-ui-react';
+import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 
 const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
@@ -8,6 +8,9 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
     const [name, setName]=useState('');
     const [description, setDescription]=useState('');
     const [category, setCategory]=useState('');
+    const [fileData, setFileData] = useState('');
+    const [fileName, setFileName]=useState('');
+    const [fileContentType, setFileContentType]=useState('');
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
@@ -22,7 +25,11 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
             name:name,
             description:description,
             ingredients: ingredients,
-            category: category
+            category: category,
+            img: {
+                data:fileData,
+                contentType: fileContentType
+            }
         };
 debugger;
         const requestOptions = {
@@ -36,12 +43,17 @@ debugger;
             setIngredients([]);
             setName('');
             setDescription('');
+            setCategory('');
 
             createRecipe(value);
         });
     };
 
     const handleCancelCreate = () =>{
+        // setIngredients([]);
+        //     setName('');
+        //     setDescription('');
+        //     setCategory('');
         cancelCreateRecipe();
     };
 
@@ -85,6 +97,35 @@ debugger;
         setCategory(value);
     };
 
+    const onUploadImageChange= (e)=>{
+        debugger;
+        let file = e.target.files[0];
+        
+        setFileContentType(file.type);
+        setFileName(file.name);
+
+        getBase64(file, (result) => {
+            setFileData(result);
+        });
+    }
+
+    const onRemoveImage=(e)=>{
+        setFileData('');
+        setFileName('');
+        setFileContentType('');
+    }
+
+    const getBase64=(file, cb)=> {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            cb(reader.result)
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+
     return(
         <div>
         <Modal open={openModal} trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
@@ -97,33 +138,40 @@ debugger;
                         <SearchCategory
                         getCategory={getCategory} />
                     </Form.Field>
-                <Form.Field>
-                    <label>Name</label>
-                    <input type="text" value={name} onChange={updateName} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Ingredients</label>
-                    {
-                        ingredients.map((ingredient,index)=>{
-                            return(
-                                <div key={index} className="floatLeft">
-                                    <div className="floatLeft"><Input placeholder='name' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
-                                    <div className="floatLeft"><Input placeholder='quantity' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
-                                    <div className="floatLeft"><Input placeholder='unit' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
-                                    <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Remove</Button></div>
-                                </div>
-                            );
-                        })
-                    }
-                    <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Add</Button></div>
-                    
-                </Form.Field>
-                <Form.Field>
-                    <label>Description</label>
-                    <TextArea rows="5" value={description} onChange={updateDescription} />
-                </Form.Field>            
-                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
-                <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
+                    <Form.Field>
+                        <label>Name</label>
+                        <input type="text" value={name} onChange={updateName} />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Image</label>
+                        <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>
+                        <Icon link name='close' style={{float:"left"}} onClick={onRemoveImage} />
+                        <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} />
+                        <label>{fileName}</label>
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Ingredients</label>
+                        {
+                            ingredients.map((ingredient,index)=>{
+                                return(
+                                    <div key={index} className="floatLeft">
+                                        <div className="floatLeft"><Input placeholder='name' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
+                                        <div className="floatLeft"><Input placeholder='quantity' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
+                                        <div className="floatLeft"><Input placeholder='unit' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
+                                        <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Remove</Button></div>
+                                    </div>
+                                );
+                            })
+                        }
+                        <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Add</Button></div>
+                        
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Description</label>
+                        <TextArea rows="5" value={description} onChange={updateDescription} />
+                    </Form.Field>            
+                    <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
+                    <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
                 </Form>
             </Modal.Description>
             </Modal.Content>

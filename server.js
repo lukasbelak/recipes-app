@@ -12,16 +12,7 @@ app.use('/api/recipes', recipes);
 const categories = require('./routes/api/categories');
 app.use('/api/categories', categories);
 
-// const MongoClient = require('mongodb').MongoClient;
 const uri = process.env.DB_CONNECTION;
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//     console.log('mongodb connected');
-//   const collection = client.db("mw_recipes").collection("recipes");
-//   // perform actions on the collection object
-//   client.close();
-// });
-
 const mongoose = require('mongoose');
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology:true }, ()=>{
     console.log('mongoose connected');
