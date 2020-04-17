@@ -1,10 +1,11 @@
 import React from 'react';
 import style from'./recipe.module.css';
 
-const Recipe = ({name, description, date, ingredients}) => {
+const Recipe = ({name, category, description, date, ingredients}) => {
     return (
         <div className={style.recipe}>
             <h1>{name}</h1>
+            <p>{category}</p>
             <p>{description}</p>
             <ul>
                 {ingredients.map(i=>(

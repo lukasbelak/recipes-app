@@ -26,6 +26,7 @@ const SearchCategory =({getCategory})=> {
           })
       });
       setCategories(res);
+      setResults(res);
   };
 
   const handleResultSelect = (e, { result }) => {
@@ -60,6 +61,7 @@ const SearchCategory =({getCategory})=> {
             })}
             results={results}
             value={value}
+            minCharacters="0"
           />
     )
 }

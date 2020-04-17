@@ -71,7 +71,7 @@ const App=()=> {
 
       <div className="recipes">
         {recipes.map(recipe => (
-          <Recipe key={recipe.name} name= {recipe.name} description={recipe.description} date= {recipe.date} ingredients={recipe.ingredients} />
+          <Recipe key={recipe.name} name= {recipe.name} category={recipe.category} description={recipe.description} date= {recipe.date} ingredients={recipe.ingredients} />
         ))}
       </div>
 
