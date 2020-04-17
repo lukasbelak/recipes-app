@@ -24,8 +24,10 @@ const RecipeSchema = new Schema({
     },
     img: { 
         data: Buffer, 
-        contentType: String,
-        //type:String
+        contentType: String
+    },
+    youtube:{
+        type:String
     }
 });
 

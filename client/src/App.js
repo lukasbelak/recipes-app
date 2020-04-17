@@ -71,15 +71,10 @@ const App=()=> {
 
       <div className="recipes">
         {recipes.map(recipe => (
-          <Recipe 
-            key={recipe.name} 
-            name= {recipe.name} 
-            category={recipe.category} 
-            description={recipe.description} 
-            date= {recipe.date} 
-            ingredients={recipe.ingredients} 
-            img= {recipe.img}
-            />
+            <Recipe 
+              key={recipe.name} 
+              recipe={recipe}
+              />
         ))}
       </div>
 

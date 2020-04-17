@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
+import {youtubeParser} from '../utils';
 
 const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
 
@@ -8,6 +9,7 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
     const [name, setName]=useState('');
     const [description, setDescription]=useState('');
     const [category, setCategory]=useState('');
+    const [youtube, setYoutube]=useState('');
     const [fileData, setFileData] = useState('');
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
@@ -29,7 +31,8 @@ const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
             img: {
                 data:fileData,
                 contentType: fileContentType
-            }
+            },
+            youtube: youtubeParser(youtube)
         };
 debugger;
         const requestOptions = {
@@ -44,6 +47,7 @@ debugger;
             setName('');
             setDescription('');
             setCategory('');
+            setYoutube('');
 
             createRecipe(value);
         });
@@ -54,6 +58,7 @@ debugger;
         //     setName('');
         //     setDescription('');
         //     setCategory('');
+        // setYoutube('');
         cancelCreateRecipe();
     };
 
@@ -85,6 +90,10 @@ debugger;
         setIngredients(ingredients);
     };
 
+    const updateYoutube = (e) =>{
+        setYoutube(e.target.value); 
+    };
+
     const updateName=(e)=>{
         setName(e.target.value);
     };
@@ -98,7 +107,6 @@ debugger;
     };
 
     const onUploadImageChange= (e)=>{
-        debugger;
         let file = e.target.files[0];
         
         setFileContentType(file.type);
@@ -166,6 +174,10 @@ debugger;
                         <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Add</Button></div>
                         
                     </Form.Field>
+                    <Form.Field>
+                        <label>Youtube</label>
+                        <input type="text" value={youtube} onChange={updateYoutube} />
+                    </Form.Field> 
                     <Form.Field>
                         <label>Description</label>
                         <TextArea rows="5" value={description} onChange={updateDescription} />

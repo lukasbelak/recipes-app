@@ -1,30 +1,38 @@
 import React from 'react';
 import style from'./recipe.module.css';
-import { Image } from 'semantic-ui-react';
+import { Image, Embed } from 'semantic-ui-react';
 
-const Recipe = ({name, category, description, date, ingredients, img}) => {
+const Recipe = ({recipe}) =>{
 
-    var imgArrByte= Uint8Array.from(Buffer.from(img.data))
-    let image = new Blob([imgArrByte], { type: img.contentType });
+    var imgArrByte= Uint8Array.from(Buffer.from(recipe.img.data))
+    let image = new Blob([imgArrByte], { type: recipe.img.contentType });
     let imageUrl = URL.createObjectURL(image);
-    debugger;
+
+    const onRecipeClick=(e)=>{
+        debugger;
+      };
 
     return (
-        <div className={style.recipe}>
-            <h1>{name}</h1>
-            <p>{category}</p>
-            <p>{description}</p>
+        <div key={recipe._id} className={style.recipe} onClick={onRecipeClick}>
+            <h1>{recipe.name}</h1>
+            <p>{recipe.category}</p>
+            <p>{recipe.description}</p>
             <ul>
-                {ingredients.map(i=>(
+                {recipe.ingredients.map(i=>(
                     <li key={i.name}>{i.name} {i.quantity} {i.unit}</li>
                 ))}
             </ul>
             <div><Image src={imageUrl} alt='' size="medium"/></div>
+            <p>{recipe.youtube}</p>
+            <Embed
+                    id={recipe.youtube}
+                    source='youtube'
+                />
             <p>{new Intl.DateTimeFormat('en-GB',{
                 year: "numeric",
                 month:"long",
                 day:"2-digit"
-            }).format(new Date(date))}</p>
+            }).format(new Date(recipe.date))}</p>
             
         </div>
     );

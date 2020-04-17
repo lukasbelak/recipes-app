@@ -57,7 +57,8 @@ router.post('/', async(req,res,next)=>{
         img: {
             data: imgData,
             contentType: req.body.img.contentType
-        }
+        },
+        youtube: req.body.youtube
     };
 
     try{
