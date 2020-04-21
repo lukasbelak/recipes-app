@@ -11,7 +11,7 @@ const App=()=> {
   const [search, setSearch]=useState('');
   const [query, setQuery]=useState('');
   const [recipeCreated, setRecipeCreated]=useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
 
   useEffect(()=>{
     getRecipes(query);
@@ -45,12 +45,12 @@ const App=()=> {
 
   const createRecipe=(value)=>{
     // todo
-    setOpenModal(value);
+    setOpenNewRecipeModal(value);
     setRecipeCreated(value);
   };
 
   const cancelCreateRecipe=()=>{
-    setOpenModal(false);
+    setOpenNewRecipeModal(false);
   };
 
   return (
@@ -64,7 +64,7 @@ const App=()=> {
         </div>
         <NewRecipeModal 
           className="new-recipe-button"
-          openModal={openModal}
+          openNewRecipeModal={openNewRecipeModal}
           createRecipe={createRecipe}
           cancelCreateRecipe={cancelCreateRecipe} />
       </form>
@@ -72,7 +72,7 @@ const App=()=> {
       <div className="recipes">
         {recipes.map(recipe => (
             <Recipe 
-              key={recipe.name} 
+              key={recipe._id} 
               recipe={recipe}
               />
         ))}

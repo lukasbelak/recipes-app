@@ -3,7 +3,7 @@ import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser} from '../utils';
 
-const NewRecipeModal = ({openModal, createRecipe, cancelCreateRecipe}) => {
+const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe}) => {
 
     const [ingredients, setIngredients]=useState([]);
     const [name, setName]=useState('');
@@ -136,7 +136,7 @@ debugger;
 
     return(
         <div>
-        <Modal open={openModal} trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
+        <Modal open={openNewRecipeModal} trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
             <Modal.Header>New recipe</Modal.Header>
             <Modal.Content>
             <Modal.Description>
