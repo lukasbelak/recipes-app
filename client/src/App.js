@@ -44,7 +44,6 @@ const App=()=> {
   };
 
   const createRecipe=(value)=>{
-    // todo
     setOpenNewRecipeModal(value);
     setRecipeCreated(value);
   };
@@ -66,7 +65,8 @@ const App=()=> {
           className="new-recipe-button"
           openNewRecipeModal={openNewRecipeModal}
           createRecipe={createRecipe}
-          cancelCreateRecipe={cancelCreateRecipe} />
+          cancelCreateRecipe={cancelCreateRecipe}
+          newRecipeRef={React.createRef()} />
       </form>
 
       <div className="recipes">

@@ -1,6 +1,11 @@
 .App{
 min-height: 100vh;
-background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%);
+/* background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%); */
+background:url('./images/main.jpg') no-repeat center center fixed;
+-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .search-form{

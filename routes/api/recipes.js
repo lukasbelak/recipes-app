@@ -47,19 +47,23 @@ const createIngredient = (ingredients) => {
 
 // @route POST api/recipes
 router.post('/', async(req,res,next)=>{
-    let fileDataSplit = req.body.img.data.split(',');
-    let imgData = Buffer.from(fileDataSplit[1], "base64");
-
-    const newRecipe={
+    
+    let newRecipe={
         name:req.body.name,
         description:req.body.description,
         category: req.body.category,
-        img: {
+        youtube: req.body.youtube,
+        img:null
+    };
+
+    if(req.body.img){
+        let fileDataSplit = req.body.img.data.split(',');
+        let imgData = Buffer.from(fileDataSplit[1], "base64");
+        newRecipe.img={
             data: imgData,
             contentType: req.body.img.contentType
-        },
-        youtube: req.body.youtube
-    };
+        };
+    }
 
     try{
         let recipe = await createRecipe(newRecipe);

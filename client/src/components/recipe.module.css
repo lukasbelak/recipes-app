@@ -4,8 +4,28 @@
     margin: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     background: white;
     align-items: center;
-    min-width: 15%;
+    /* min-width: 15%; */
+    overflow: hidden;
+    width: 350px;
+    height: 200px;
+    position: relative;
+}
+
+.recipe_img{
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
+    /* width: auto;
+    height: auto; */
+}
+
+.recipe_header{
+    position:absolute;
+    bottom:0;
+    left:15px;
+    z-index:1;
+    color:white;
 }

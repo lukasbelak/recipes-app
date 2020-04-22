@@ -3,7 +3,7 @@ import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser} from '../utils';
 
-const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe}) => {
+const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe, newRecipeRef}) => {
 
     const [ingredients, setIngredients]=useState([]);
     const [name, setName]=useState('');
@@ -136,7 +136,12 @@ debugger;
 
     return(
         <div>
-        <Modal open={openNewRecipeModal} trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
+        <Modal open={openNewRecipeModal} 
+            dimmer='blurring'
+            onClose={handleCancelCreate}
+            closeOnDimmerClick={true}
+            closeOnEscape={true}
+            trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New Recipe</Button>}>
             <Modal.Header>New recipe</Modal.Header>
             <Modal.Content>
             <Modal.Description>
@@ -181,12 +186,14 @@ debugger;
                     <Form.Field>
                         <label>Description</label>
                         <TextArea rows="5" value={description} onChange={updateDescription} />
-                    </Form.Field>            
-                    <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
-                    <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
+                    </Form.Field>  
                 </Form>
             </Modal.Description>
             </Modal.Content>
+            <Modal.Actions>
+                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
+                <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
+            </Modal.Actions>
         </Modal>
         </div>
 )};
