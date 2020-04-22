@@ -2,11 +2,11 @@ import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { Search } from 'semantic-ui-react';
 
-const SearchCategory =({getCategory})=> {
+const SearchCategory =({defaultValue,getCategory})=> {
 
   const [isLoading, setIsLoading]=useState(false);
   const [results, setResults]=useState([]);
-  const [value, setValue]=useState('');
+  const [value, setValue]=useState(defaultValue);
   const [categories, setCategories]=useState([]);
   
   useEffect(()=>{
@@ -20,9 +20,7 @@ const SearchCategory =({getCategory})=> {
 
       let res=[];
       data.forEach(element => {
-          res.push({
-              title: element.name
-          })
+          res.push({title: element.name });
       });
       setCategories(res);
       setResults(res);
@@ -44,11 +42,12 @@ const SearchCategory =({getCategory})=> {
           setResults([]);
       }
 
-      const re = new RegExp(_.escapeRegExp(value), 'i')
-      const isMatch = (result) => re.test(result.title)
-    setIsLoading(false);
-    setResults(_.filter(categories, isMatch));
-    }, 300)
+      const re = new RegExp(_.escapeRegExp(value), 'i');
+      const isMatch = (result) => re.test(result.title);
+
+      setIsLoading(false);
+      setResults(_.filter(categories, isMatch));
+      }, 300);
   };
 
     return (
@@ -60,7 +59,7 @@ const SearchCategory =({getCategory})=> {
             })}
             results={results}
             value={value}
-            minCharacters="0"
+            minCharacters={0}
           />
     )
 }

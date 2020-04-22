@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
-import {youtubeParser} from '../utils';
+import {youtubeParser,getBase64} from '../utils';
 
 const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe, newRecipeRef}) => {
 
@@ -25,7 +25,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe, n
     const createRecipeWithIngredients=(value)=>{
         const recipe = {
             name:name,
-            description:description,
+            description: description,
             ingredients: ingredients,
             category: category,
             img: {
@@ -123,16 +123,16 @@ debugger;
         setFileContentType('');
     }
 
-    const getBase64=(file, cb)=> {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            cb(reader.result)
-        };
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };
-    }
+    // const getBase64=(file, cb)=> {
+    //     let reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = function () {
+    //         cb(reader.result)
+    //     };
+    //     reader.onerror = function (error) {
+    //         console.log('Error: ', error);
+    //     };
+    // }
 
     return(
         <div>
@@ -149,6 +149,7 @@ debugger;
                     <Form.Field>
                         <label>Category</label>
                         <SearchCategory
+                        defaultValue={''}
                         getCategory={getCategory} />
                     </Form.Field>
                     <Form.Field>

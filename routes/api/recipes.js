@@ -92,16 +92,32 @@ router.post('/', async(req,res,next)=>{
 // @route PATCH api/recipes/:id
 router.patch('/:id', async(req,res)=>{
     try{
-        await Recipe.updateOne({_id:req.params.id},
-            {$set:{
-                name:req.body.name,
-                description:req.body.description,
-                ingredients:[{
-                    name:req.body.ingredients.name,
-                    quantity:req.body.ingredients.quantity,
-                    unit:req.body.ingredients.unit
-                }] }})
-            .then(recipe=>res.json(recipe))
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) return res.status(404).send('The recipe with the given ID was not found.');
+
+        let query = {$set: {}};
+        for (let key in req.body) {
+            if (recipe[key] && recipe[key] !== req.body[key]) {// if the field we have in req.body exists, we're gonna update it
+                query.$set[key] = req.body[key];
+            }
+        }
+
+        await Recipe.updateOne({_id: req.params.id}, query)
+                .then(recipe=>res.json(recipe));
+
+        //res.send(recipe);
+
+        // await Recipe.updateOne({_id:req.params.id},
+        //     {$set:{
+        //         name:req.body.name,
+        //         description:req.body.description,
+        //         ingredients:[{
+        //             name:req.body.ingredients.name,
+        //             quantity:req.body.ingredients.quantity,
+        //             unit:req.body.ingredients.unit
+        //         }] }})
+        //     .then(recipe=>res.json(recipe))
+
     }catch(err){
         res.json({message:err.message})
     }
