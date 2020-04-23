@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Recipe from './components/Recipe';
 import NewRecipeModal from './components/NewRecipeModal';
-//import {Grid} from 'semantic-ui-react';
+import {Dimmer, Loader} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 
 const App=()=> {
@@ -12,6 +12,7 @@ const App=()=> {
   const [query, setQuery]=useState('');
   const [recipeCreated, setRecipeCreated]=useState(false);
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
+  const [isLoading, setIsLoading] =useState(true);
 
   useEffect(()=>{
     getRecipes(query);
@@ -20,6 +21,7 @@ const App=()=> {
 
   const getRecipes =async (filter)=>{
     console.log('getrecipes '+filter);
+    setIsLoading(true);
     let data=[];
     if(filter){
       const resp = await fetch('/api/recipes/byfilter/' + filter);
@@ -29,6 +31,7 @@ const App=()=> {
       data = await resp.json();
     }
     console.log(data);
+    setIsLoading(false);
     setRecipes(data);
     console.log('end getrecipes');
   };
@@ -54,6 +57,10 @@ const App=()=> {
 
   return (
     <div className="App">
+
+      <Dimmer active={isLoading} inverted>
+        <Loader size='huge'>Loading...</Loader>
+      </Dimmer>
 
       <form className="search-form" onSubmit={getSearch}>
       

@@ -8,7 +8,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [ingredients, setIngredients]=useState(recipe.ingredients);
     const [category, setCategory] = useState(recipe.category);
     const [name, setName] = useState(recipe.name);
-    const [youtube, setYoutube]=useState('https://www.youtube.com/watch?v='+recipe.youtube);
+    const [youtube, setYoutube]=useState(recipe.youtube==="false" ? '' : 'https://www.youtube.com/watch?v='+recipe.youtube);
     const [fileData, setFileData] = useState('');
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
@@ -86,12 +86,15 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             description: description,
             ingredients: ingredients,
             category: category,
-            img: {
-                data:fileData,
-                contentType: fileContentType
-            },
             youtube: youtubeParser(youtube)
         };
+
+        if(fileData && fileContentType){
+            recipe.img={};
+            recipe.img.data=fileData;
+            recipe.img.contentType= fileContentType;
+        }
+
 debugger;
         const requestOptions = {
             method: 'PATCH',
