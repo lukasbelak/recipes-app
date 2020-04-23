@@ -3,7 +3,7 @@ import { Button, Modal,Form,Icon,TextArea,Input } from 'semantic-ui-react';
 import {getBase64,youtubeParser} from '../utils';
 import SearchCategory from './SearchCategory';
 
-const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModal}) => {
+const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModal, setUpdatedRecipe}) => {
 
     const [ingredients, setIngredients]=useState(recipe.ingredients);
     const [category, setCategory] = useState(recipe.category);
@@ -114,6 +114,7 @@ debugger;
         recipe = await resp.json();
         
         debugger;
+        setUpdatedRecipe(recipe);
         handleCancelView();
     };
 
