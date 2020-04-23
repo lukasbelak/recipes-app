@@ -4,7 +4,7 @@ require('dotenv/config');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json({limit:'50mb'}));
 app.use(express.static('./client/build/'));
 
 const recipes = require('./routes/api/recipes');
