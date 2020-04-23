@@ -4,22 +4,46 @@ const Recipe = require('../../models/Recipe');
 const Ingredient = require('../../models/Ingredient');
 
 // @route GET api/recipes
-router.get('/',async(req,res)=>{ 
+router.get('/:number',async(req,res)=>{ 
     try{
-        await Recipe.find().populate("ingredients").then(recipes => res.json(recipes))
+        const options = {
+            page: req.params.number,
+            limit: 10,
+            populate:'ingredients',
+            collation: {
+              locale: 'en'
+            }
+          };
+          await Recipe.paginate({},options,(err,result)=>{
+            debugger;
+            res.json(result);
+            });
+        //await Recipe.find().populate("ingredients").then(recipes => res.json(recipes))
     }catch(err){
-        res.json({message:err.message})
+        res.json({message:err.message});
     }
 });
 
 // @route GET api/recipes/byfilter/:filter
-router.get('/byfilter/:filter',async(req,res)=>{
+router.get('/byfilter/:filter/:number',async(req,res)=>{
     try{
         let filter = req.params.filter;
-        await Recipe.find({name :new RegExp(filter, 'i')}).populate('ingredients')
-            .then(recipes => res.json(recipes))
+        const options = {
+            page: req.params.number,
+            limit: 10,
+            populate:'ingredients',
+            collation: {
+              locale: 'en'
+            }
+          };
+          await Recipe.paginate({name :new RegExp(filter, 'i')},options,(err,result)=>{
+            debugger;
+            res.json(result);
+            });
+        // await Recipe.find({name :new RegExp(filter, 'i')}).populate('ingredients')
+        //     .then(recipes => res.json(recipes))
     }catch(err){
-        res.json({message:err.message})
+        res.json({message:err.message});
     }
 });
 
@@ -30,7 +54,7 @@ router.get('/byid/:id',async(req,res)=>{
             .then(recipe=>res.json(recipe))
 
     }catch(err){
-        res.json({message:err.message})
+        res.json({message:err.message});
     }
 });
 
@@ -85,7 +109,7 @@ router.post('/', async(req,res,next)=>{
 
         res.json(recipe._id);
     }catch(err){
-        res.json({message:err.message})
+        res.json({message:err.message});
     }
 });
 
@@ -119,7 +143,7 @@ router.patch('/:id', async(req,res)=>{
         //     .then(recipe=>res.json(recipe))
 
     }catch(err){
-        res.json({message:err.message})
+        res.json({message:err.message});
     }
 });
 
@@ -138,7 +162,7 @@ router.delete('/:id',async(req,res,next)=>{
             });
         });
     }catch(err){
-        res.json({message:err.message})
+        res.json({message:err.message});
     }
 });
 

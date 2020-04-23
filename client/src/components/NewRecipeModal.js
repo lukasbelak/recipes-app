@@ -3,7 +3,7 @@ import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser,getBase64} from '../utils';
 
-const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe, newRecipeRef}) => {
+const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe }) => {
 
     const [ingredients, setIngredients]=useState([]);
     const [name, setName]=useState('');

@@ -3,7 +3,7 @@ import './App.css';
 import Recipe from './components/Recipe';
 import NewRecipeModal from './components/NewRecipeModal';
 import {Dimmer, Loader, Pagination} from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
 
 const App=()=> {
 
@@ -14,7 +14,7 @@ const App=()=> {
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
   const [isLoading, setIsLoading] =useState(true);
   const [activePage, setActivePage]=useState(1);
-
+  const [totalPages, setTotalPages]=useState(100);
 
   useEffect(()=>{
     const getRecipes =  async ()=>{
@@ -23,26 +23,24 @@ const App=()=> {
       setIsLoading(true);
       window.scrollTo(0, 0);
       let data=[];
-      let t=activePage;
-
+//debugger;
       if(query){
-        const resp = await fetch('/api/recipes/byfilter/' + query);
+        const resp = await fetch('/api/recipes/byfilter/' + query+"/"+activePage);
         data = await resp.json();
       }else{
-        const resp = await fetch('/api/recipes');
+        const resp = await fetch('/api/recipes/'+activePage);
         data = await resp.json();
       }
-      console.log(data);
+      console.log(data.docs);
       setIsLoading(false);
-      setRecipes(data);
+      setRecipes(data.docs);
+      setTotalPages(data.totalPages);
       console.log('end getrecipes');
     };
 
     getRecipes();
     console.log('effect run');
   }, [query,recipeCreated,activePage]);
-
-  
 
   const updateSearch = (e)=>{
     setSearch(e.target.value);
@@ -84,8 +82,7 @@ const App=()=> {
           className="new-recipe-button"
           openNewRecipeModal={openNewRecipeModal}
           createRecipe={createRecipe}
-          cancelCreateRecipe={cancelCreateRecipe}
-          newRecipeRef={React.createRef()} />
+          cancelCreateRecipe={cancelCreateRecipe} />
       </form>
 
       <div className="recipes">
@@ -102,7 +99,7 @@ const App=()=> {
             activePage={activePage}
             onPageChange={onPaginationChange}
             ellipsisItem={null}
-            totalPages={100}
+            totalPages={totalPages}
           />
         </div>
 
