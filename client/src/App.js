@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './App.css';
 import Recipe from './components/Recipe';
 import NewRecipeModal from './components/NewRecipeModal';
-import {Dimmer, Loader} from 'semantic-ui-react';
+import {Dimmer, Loader, Pagination} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 
 const App=()=> {
@@ -13,20 +13,26 @@ const App=()=> {
   const [recipeCreated, setRecipeCreated]=useState(false);
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
   const [isLoading, setIsLoading] =useState(true);
+  const [activePage, setActivePage]=useState(1);
+  const [apiRecipesUrl, setApiRecipesUrl]=useState('/api/recipes');
 
   useEffect(()=>{
     getRecipes(query);
     console.log('effect run');
   }, [query,recipeCreated]);
 
-  const getRecipes =async (filter)=>{
+  const getRecipes =  async (filter)=>{
     console.log('getrecipes '+filter);
+
     setIsLoading(true);
     let data=[];
+
     if(filter){
+      //setApiRecipesUrl('/api/recipes/byfilter/' + filter);
       const resp = await fetch('/api/recipes/byfilter/' + filter);
       data = await resp.json();
     }else{
+      //setApiRecipesUrl('/api/recipes');
       const resp = await fetch('/api/recipes');
       data = await resp.json();
     }
@@ -53,6 +59,11 @@ const App=()=> {
 
   const cancelCreateRecipe=()=>{
     setOpenNewRecipeModal(false);
+  };
+
+  const onPaginationChange=(e, pageInfo)=>{
+    setActivePage(pageInfo.activePage);
+    // implement pagination o backend
   };
 
   return (
@@ -84,6 +95,15 @@ const App=()=> {
               />
         ))}
       </div>
+
+        <div className="center">
+          <Pagination 
+            activePage={activePage}
+            onPageChange={onPaginationChange}
+            ellipsisItem={null}
+            totalPages={100}
+          />
+        </div>
 
     </div>
   );

@@ -42,3 +42,7 @@ font-weight: bold;
 .floatLeft{
     float: left;
 }
+
+.center{
+    text-align: center;
+}
