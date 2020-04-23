@@ -24,18 +24,24 @@ const App=()=> {
       window.scrollTo(0, 0);
       let data=[];
 //debugger;
-      if(query){
-        const resp = await fetch('/api/recipes/byfilter/' + query+"/"+activePage);
-        data = await resp.json();
-      }else{
-        const resp = await fetch('/api/recipes/'+activePage);
-        data = await resp.json();
+      try{
+        if(query){
+          const resp = await fetch('/api/recipes/byfilter/' + query+"/"+activePage);
+          data = await resp.json();
+        }else{
+          const resp = await fetch('/api/recipes/'+activePage);
+          data = await resp.json();
+        }
+        console.log(data.docs);
+
+        setIsLoading(false);
+        setRecipes(data.docs);
+        setTotalPages(data.totalPages);
+        
+        console.log('end getrecipes');
+      }catch(err){
+        console.log(err);
       }
-      console.log(data.docs);
-      setIsLoading(false);
-      setRecipes(data.docs);
-      setTotalPages(data.totalPages);
-      console.log('end getrecipes');
     };
 
     getRecipes();

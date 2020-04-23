@@ -9,7 +9,6 @@ router.get('/:number',async(req,res)=>{
         const options = {
             page: req.params.number,
             limit: 10,
-            populate:'ingredients',
             collation: {
               locale: 'en'
             }
@@ -18,7 +17,6 @@ router.get('/:number',async(req,res)=>{
             debugger;
             res.json(result);
             });
-        //await Recipe.find().populate("ingredients").then(recipes => res.json(recipes))
     }catch(err){
         res.json({message:err.message});
     }
@@ -31,7 +29,6 @@ router.get('/byfilter/:filter/:number',async(req,res)=>{
         const options = {
             page: req.params.number,
             limit: 10,
-            populate:'ingredients',
             collation: {
               locale: 'en'
             }
@@ -40,8 +37,6 @@ router.get('/byfilter/:filter/:number',async(req,res)=>{
             debugger;
             res.json(result);
             });
-        // await Recipe.find({name :new RegExp(filter, 'i')}).populate('ingredients')
-        //     .then(recipes => res.json(recipes))
     }catch(err){
         res.json({message:err.message});
     }
@@ -50,7 +45,7 @@ router.get('/byfilter/:filter/:number',async(req,res)=>{
 // @route GET api/recipes/byid/:id
 router.get('/byid/:id',async(req,res)=>{
     try{
-        await Recipe.findById(req.params.id).populate('ingredients')
+        await Recipe.findById(req.params.id)
             .then(recipe=>res.json(recipe))
 
     }catch(err){
@@ -63,12 +58,6 @@ const createRecipe = (recipe) => {
         return docRecipe;});
 };
 
-const createIngredient = (ingredients) => {
-    return Ingredient.create(ingredients).then(docIngredients => {
-        return docIngredients;
-    });
-};
-
 // @route POST api/recipes
 router.post('/', async(req,res,next)=>{
     
@@ -77,7 +66,8 @@ router.post('/', async(req,res,next)=>{
         description:req.body.description,
         category: req.body.category,
         youtube: req.body.youtube,
-        img:null
+        img:null,
+        ingredients:req.body.ingredients
     };
 
     if(req.body.img){
@@ -91,21 +81,6 @@ router.post('/', async(req,res,next)=>{
 
     try{
         let recipe = await createRecipe(newRecipe);
-
-        let ingredients = [];
-        req.body.ingredients.forEach(ingredient=>{
-            let newIngredient = {
-                recipe: recipe._id,
-                name:ingredient.name,
-                quantity:ingredient.quantity,
-                unit:ingredient.unit
-            }
-            ingredients.push(newIngredient);
-        });
-
-        let newIngredients= await createIngredient(ingredients)
-        recipe.ingredients=newIngredients;       
-        await recipe.save();
 
         res.json(recipe._id);
     }catch(err){
@@ -121,27 +96,15 @@ router.patch('/:id', async(req,res)=>{
 
         let query = {$set: {}};
         for (let key in req.body) {
-            if (recipe[key] && recipe[key] !== req.body[key]) {// if the field we have in req.body exists, we're gonna update it
+            if (recipe[key] && recipe[key] !== req.body[key]  ) {
                 query.$set[key] = req.body[key];
             }
         }
 
-        await Recipe.updateOne({_id: req.params.id}, query)
-                .then(recipe=>res.json(recipe));
-
-        //res.send(recipe);
-
-        // await Recipe.updateOne({_id:req.params.id},
-        //     {$set:{
-        //         name:req.body.name,
-        //         description:req.body.description,
-        //         ingredients:[{
-        //             name:req.body.ingredients.name,
-        //             quantity:req.body.ingredients.quantity,
-        //             unit:req.body.ingredients.unit
-        //         }] }})
-        //     .then(recipe=>res.json(recipe))
-
+        await Recipe.findOneAndUpdate({_id: req.params.id}, query,{new:true},(err, recipe)=>{
+            console.log(recipe);
+                res.json(recipe);
+        });
     }catch(err){
         res.json({message:err.message});
     }

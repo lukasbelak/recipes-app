@@ -16,8 +16,20 @@ const RecipeSchema = new Schema({
         default:Date.now
     },
     ingredients:[{
-        type: mongoose.ObjectId, 
-        ref: 'Ingredient'
+        name:{
+            type: String,
+            required:true
+        },
+        quantity:{
+            type: Number,
+            required:true
+        },
+        unit:{
+            type: String,
+            required:true
+        }
+        // type: mongoose.ObjectId, 
+        // ref: 'Ingredient'
     }],
     category: {
         type: String,

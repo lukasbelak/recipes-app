@@ -80,11 +80,20 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         debugger;
         updateRecipeWithIngredients(value);
     };
-    const updateRecipeWithIngredients=(value)=>{
+    const updateRecipeWithIngredients= async(value)=>{
+        let ings=[];
+        ingredients.forEach(ingredient=>{
+            ings.push({
+                name:ingredient.name,
+                quantity:ingredient.quantity,
+                unit:ingredient.unit
+            });
+        });
+
         const recipeToUpdate = {
             name:name,
             description: description,
-            ingredients: ingredients,
+            ingredients: ings,
             category: category,
             youtube: youtubeParser(youtube)
         };
@@ -101,18 +110,11 @@ debugger;
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(recipeToUpdate)
         };
-        fetch('/api/recipes/' + recipe._id, requestOptions)
-        .then(resp=>resp.json())
-        .then(()=>{
-            // setIngredients([]);
-            // setName('');
-            // setDescription('');
-            // setCategory('');
-            // setYoutube('');
-
-            handleCancelView();
-            //updateRecipe(value);
-        });
+        let resp = await fetch('/api/recipes/' + recipe._id, requestOptions);
+        recipe = await resp.json();
+        
+        debugger;
+        handleCancelView();
     };
 
     const handleCancelView = ()=> {

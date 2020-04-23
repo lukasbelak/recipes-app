@@ -4,7 +4,7 @@ import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 
 const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) => {
-
+    debugger;
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
 
     const handleUpdateRecipe = ()=>{
