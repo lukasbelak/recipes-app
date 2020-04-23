@@ -94,7 +94,7 @@ const App=()=> {
         ))}
       </div>
 
-        <div className={isLoading?"hidden":"center show"}>
+        <div className={!isLoading && recipes.length>0 ? "center show" : "hidden"}>
           <Pagination 
             activePage={activePage}
             onPageChange={onPaginationChange}
