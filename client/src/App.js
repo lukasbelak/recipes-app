@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Recipe from './components/Recipe';
 import NewRecipeModal from './components/NewRecipeModal';
@@ -14,21 +14,21 @@ const App=()=> {
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
   const [isLoading, setIsLoading] =useState(true);
   const [activePage, setActivePage]=useState(1);
-  const [apiRecipesUrl, setApiRecipesUrl]=useState('/api/recipes');
+
 
   useEffect(()=>{
     const getRecipes =  async ()=>{
       console.log('getrecipes '+query);
-  
+      
       setIsLoading(true);
+      window.scrollTo(0, 0);
       let data=[];
-  
+      let t=activePage;
+
       if(query){
-        //setApiRecipesUrl('/api/recipes/byfilter/' + filter);
         const resp = await fetch('/api/recipes/byfilter/' + query);
         data = await resp.json();
       }else{
-        //setApiRecipesUrl('/api/recipes');
         const resp = await fetch('/api/recipes');
         data = await resp.json();
       }
@@ -40,7 +40,7 @@ const App=()=> {
 
     getRecipes();
     console.log('effect run');
-  }, [query,recipeCreated]);
+  }, [query,recipeCreated,activePage]);
 
   
 
@@ -65,7 +65,6 @@ const App=()=> {
 
   const onPaginationChange=(e, pageInfo)=>{
     setActivePage(pageInfo.activePage);
-    // implement pagination o backend
   };
 
   return (
@@ -98,7 +97,7 @@ const App=()=> {
         ))}
       </div>
 
-        <div className="center">
+        <div className={isLoading?"hidden":"center show"}>
           <Pagination 
             activePage={activePage}
             onPageChange={onPaginationChange}
