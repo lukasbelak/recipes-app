@@ -17,30 +17,32 @@ const App=()=> {
   const [apiRecipesUrl, setApiRecipesUrl]=useState('/api/recipes');
 
   useEffect(()=>{
-    getRecipes(query);
+    const getRecipes =  async ()=>{
+      console.log('getrecipes '+query);
+  
+      setIsLoading(true);
+      let data=[];
+  
+      if(query){
+        //setApiRecipesUrl('/api/recipes/byfilter/' + filter);
+        const resp = await fetch('/api/recipes/byfilter/' + query);
+        data = await resp.json();
+      }else{
+        //setApiRecipesUrl('/api/recipes');
+        const resp = await fetch('/api/recipes');
+        data = await resp.json();
+      }
+      console.log(data);
+      setIsLoading(false);
+      setRecipes(data);
+      console.log('end getrecipes');
+    };
+
+    getRecipes();
     console.log('effect run');
   }, [query,recipeCreated]);
 
-  const getRecipes =  async (filter)=>{
-    console.log('getrecipes '+filter);
-
-    setIsLoading(true);
-    let data=[];
-
-    if(filter){
-      //setApiRecipesUrl('/api/recipes/byfilter/' + filter);
-      const resp = await fetch('/api/recipes/byfilter/' + filter);
-      data = await resp.json();
-    }else{
-      //setApiRecipesUrl('/api/recipes');
-      const resp = await fetch('/api/recipes');
-      data = await resp.json();
-    }
-    console.log(data);
-    setIsLoading(false);
-    setRecipes(data);
-    console.log('end getrecipes');
-  };
+  
 
   const updateSearch = (e)=>{
     setSearch(e.target.value);
