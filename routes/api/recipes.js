@@ -86,12 +86,14 @@ const createRecipe = (recipe) => {
 
 // @route POST api/recipes
 router.post('/', async(req,res,next)=>{
-    
+    console.log(req.body.youtube);
+    let youtube=req.body.youtube!=='false'?req.body.youtube:null
+
     let newRecipe={
         name:req.body.name,
         description:req.body.description,
         category: req.body.category,
-        youtube: req.body.youtube,
+        youtube: youtube,
         img:null,
         ingredients:req.body.ingredients
     };

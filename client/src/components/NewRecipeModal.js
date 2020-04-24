@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal,Form,TextArea,Input,Icon } from 'semantic-ui-react';
+import { Button, Modal,Form,TextArea,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser,getBase64} from '../utils';
 
@@ -13,6 +13,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe })
     const [fileData, setFileData] = useState('');
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
+    const [isInProgressCreateClass, setIsInProgressCreateClass]=useState(false);
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
@@ -23,6 +24,8 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe })
     };
 
     const createRecipeWithIngredients=(value)=>{
+        setIsInProgressCreateClass(true);
+
         const recipe = {
             name:name,
             description: description,
@@ -40,6 +43,7 @@ debugger;
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(recipe)
         };
+
         fetch('/api/recipes', requestOptions)
         .then(resp=>resp.json())
         .then(()=>{
@@ -49,6 +53,7 @@ debugger;
             setCategory('');
             setYoutube('');
 
+            setIsInProgressCreateClass(false);
             createRecipe(value);
         });
     };
@@ -136,6 +141,7 @@ debugger;
 
     return(
         <div>
+
         <Modal open={openNewRecipeModal} 
             dimmer='blurring'
             onClose={handleCancelCreate}
@@ -192,7 +198,9 @@ debugger;
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>Create</Button>
+                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>
+                    {isInProgressCreateClass===true?<Icon className='notched circle loading icon' />:<div></div>}
+                    Create</Button>
                 <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
             </Modal.Actions>
         </Modal>

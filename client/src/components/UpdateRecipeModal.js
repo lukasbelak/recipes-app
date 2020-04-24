@@ -13,6 +13,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
     const [description, setDescription]=useState(recipe.description);
+    const [isInProgressUpdateClass, setIsInProgressUpdateClass]=useState(false);
 
     const updateYoutube = (e) =>{
         setYoutube(e.target.value); 
@@ -81,6 +82,9 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         updateRecipeWithIngredients(value);
     };
     const updateRecipeWithIngredients= async(value)=>{
+
+        setIsInProgressUpdateClass(true);
+
         let ings=[];
         ingredients.forEach(ingredient=>{
             ings.push({
@@ -114,6 +118,7 @@ debugger;
         recipe = await resp.json();
         
         debugger;
+        setIsInProgressUpdateClass(false);
         setUpdatedRecipe(recipe);
         handleCancelView();
     };
@@ -186,7 +191,9 @@ debugger;
             </Modal.Content>
             <Modal.Actions>
                 <Button type='button' floated='right' onClick={handleCancelView}>Cancel</Button>
-                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)}>Update</Button>
+                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)}>
+                    {isInProgressUpdateClass===true?<Icon className='notched circle loading icon' />:<div></div>}
+                    Update</Button>
             </Modal.Actions>
         </Modal>
         </div>
