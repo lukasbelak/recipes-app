@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { Search } from 'semantic-ui-react';
 
-const SearchCategory =({defaultValue,getCategory})=> {
+const SearchCategory =({defaultValue,getCategory,categoryError})=> {
 
   const [isLoading, setIsLoading]=useState(false);
   const [results, setResults]=useState([]);
@@ -51,7 +51,7 @@ const SearchCategory =({defaultValue,getCategory})=> {
   };
 
     return (
-          <Search
+          <Search className={`${categoryError ? 'error':''} required field`}
             loading={isLoading}
             onResultSelect={handleResultSelect}
             onSearchChange={_.debounce(handleSearchChange, 500, {

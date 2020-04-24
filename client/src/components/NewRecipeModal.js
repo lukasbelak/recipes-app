@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal,Form,TextArea,Input,Icon} from 'semantic-ui-react';
+import { Button, Modal,Form,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser,getBase64} from '../utils';
 
@@ -14,12 +14,34 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
     const [isInProgressCreate, setIsInProgressCreate]=useState('');
+    const [categoryError, setCategoryError] = useState(true);
+    const [descriptionError, setDescriptionError] = useState(true);
+    const [nameError, setNameError]=useState(true);
+    const [formError, setFormError]=useState(true);
+    const errorMessage='Please complete all required fields.';
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
     };
 
     const handleCreate = (value) =>{
+        let error=false;
+
+        if(name===''){
+            setNameError(true);
+            error=true;
+        }else{
+            setNameError(false);
+            error=false;
+        }
+
+        if(error){
+            setFormError(true);
+            return;
+        }else{
+            setFormError(false);
+        }
+
         createRecipeWithIngredients(value);
     };
 
@@ -56,7 +78,7 @@ debugger;
             }else{
                 showMessage({
                     header: 'Success',
-                    text: 'Recipe was successfully created.'
+                    text: 'Recipe was created successfully.'
                 }); 
             }
 
@@ -66,6 +88,11 @@ debugger;
             setCategory('');
             setYoutube('');
 
+            setNameError(true);
+            setCategoryError(true);
+            setDescriptionError(true);
+            setFormError(true);
+
             setIsInProgressCreate('');
             createRecipe(value);
         })
@@ -74,12 +101,26 @@ debugger;
         });
     };
 
+    const checkFormError=()=>{
+        if(category!==''&&name!==''&&description!==''){
+            setFormError(false);
+        }else{
+            setFormError(true);
+        }
+    };
+
     const handleCancelCreate = () =>{
-        // setIngredients([]);
-        //     setName('');
-        //     setDescription('');
-        //     setCategory('');
-        // setYoutube('');
+        setIngredients([]);
+        setName('');
+        setDescription('');
+        setCategory('');
+        setYoutube('');
+
+        setNameError(true);
+        setCategoryError(true);
+        setDescriptionError(true);
+        setFormError(true);
+
         cancelCreateRecipe();
     };
 
@@ -116,15 +157,42 @@ debugger;
     };
 
     const updateName=(e)=>{
-        setName(e.target.value);
+        let nameValue=e.target.value
+        setName(nameValue);
+
+        if(nameValue===''){
+            setNameError(true);
+        }else{
+            setNameError(false);
+        }
+
+        checkFormError();
     };
 
     const updateDescription=(e)=>{
-        setDescription(e.target.value);
+        let descriptionValue=e.target.value
+        setDescription(descriptionValue);
+
+        if(descriptionValue===''){
+            setDescriptionError(true);
+        }else{
+            setDescriptionError(false);
+        }
+
+        checkFormError();
     };
 
     const getCategory=(value)=>{
-        setCategory(value);
+        let categoryValue=value;
+        setCategory(categoryValue);
+
+        if(categoryValue===''){
+            setCategoryError(true);
+        }else{
+            setCategoryError(false);
+        }
+
+        checkFormError();
     };
 
     const onUploadImageChange= (e)=>{
@@ -144,17 +212,6 @@ debugger;
         setFileContentType('');
     }
 
-    // const getBase64=(file, cb)=> {
-    //     let reader = new FileReader();
-    //     reader.readAsDataURL(file);
-    //     reader.onload = function () {
-    //         cb(reader.result)
-    //     };
-    //     reader.onerror = function (error) {
-    //         console.log('Error: ', error);
-    //     };
-    // }
-
     return(
         <div>
 
@@ -167,16 +224,17 @@ debugger;
             <Modal.Header>New recipe</Modal.Header>
             <Modal.Content>
             <Modal.Description>
-                <Form className={isInProgressCreate}>
+                <Form error={formError} className={isInProgressCreate}>
                     <Form.Field>
                         <label>Category</label>
                         <SearchCategory
                         defaultValue={''}
-                        getCategory={getCategory} />
+                        getCategory={getCategory} 
+                        categoryError={categoryError}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Name</label>
-                        <input type="text" value={name} onChange={updateName} />
+                        <Form.Input required={true} type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} />
                     </Form.Field>
                     <Form.Field>
                         <label>Image</label>
@@ -208,7 +266,7 @@ debugger;
                     </Form.Field> 
                     <Form.Field>
                         <label>Description</label>
-                        <TextArea rows="5" value={description} onChange={updateDescription} />
+                        <Form.TextArea rows="5" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
                     </Form.Field>  
                 </Form>
             </Modal.Description>
@@ -216,6 +274,7 @@ debugger;
             <Modal.Actions>
                 <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}> Create</Button>
                 <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
+                    {formError?<p style={{"color":"red","fontSize":"medium","float":"left"}}>{errorMessage}</p>:<div></div>}
             </Modal.Actions>
         </Modal>
         </div>
