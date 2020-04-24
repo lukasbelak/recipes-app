@@ -13,7 +13,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe })
     const [fileData, setFileData] = useState('');
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
-    const [isInProgressCreateClass, setIsInProgressCreateClass]=useState(false);
+    const [isInProgressCreate, setIsInProgressCreate]=useState('');
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
@@ -24,7 +24,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe })
     };
 
     const createRecipeWithIngredients=(value)=>{
-        setIsInProgressCreateClass(true);
+        setIsInProgressCreate('loading');
 
         const recipe = {
             name:name,
@@ -53,7 +53,7 @@ debugger;
             setCategory('');
             setYoutube('');
 
-            setIsInProgressCreateClass(false);
+            setIsInProgressCreate('');
             createRecipe(value);
         });
     };
@@ -151,7 +151,7 @@ debugger;
             <Modal.Header>New recipe</Modal.Header>
             <Modal.Content>
             <Modal.Description>
-                <Form>
+                <Form className={isInProgressCreate}>
                     <Form.Field>
                         <label>Category</label>
                         <SearchCategory
@@ -198,9 +198,7 @@ debugger;
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}>
-                    {isInProgressCreateClass===true?<Icon className='notched circle loading icon' />:<div></div>}
-                    Create</Button>
+                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}> Create</Button>
                 <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
             </Modal.Actions>
         </Modal>

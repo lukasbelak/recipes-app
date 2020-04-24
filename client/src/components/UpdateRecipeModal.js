@@ -13,7 +13,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
     const [description, setDescription]=useState(recipe.description);
-    const [isInProgressUpdateClass, setIsInProgressUpdateClass]=useState(false);
+    const [isInProgressUpdate, setIsInProgressUpdate]=useState('');
 
     const updateYoutube = (e) =>{
         setYoutube(e.target.value); 
@@ -83,7 +83,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     };
     const updateRecipeWithIngredients= async(value)=>{
 
-        setIsInProgressUpdateClass(true);
+        setIsInProgressUpdate('loading');
 
         let ings=[];
         ingredients.forEach(ingredient=>{
@@ -118,7 +118,7 @@ debugger;
         recipe = await resp.json();
         
         debugger;
-        setIsInProgressUpdateClass(false);
+        setIsInProgressUpdate('');
         setUpdatedRecipe(recipe);
         handleCancelView();
     };
@@ -143,7 +143,7 @@ debugger;
             <Modal.Header>Update</Modal.Header>
             <Modal.Content>
             <Modal.Description>
-                <Form>
+                <Form className={isInProgressUpdate}>
                     <Form.Field>
                     <label>Category</label>
                         <SearchCategory
@@ -191,9 +191,7 @@ debugger;
             </Modal.Content>
             <Modal.Actions>
                 <Button type='button' floated='right' onClick={handleCancelView}>Cancel</Button>
-                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)}>
-                    {isInProgressUpdateClass===true?<Icon className='notched circle loading icon' />:<div></div>}
-                    Update</Button>
+                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)}>Update</Button>
             </Modal.Actions>
         </Modal>
         </div>
