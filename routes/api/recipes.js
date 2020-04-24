@@ -98,7 +98,8 @@ router.post('/', async(req,res,next)=>{
         ingredients:req.body.ingredients
     };
 
-    if(req.body.img){
+    //console.log(req.body.img);
+    if(req.body.img.data && req.body.img.contentType){
         let fileDataSplit = req.body.img.data.split(',');
         let imgData = Buffer.from(fileDataSplit[1], "base64");
         newRecipe.img={
@@ -112,6 +113,7 @@ router.post('/', async(req,res,next)=>{
 
         res.json(recipe._id);
     }catch(err){
+        console.log(err.message);
         res.json({message:err.message});
     }
 });

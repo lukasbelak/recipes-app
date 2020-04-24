@@ -3,7 +3,7 @@ import { Button, Modal,Form,TextArea,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser,getBase64} from '../utils';
 
-const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe }) => {
+const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,showMessage }) => {
 
     const [ingredients, setIngredients]=useState([]);
     const [name, setName]=useState('');
@@ -46,7 +46,20 @@ debugger;
 
         fetch('/api/recipes', requestOptions)
         .then(resp=>resp.json())
-        .then(()=>{
+        .then((err)=>{
+            if(err.message){
+                console.log(err.message);
+                showMessage({
+                    header:'Error',
+                    text: err.message
+                });
+            }else{
+                showMessage({
+                    header: 'Success',
+                    text: 'Recipe was successfully created.'
+                }); 
+            }
+
             setIngredients([]);
             setName('');
             setDescription('');
@@ -55,6 +68,9 @@ debugger;
 
             setIsInProgressCreate('');
             createRecipe(value);
+        })
+        .catch(err=>{
+            debugger;
         });
     };
 

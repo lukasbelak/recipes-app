@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import NewRecipeModal from './components/NewRecipeModal';
-import {Dropdown,Button, Icon} from 'semantic-ui-react';
+import {Dropdown,Button, Icon,Message} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import {sortByOptions} from './enums';
 import RecipesList from './components/RecipesList';
@@ -14,6 +14,8 @@ const App=()=> {
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
   const [selectedFilter, setSelectedFilter]=useState(sortByOptions[0].text);
   const [isAscSort, setIsAscSort] = useState(true); 
+  const [message, setMessage]=useState({});
+  const [messageVisibility,setMessageVisibility]=useState('hidden');
 
   const updateSearch = (e)=>{
     setSearch(e.target.value);
@@ -49,8 +51,24 @@ const App=()=> {
     }
   };
 
+  const showMessage=(value)=>{
+    setMessageVisibility('visible');
+    setMessage(value);
+    setTimeout(function(){
+      setMessageVisibility('hidden');
+      setMessage({});
+    }, 5000);
+  };
+
   return (
     <div className="App">
+
+      <div className="message">
+        <Message className={`${messageVisibility} ${message.header==='Error' ? 'negative' : 'positive'}`} >
+          <Message.Header>{message.header}</Message.Header>
+          <p>{message.text}</p>
+        </Message>
+      </div>
 
       <form className="search-form" onSubmit={getSearch}>
       
@@ -62,7 +80,8 @@ const App=()=> {
           className="new-recipe-button"
           openNewRecipeModal={openNewRecipeModal}
           createRecipe={createRecipe}
-          cancelCreateRecipe={cancelCreateRecipe} />
+          cancelCreateRecipe={cancelCreateRecipe}
+          showMessage={showMessage} />
         <span style={{"margin": "10px 5px"}}> 
           <Dropdown onChange={onChangeFilter}
           button 
