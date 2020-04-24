@@ -4,7 +4,7 @@ import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 
 const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) => {
-    debugger;
+    //debugger;
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
     const [viewRecipe, setViewRecipe]=useState(recipe);
 
@@ -23,6 +23,15 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
     const setUpdatedRecipe=(value)=>{
         setViewRecipe(value);
     };
+
+    let video;
+    if(recipe.youtube!=='false'){
+        video=<div><label>Video</label>
+        <Embed
+            id={viewRecipe.youtube}
+            source='youtube'
+        /></div>;
+    }
 
     return(
         <div>
@@ -48,14 +57,10 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
                     </Form.Field>
                     <Form.Field>
                         <label>Description</label>
-                        <p style={{"whiteSpace":"pre"}}>{viewRecipe.description}</p>
+                        <p style={{"whiteSpace":"pre-line"}}>{viewRecipe.description}</p>
                     </Form.Field>
                     <Form.Field>
-                        <label>Video</label>
-                        <Embed
-                            id={viewRecipe.youtube}
-                            source='youtube'
-                        />
+                        {video}
                     </Form.Field>
                     <Form.Field>
                         <p style={{"textAlign":"center"}}>Created on: {new Intl.DateTimeFormat('en-GB',{

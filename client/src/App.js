@@ -1,52 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Recipe from './components/Recipe';
 import NewRecipeModal from './components/NewRecipeModal';
-import {Dimmer, Loader, Pagination} from 'semantic-ui-react';
+import {Dropdown,Button, Icon} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import {sortByOptions} from './enums';
+import RecipesList from './components/RecipesList';
 
 const App=()=> {
 
-  const [recipes, setRecipes]=useState([]);
   const [search, setSearch]=useState('');
   const [query, setQuery]=useState('');
   const [recipeCreated, setRecipeCreated]=useState(false);
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
-  const [isLoading, setIsLoading] =useState(true);
-  const [activePage, setActivePage]=useState(1);
-  const [totalPages, setTotalPages]=useState(100);
-
-  useEffect(()=>{
-    const getRecipes =  async ()=>{
-      console.log('getrecipes '+query);
-      
-      setIsLoading(true);
-      window.scrollTo(0, 0);
-      let data=[];
-//debugger;
-      try{
-        if(query){
-          const resp = await fetch('/api/recipes/byfilter/' + query+"/"+activePage);
-          data = await resp.json();
-        }else{
-          const resp = await fetch('/api/recipes/'+activePage);
-          data = await resp.json();
-        }
-        console.log(data.docs);
-
-        setIsLoading(false);
-        setRecipes(data.docs);
-        setTotalPages(data.totalPages);
-        
-        console.log('end getrecipes');
-      }catch(err){
-        console.log(err);
-      }
-    };
-
-    getRecipes();
-    console.log('effect run');
-  }, [query,recipeCreated,activePage]);
+  const [selectedFilter, setSelectedFilter]=useState(sortByOptions[0].text);
+  const [isAscSort, setIsAscSort] = useState(true); 
 
   const updateSearch = (e)=>{
     setSearch(e.target.value);
@@ -67,16 +34,23 @@ const App=()=> {
     setOpenNewRecipeModal(false);
   };
 
-  const onPaginationChange=(e, pageInfo)=>{
-    setActivePage(pageInfo.activePage);
+  const onChangeFilter=(e)=>{
+    debugger;
+    let selectedValue = e.target.textContent;
+    setSelectedFilter(selectedValue);
+  }
+
+  const handleIsAscSort=()=>{
+    debugger;
+    if(isAscSort===true){
+      setIsAscSort(false);
+    } else{
+      setIsAscSort(true);
+    }
   };
 
   return (
     <div className="App">
-
-      <Dimmer active={isLoading} inverted>
-        <Loader size='huge'>Loading...</Loader>
-      </Dimmer>
 
       <form className="search-form" onSubmit={getSearch}>
       
@@ -89,25 +63,28 @@ const App=()=> {
           openNewRecipeModal={openNewRecipeModal}
           createRecipe={createRecipe}
           cancelCreateRecipe={cancelCreateRecipe} />
+        <span style={{"margin": "10px 5px"}}> 
+          <Dropdown onChange={onChangeFilter}
+          button 
+          labeled 
+          text='Filter'
+          icon='filter'   
+          className='icon' 
+          options={sortByOptions}
+          defaultValue={sortByOptions[0].value} 
+          />
+        </span>
+        <Button size="small" color="grey" onClick={handleIsAscSort}>
+          {isAscSort?<Icon name="sort content descending" />:<Icon name="sort content ascending" />}
+        </Button>
       </form>
 
-      <div className="recipes">
-        {recipes.map(recipe => (
-            <Recipe 
-              key={recipe._id} 
-              recipe={recipe}
-              />
-        ))}
-      </div>
-
-        <div className={!isLoading && recipes.length>0 ? "center show" : "hidden"}>
-          <Pagination 
-            activePage={activePage}
-            onPageChange={onPaginationChange}
-            ellipsisItem={null}
-            totalPages={totalPages}
-          />
-        </div>
+      <RecipesList
+        query={query}
+        isAscSort={isAscSort}
+        selectedFilter={selectedFilter}
+        recipeCreated={recipeCreated}
+        />
 
     </div>
   );

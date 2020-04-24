@@ -3,17 +3,30 @@ const router = express.Router();
 const Recipe = require('../../models/Recipe');
 const Ingredient = require('../../models/Ingredient');
 
-// @route GET api/recipes
-router.get('/:number',async(req,res)=>{ 
+// @route GET api/recipes/:activePage/:sortBy/:isAscSort
+router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{ 
     try{
+        const sortByValue = req.params.sortBy;
+        let isAscSort = req.params.isAscSort;
+
         const options = {
-            page: req.params.number,
-            limit: 10,
+            page: req.params.activePage,
+            limit: 12,
             collation: {
               locale: 'en'
             }
           };
-          await Recipe.paginate({},options,(err,result)=>{
+
+          let isAsc = isAscSort === 'true' ? 'asc': 'desc';
+          switch(sortByValue)
+          {
+              case 'Name': options.sort={name: isAsc}; break;
+              case 'Category': options.sort={category: isAsc}; break;
+              case 'Date': options.sort={date: isAsc}; break;
+              default:break;
+          }
+
+          await Recipe.paginate({},options, (err, result) => {
             debugger;
             res.json(result);
             });
@@ -22,18 +35,31 @@ router.get('/:number',async(req,res)=>{
     }
 });
 
-// @route GET api/recipes/byfilter/:filter
-router.get('/byfilter/:filter/:number',async(req,res)=>{
+// @route GET api/recipes/bysearch/:search/:activePage/:sortBy/:isAscSort
+router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort',async(req,res)=>{
     try{
-        let filter = req.params.filter;
+        let filter = req.params.search;
+        let sortByValue = req.params.sortBy;
+        let isAscSort = req.params.isAscSort;
+
         const options = {
-            page: req.params.number,
-            limit: 10,
+            page: req.params.activePage,
+            limit: 12,
             collation: {
               locale: 'en'
             }
           };
-          await Recipe.paginate({name :new RegExp(filter, 'i')},options,(err,result)=>{
+
+          let isAsc = isAscSort === 'true' ? 'asc': 'desc';
+          switch(sortByValue)
+          {
+              case 'Name': options.sort={name: isAsc}; break;
+              case 'Category': options.sort={category: isAsc}; break;
+              case 'Date': options.sort={date: isAsc}; break;
+              default:break;
+          }
+
+          await Recipe.paginate({name :new RegExp(filter, 'i')}, options, (err, result)=>{
             debugger;
             res.json(result);
             });
