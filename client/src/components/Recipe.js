@@ -4,7 +4,7 @@ import { Image } from 'semantic-ui-react';
 import ViewRecipeModal from './ViewRecipeModal';
 import {getImageUrl} from '../utils';
 
-const Recipe = ({recipe,reloadList}) =>{
+const Recipe = ({recipe,reloadList,showMessage}) =>{
 
     const [openViewRecipeModal, setOpenViewRecipeModal] = useState(false);
 
@@ -12,14 +12,10 @@ const Recipe = ({recipe,reloadList}) =>{
         setOpenViewRecipeModal(value);
       };
 
-      const cancelViewRecipeModal=(isCancel, isDeleted)=>{
+      const cancelViewRecipeModal=(isCancel)=>{
           debugger;
           if(isCancel){
               setOpenViewRecipeModal(false);
-          }
-
-          if(isDeleted){
-              reloadList();
           }
       }
 
@@ -31,7 +27,8 @@ const Recipe = ({recipe,reloadList}) =>{
                 recipe={recipe}
                 openViewRecipeModal = {openViewRecipeModal}
                 cancelViewRecipeModal = {cancelViewRecipeModal}
-                reloadList={reloadList} />
+                reloadList={reloadList}
+                showMessage={showMessage} />
         </div>
     );
 };

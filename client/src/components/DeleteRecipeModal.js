@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 
-const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeModal}) => {
+const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeModal,showMessage}) => {
 
     // const [isInProgressDelete, setIsInProgressDelete]=useState('');
     const [isInProgressDeleteBool, setIsInProgressDeleteBool]=useState(false);
@@ -25,15 +25,15 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
             debugger;
             if(err && err.message){
                 console.log(err.message);
-                // showMessage({
-                //     header:'Error',
-                //     text: err.message
-                // });
+                showMessage({
+                    header:'Error',
+                    text: err.message
+                });
             }else{
-                // showMessage({
-                //     header: 'Success',
-                //     text: 'Recipe \''+ recipe.name +'\' was created successfully.'
-                // }); 
+                showMessage({
+                    header: 'Success',
+                    text: 'Recipe \''+ recipe.name +'\' was deleted successfully.'
+                }); 
             }
 
             // setIsInProgressDelete('');

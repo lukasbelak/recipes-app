@@ -3,7 +3,7 @@ import {Pagination,Dimmer,Loader} from 'semantic-ui-react';
 import Recipe from './Recipe';
 import style from'./recipeslist.module.css';
 
-const RecipesList =({query,isAscSort,selectedFilter,recipeCreated}) => {
+const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage}) => {
 
     const [recipes, setRecipes]=useState([]);
     const [totalPages, setTotalPages]=useState(100);
@@ -63,6 +63,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated}) => {
                         key={recipe._id} 
                         recipe={recipe}
                         reloadList={reloadList}
+                        showMessage={showMessage}
                     />
                 ))}
             </div>

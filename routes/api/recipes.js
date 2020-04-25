@@ -28,7 +28,7 @@ router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{
           console.log('before get');
           await Recipe.paginate({},options, (err, result) => {
             debugger;
-            console.log('in get');
+            console.log('in get');  
             res.json(result);
             });
     }catch(err){

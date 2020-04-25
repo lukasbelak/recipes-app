@@ -102,6 +102,7 @@ const App=()=> {
         isAscSort={isAscSort}
         selectedFilter={selectedFilter}
         recipeCreated={recipeCreated}
+        showMessage={showMessage}
         />
 
     </div>
