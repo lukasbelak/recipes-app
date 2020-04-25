@@ -24,6 +24,10 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
         setViewRecipe(value);
     };
 
+    const handleDeleteRecipe=()=>{
+        debugger;
+    };
+
     let video;
     if(recipe.youtube!=='false'){
         video=<div><label>Video</label>
@@ -40,7 +44,14 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
             closeOnDimmerClick={true} 
             closeOnEscape={true} 
             onClose={handleCancelView}>
-            <Modal.Header>{viewRecipe.name}</Modal.Header>
+            <Modal.Header>
+                <div style={{display:'flex', justifyContent:'space-between'}}>
+                    <div style={{display:'flex', flexDirection:'column-reverse'}}>
+                        {viewRecipe.name}
+                    </div>
+                    <Button type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
+                </div>
+                </Modal.Header>
             <Modal.Content>
             <Modal.Description>
                 <Form>
