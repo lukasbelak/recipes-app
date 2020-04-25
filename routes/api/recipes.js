@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../../models/Recipe');
-const Ingredient = require('../../models/Ingredient');
 
 // @route GET api/recipes/:activePage/:sortBy/:isAscSort
 router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{ 
@@ -26,6 +25,7 @@ router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{
               default:break;
           }
 
+          console.log('before get');
           await Recipe.paginate({},options, (err, result) => {
             debugger;
             res.json(result);
@@ -148,8 +148,9 @@ router.delete('/:id',async(req,res,next)=>{
     try{
         await Recipe.findById({_id:req.params.id})
         .then(recipe=>{
-            Ingredient.deleteMany({recipe:recipe._id}, (err, result)=>{
+            Recipe.deleteMany({recipe:recipe._id}, (err, result)=>{
                 if(err) {
+                    console.log(err.message);
                     res.json(err.message);
                 } else {
                     recipe.deleteOne();

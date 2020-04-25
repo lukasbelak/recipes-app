@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Button, Modal,Form, Embed, Image } from 'semantic-ui-react';
 import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
+import DeleteRecipeModal from './DeleteRecipeModal';
 
 const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) => {
     //debugger;
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
     const [viewRecipe, setViewRecipe]=useState(recipe);
+    const [openDeleteRecipeModal, setOpenDeleteRecipeModal]=useState(false);
 
     const handleUpdateRecipe = ()=>{
         setOpenUpdateRecipeModal(true);
@@ -26,6 +28,15 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
 
     const handleDeleteRecipe=()=>{
         debugger;
+        setOpenDeleteRecipeModal(true);
+    };
+
+    const cancelDeleteRecipeModal=(isDeleted)=>{
+        debugger;
+        setOpenDeleteRecipeModal(false);
+        if(isDeleted){
+            cancelViewRecipeModal(true);
+        }
     };
 
     let video;
@@ -49,7 +60,13 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
                     <div style={{display:'flex', flexDirection:'column-reverse'}}>
                         {viewRecipe.name}
                     </div>
-                    <Button type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
+                    <div>
+                        <Button type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
+                        <DeleteRecipeModal
+                            recipe={recipe}
+                            openDeleteRecipeModal={openDeleteRecipeModal}
+                            cancelDeleteRecipeModal={cancelDeleteRecipeModal} />
+                    </div>
                 </div>
                 </Modal.Header>
             <Modal.Content>
