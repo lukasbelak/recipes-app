@@ -201,7 +201,9 @@ debugger;
 
     const onUploadImageChange= (e)=>{
         let file = e.target.files[0];
-        
+        if(file===undefined)return;
+        if(!file.type.startsWith("image/"))return;
+
         setFileContentType(file.type);
         setFileName(file.name);
 
@@ -249,10 +251,12 @@ debugger;
                     </Form.Field>
                     <Form.Field>
                         <label>Image</label>
-                        <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>
-                        <Icon link name='close' style={{float:"left"}} onClick={onRemoveImage} />
-                        <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} />
-                        <label>{fileName}</label>
+                        <div style={{"display":"table"}}>
+                            <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>                          
+                            <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} accept='.png,.jpg,.jpeg' />
+                            <label style={{display:"table-cell",verticalAlign:"middle"}}>{fileName}</label>
+                            <Icon style={fileName===''?{display:'none'}:{display:'table-cell',verticalAlign:'middle'}} link color='red' name='close' onClick={onRemoveImage} />
+                        </div>
                     </Form.Field>
                     <Form.Field>
                         <label>Ingredients</label>

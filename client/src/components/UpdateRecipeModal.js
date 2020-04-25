@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Modal,Form,Icon,TextArea,Input } from 'semantic-ui-react';
-import {getBase64,youtubeParser} from '../utils';
+import {youtubeParser} from '../utils';
 import SearchCategory from './SearchCategory';
+import Compress from 'compress.js';
+
+const compress = new Compress();
 
 const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModal, setUpdatedRecipe}) => {
 
@@ -80,13 +83,22 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
 
     const onUploadImageChange= (e)=>{
         let file = e.target.files[0];
-        
+        if(file===undefined)return;
+        if(!file.type.startsWith("image/"))return;
+
         setFileContentType(file.type);
         setFileName(file.name);
 
-        getBase64(file, (result) => {
-            setFileData(result);
-        });
+        compress.compress([...e.target.files], {
+            size: 4, // the max size in MB, defaults to 2MB
+            quality: .75, // the quality of the image, max is 1,
+            maxWidth: 1920, // the max width of the output image, defaults to 1920px
+            maxHeight: 1920, // the max height of the output image, defaults to 1920px
+            resize: true, // defaults to true, set false if you do not want to resize the image width and height
+          }).then((data) => {
+              debugger;
+              setFileData(data[0].data);
+          })
     }
 
     const handleAddIngredientName=(e,index)=>{
@@ -227,11 +239,13 @@ debugger;
                         
                     </Form.Field>
                     <Form.Field>
-                    <label>Image</label>
-                        <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>
-                        <Icon link name='close' style={{float:"left"}} onClick={onRemoveImage} />
-                        <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} />
-                        <label>{fileName}</label>
+                        <label>Image</label>
+                        <div style={{"display":"table"}}>
+                            <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>
+                            <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} accept='.png,.jpg,.jpeg' />
+                            <label style={{display:"table-cell",verticalAlign:"middle"}}>{fileName}</label>
+                            <Icon style={fileName===''?{display:'none'}:{display:'table-cell',verticalAlign:'middle'}} link color='red' name='close' onClick={onRemoveImage} />
+                        </div>
                     </Form.Field>
                     <Form.Field>
                         <label>Youtube</label>

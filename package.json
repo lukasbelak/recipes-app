@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "main": "server.js",
+  "author": "lukas.belak1@gmail.com",
+  "license": "MIT",
+  "description": "Recipe-app is a webpage that stores recipes",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

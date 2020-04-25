@@ -3,6 +3,7 @@ import './App.css';
 import NewRecipeModal from './components/NewRecipeModal';
 import {Dropdown,Button, Icon,Message} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import 'hover.css';
 import {sortByOptions} from './enums';
 import RecipesList from './components/RecipesList';
 
@@ -86,7 +87,7 @@ const App=()=> {
           <Dropdown onChange={onChangeFilter}
           button 
           labeled 
-          text='Filter'
+          text='Sort by'
           icon='filter'   
           className='icon' 
           options={sortByOptions}

@@ -7,7 +7,6 @@
     justify-content: center;
     background: white;
     align-items: center;
-    /* min-width: 15%; */
     overflow: hidden;
     width: 350px;
     height: 200px;
@@ -18,8 +17,6 @@
     flex-shrink: 0;
     min-width: 100%;
     min-height: 100%;
-    /* width: auto;
-    height: auto; */
 }
 
 .recipe_header{
