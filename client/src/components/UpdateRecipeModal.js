@@ -28,8 +28,8 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         setYoutube(e.target.value); 
     };
 
-    const checkFormError=()=>{
-        if(category!==''&&name!==''&&description!==''){
+    const checkFormError=(cat, nam, desc)=>{
+        if(cat!==''&&nam!==''&&desc!==''){
             setFormError(false);
         }else{
             setFormError(true);
@@ -37,6 +37,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     };
 
     const updateDescription=(e)=>{
+        debugger;
         let descriptionValue=e.target.value
         setDescription(descriptionValue);
 
@@ -46,7 +47,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             setDescriptionError(false);
         }
 
-        checkFormError();
+        checkFormError(category,name,descriptionValue);
     };
 
     const getCategory=(value)=>{
@@ -59,7 +60,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             setCategoryError(false);
         }
 
-        checkFormError();
+        checkFormError(categoryValue,name,description);
     };
 
     const updateName = (e) =>{
@@ -72,7 +73,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             setNameError(false);
         }
 
-        checkFormError();
+        checkFormError(category,nameValue,description);
     }
 
     const onRemoveImage=(e)=>{
@@ -136,6 +137,8 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     };
     const updateRecipeWithIngredients= async(value)=>{
 
+        if(formError)return;
+
         setIsInProgressUpdate('loading');
         setIsInProgressUpdateBool(true);
 
@@ -172,10 +175,16 @@ debugger;
         recipe = await resp.json();
         
         debugger;
-        setNameError(true);
-        setCategoryError(true);
-        setDescriptionError(true);
-        setFormError(true);
+        // setNameError(true);
+        // setCategoryError(true);
+        // setDescriptionError(true);
+        // setFormError(true);
+
+        // setIngredients([]);
+        // setName('');
+        // setDescription('');
+        // setCategory('');
+        // setYoutube('');
 
         setIsInProgressUpdateBool(false);
         setIsInProgressUpdate('');
@@ -184,16 +193,16 @@ debugger;
     };
 
     const handleCancelView = ()=> {
-        setIngredients([]);
-        setName('');
-        setDescription('');
-        setCategory('');
-        setYoutube('');
+        // setIngredients([]);
+        // setName('');
+        // setDescription('');
+        // setCategory('');
+        // setYoutube('');
 
-        setNameError(true);
-        setCategoryError(true);
-        setDescriptionError(true);
-        setFormError(true);
+        // setNameError(true);
+        // setCategoryError(true);
+        // setDescriptionError(true);
+        // setFormError(true);
 
         cancelUpdateRecipeModal();
     };
@@ -211,14 +220,14 @@ debugger;
             <Modal.Description>
                 <Form error={formError} className={isInProgressUpdate}>
                     <Form.Field>
-                    <label>Category</label>
+                    <label className='requiredField'>Category</label>
                         <SearchCategory
                         defaultValue={category}
                         getCategory={getCategory}
                         categoryError={categoryError} />
                     </Form.Field>
                     <Form.Field>
-                        <label>Name</label>
+                        <label className='requiredField'>Name</label>
                         <input type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} required={true} />
                     </Form.Field>
                     <Form.Field>
@@ -252,7 +261,7 @@ debugger;
                         <input type="text" value={youtube} onChange={updateYoutube} />
                     </Form.Field> 
                     <Form.Field>
-                        <label>Description</label>
+                        <label className='requiredField'>Description</label>
                         <TextArea rows="5" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
                     </Form.Field>  
                     </Form>

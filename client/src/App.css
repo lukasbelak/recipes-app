@@ -62,3 +62,8 @@ font-weight: bold;
     right: 1px;
     top: 1px;
 }
+
+.requiredField:after {
+    content:" *";
+    color: red;
+  }

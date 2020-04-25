@@ -29,27 +29,14 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     };
 
     const handleCreate = (value) =>{
-        let error=false;
-
-        if(name===''){
-            setNameError(true);
-            error=true;
-        }else{
-            setNameError(false);
-            error=false;
-        }
-
-        if(error){
-            setFormError(true);
-            return;
-        }else{
-            setFormError(false);
-        }
 
         createRecipeWithIngredients(value);
     };
 
     const createRecipeWithIngredients=(value)=>{
+
+        if(formError)return;
+
         setIsInProgressCreate('loading');
         setIsInProgressCreateBool(true);
 
@@ -98,8 +85,8 @@ debugger;
         });
     };
 
-    const checkFormError=()=>{
-        if(category!==''&&name!==''&&description!==''){
+    const checkFormError=(cat,nam,desc)=>{
+        if(cat!==''&&nam!==''&&desc!==''){
             setFormError(false);
         }else{
             setFormError(true);
@@ -170,7 +157,7 @@ debugger;
             setNameError(false);
         }
 
-        checkFormError();
+        checkFormError(category,nameValue,description);
     };
 
     const updateDescription=(e)=>{
@@ -183,7 +170,7 @@ debugger;
             setDescriptionError(false);
         }
 
-        checkFormError();
+        checkFormError(category,name,descriptionValue);
     };
 
     const getCategory=(value)=>{
@@ -196,7 +183,7 @@ debugger;
             setCategoryError(false);
         }
 
-        checkFormError();
+        checkFormError(categoryValue,name,description);
     };
 
     const onUploadImageChange= (e)=>{
@@ -239,14 +226,14 @@ debugger;
             <Modal.Description>
                 <Form error={formError} className={isInProgressCreate}>
                     <Form.Field>
-                        <label>Category</label>
+                        <label className='requiredField'>Category</label>
                         <SearchCategory
                         defaultValue={''}
                         getCategory={getCategory} 
                         categoryError={categoryError}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Name</label>
+                        <label className='requiredField'>Name</label>
                         <Form.Input required={true} type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} />
                     </Form.Field>
                     <Form.Field>
@@ -280,7 +267,7 @@ debugger;
                         <input type="text" value={youtube} onChange={updateYoutube} />
                     </Form.Field> 
                     <Form.Field>
-                        <label>Description</label>
+                        <label className='requiredField'>Description</label>
                         <Form.TextArea rows="5" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
                     </Form.Field>  
                 </Form>

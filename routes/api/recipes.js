@@ -129,13 +129,19 @@ router.patch('/:id', async(req,res)=>{
 
         let query = {$set: {}};
         for (let key in req.body) {
-            if (recipe[key] && recipe[key] !== req.body[key]  ) {
+            console.log('key:' + key);
+            console.log('val: ' +req.body[key]);
+            if (recipe[key] !== req.body[key]  ) { //recipe[key] && 
+                console.log(key+' is there')
                 query.$set[key] = req.body[key];
+            }else{
+                console.log(key+' not there');
             }
         }
-
+        console.log('recipe:'+recipe);
+console.log('queryBody:'+req.body.description);
         await Recipe.findOneAndUpdate({_id: req.params.id}, query,{new:true},(err, recipe)=>{
-            //console.log(recipe);
+            console.log('created:'+recipe);
                 res.json(recipe);
         });
     }catch(err){
