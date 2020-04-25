@@ -41,7 +41,7 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,rel
     };
 
     let video;
-    if(viewRecipe.youtube!=='false'){
+    if(viewRecipe.youtube!==''){
         video=<div><label style={{fontWeight:"700"}}>Video</label>
         <Embed
             id={viewRecipe.youtube}
