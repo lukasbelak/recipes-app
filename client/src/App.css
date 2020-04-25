@@ -50,7 +50,7 @@ font-weight: bold;
 
 .message{
     margin-left: auto;
-    width: 500px;
+    width: 350px;
     display: flex;
     border-radius: 10px;
     flex-direction: column;
