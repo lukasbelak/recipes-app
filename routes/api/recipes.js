@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Recipe = require('../../models/Recipe');
 
-// @route GET api/recipes/:activePage/:sortBy/:isAscSort
-router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{ 
+// @route GET api/recipes/:activePage/:sortBy/:isAscSort/:category
+router.get('/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{ 
     try{
         const sortByValue = req.params.sortBy;
         let isAscSort = req.params.isAscSort;
@@ -25,8 +25,13 @@ router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{
               default:break;
           }
 
-          console.log('before get');
-          await Recipe.paginate({},options, (err, result) => {
+          let query={};
+          if(req.params.category!=='All'){
+            query={category:req.params.category}
+          }
+
+          console.log('before get '+req.params.category);
+          await Recipe.paginate(query,options, (err, result) => {
             debugger;
             console.log('in get');  
             res.json(result);
@@ -37,8 +42,8 @@ router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{
     }
 });
 
-// @route GET api/recipes/bysearch/:search/:activePage/:sortBy/:isAscSort
-router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort',async(req,res)=>{
+// @route GET api/recipes/bysearch/:search/:activePage/:sortBy/:isAscSort/:category
+router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{
     try{
         let filter = req.params.search;
         let sortByValue = req.params.sortBy;
@@ -61,7 +66,15 @@ router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort',async(req,res)=>{
               default:break;
           }
 
-          await Recipe.paginate({name :new RegExp(filter, 'i')}, options, (err, result)=>{
+          let query={name :new RegExp(filter, 'i')};
+          if(req.params.category!=='All'){
+            query={
+                name :new RegExp(filter, 'i'),
+                category:req.params.category
+            }
+          }
+
+          await Recipe.paginate(query, options, (err, result)=>{
             debugger;
             res.json(result);
             });

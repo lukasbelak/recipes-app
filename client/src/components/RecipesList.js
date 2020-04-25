@@ -3,7 +3,7 @@ import {Pagination,Dimmer,Loader} from 'semantic-ui-react';
 import Recipe from './Recipe';
 import style from'./recipeslist.module.css';
 
-const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage}) => {
+const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,selectedCategory}) => {
 
     const [recipes, setRecipes]=useState([]);
     const [totalPages, setTotalPages]=useState(100);
@@ -21,10 +21,10 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage}) 
     debugger;
           try{
             if(query){
-              const resp = await fetch('/api/recipes/bysearch/' + query+"/"+activePage+"/"+selectedFilter+"/"+isAscSort);
+              const resp = await fetch('/api/recipes/bysearch/' + query+"/"+activePage+"/"+selectedFilter+"/"+isAscSort+"/"+selectedCategory);
               data = await resp.json();
             }else{
-              const resp = await fetch('/api/recipes/'+activePage+"/"+selectedFilter+"/"+isAscSort);
+              const resp = await fetch('/api/recipes/'+activePage+"/"+selectedFilter+"/"+isAscSort+"/"+selectedCategory);
               data = await resp.json();
             }
             console.log(data.docs);
@@ -41,7 +41,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage}) 
     
         getRecipes();
         console.log('effect run');
-      }, [query,recipeCreated,activePage,selectedFilter,isAscSort,setIsLoading,isRefresh]);
+      }, [query,recipeCreated,activePage,selectedFilter,isAscSort,setIsLoading,isRefresh,selectedCategory]);
 
       const onPaginationChange=(e, pageInfo)=>{
         setActivePage(pageInfo.activePage);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import NewRecipeModal from './components/NewRecipeModal';
 import {Dropdown,Button, Icon,Message} from 'semantic-ui-react';
@@ -13,10 +13,35 @@ const App=()=> {
   const [query, setQuery]=useState('');
   const [recipeCreated, setRecipeCreated]=useState(false);
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
-  const [selectedFilter, setSelectedFilter]=useState(sortByOptions[0].text);
+  const [selectedSort, setSelectedSort]=useState(sortByOptions[0].text);
+  const [categoryOptions, setCategoryOptions]=useState([{key:'All',text:'All',value:'All'}]);
+  const [selectedCategory, setSelectedCategory]=useState('All');
   const [isAscSort, setIsAscSort] = useState(true); 
   const [message, setMessage]=useState({});
   const [messageVisibility,setMessageVisibility]=useState('hidden');
+
+  useEffect(()=>{
+    const getCategories =async()=>{
+      let data=[{key:'All',text:'All',value:'All'}];
+      try{
+        const resp = await fetch('/api/categories');
+        let cats=await resp.json();
+        cats.forEach(cat=>{
+          data.push({
+            key:cat.name,
+            text:cat.name,
+            value:cat.name
+          });
+        });
+        debugger;
+        setCategoryOptions(data);
+      }catch(err){
+        console.log(err.message);
+      }
+    };
+
+    getCategories();
+  },[]);
 
   const updateSearch = (e)=>{
     setSearch(e.target.value);
@@ -37,10 +62,10 @@ const App=()=> {
     setOpenNewRecipeModal(false);
   };
 
-  const onChangeFilter=(e)=>{
+  const onChangeSort=(e)=>{
     debugger;
     let selectedValue = e.target.textContent;
-    setSelectedFilter(selectedValue);
+    setSelectedSort(selectedValue);
   }
 
   const handleIsAscSort=()=>{
@@ -59,6 +84,12 @@ const App=()=> {
       setMessageVisibility('hidden');
       setMessage({});
     }, 5000);
+  };
+
+  const onChangeCategory=(e)=>{
+    debugger;
+    let selectedValue = e.target.textContent;
+    setSelectedCategory(selectedValue);
   };
 
   return (
@@ -83,9 +114,9 @@ const App=()=> {
           createRecipe={createRecipe}
           cancelCreateRecipe={cancelCreateRecipe}
           showMessage={showMessage} />
-          <div>
+        <div>
             <span style={{"margin": "10px 5px"}}> 
-              <Dropdown onChange={onChangeFilter}
+              <Dropdown onChange={onChangeSort}
               selection
               options={sortByOptions}
               defaultValue={sortByOptions[0].value} 
@@ -95,14 +126,24 @@ const App=()=> {
         <Button size="medium" color="grey" onClick={handleIsAscSort}>
           {isAscSort?<Icon name="sort content descending" />:<Icon name="sort content ascending" />}
         </Button>
+        <div>
+            <span style={{"margin": "10px 5px"}}> 
+              <Dropdown onChange={onChangeCategory}
+              selection
+              options={categoryOptions}
+              defaultValue={categoryOptions[0].value} 
+              />
+            </span>
+        </div>
       </form>
 
       <RecipesList
         query={query}
         isAscSort={isAscSort}
-        selectedFilter={selectedFilter}
+        selectedFilter={selectedSort}
         recipeCreated={recipeCreated}
         showMessage={showMessage}
+        selectedCategory={selectedCategory}
         />
 
     </div>
