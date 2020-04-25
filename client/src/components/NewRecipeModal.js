@@ -14,6 +14,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
     const [isInProgressCreate, setIsInProgressCreate]=useState('');
+    const [isInProgressCreateBool, setIsInProgressCreateBool]=useState(false);
     const [categoryError, setCategoryError] = useState(true);
     const [descriptionError, setDescriptionError] = useState(true);
     const [nameError, setNameError]=useState(true);
@@ -47,6 +48,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
 
     const createRecipeWithIngredients=(value)=>{
         setIsInProgressCreate('loading');
+        setIsInProgressCreateBool(true);
 
         const recipe = {
             name:name,
@@ -78,7 +80,7 @@ debugger;
             }else{
                 showMessage({
                     header: 'Success',
-                    text: 'Recipe was created successfully.'
+                    text: 'Recipe \''+ recipe.name +'\' was created successfully.'
                 }); 
             }
 
@@ -93,6 +95,7 @@ debugger;
             setDescriptionError(true);
             setFormError(true);
 
+            setIsInProgressCreateBool(false);
             setIsInProgressCreate('');
             createRecipe(value);
         })
@@ -272,9 +275,9 @@ debugger;
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)}> Create</Button>
-                <Button type='button' onClick={handleCancelCreate}>Cancel</Button>
-                    {formError?<p style={{"color":"red","fontSize":"medium","float":"left"}}>{errorMessage}</p>:<div></div>}
+                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)} disabled={isInProgressCreateBool}> Create</Button>
+                <Button type='button' onClick={handleCancelCreate} disabled={isInProgressCreateBool}>Cancel</Button>
+                {formError?<p style={{"color":"red","fontSize":"medium","float":"left"}}>{errorMessage}</p>:<div></div>}
             </Modal.Actions>
         </Modal>
         </div>

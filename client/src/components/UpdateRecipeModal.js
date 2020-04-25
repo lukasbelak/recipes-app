@@ -14,21 +14,62 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [fileContentType, setFileContentType]=useState('');
     const [description, setDescription]=useState(recipe.description);
     const [isInProgressUpdate, setIsInProgressUpdate]=useState('');
+    const [isInProgressUpdateBool, setIsInProgressUpdateBool]=useState(false);
+    const [categoryError, setCategoryError] = useState(recipe.category==='');
+    const [descriptionError, setDescriptionError] = useState(recipe.description==='');
+    const [nameError, setNameError]=useState(recipe.name==='');
+    const [formError, setFormError]=useState(recipe.category===''||recipe.description===''||recipe.name==='');
+    const errorMessage='Please complete all required fields.';
 
     const updateYoutube = (e) =>{
         setYoutube(e.target.value); 
     };
 
+    const checkFormError=()=>{
+        if(category!==''&&name!==''&&description!==''){
+            setFormError(false);
+        }else{
+            setFormError(true);
+        }
+    };
+
     const updateDescription=(e)=>{
-        setDescription(e.target.value);
+        let descriptionValue=e.target.value
+        setDescription(descriptionValue);
+
+        if(descriptionValue===''){
+            setDescriptionError(true);
+        }else{
+            setDescriptionError(false);
+        }
+
+        checkFormError();
     };
 
     const getCategory=(value)=>{
-        setCategory(value);
+        let categoryValue=value;
+        setCategory(categoryValue);
+
+        if(categoryValue===''){
+            setCategoryError(true);
+        }else{
+            setCategoryError(false);
+        }
+
+        checkFormError();
     };
 
     const updateName = (e) =>{
-        setName(e.target.value);
+        let nameValue=e.target.value
+        setName(nameValue);
+
+        if(nameValue===''){
+            setNameError(true);
+        }else{
+            setNameError(false);
+        }
+
+        checkFormError();
     }
 
     const onRemoveImage=(e)=>{
@@ -84,6 +125,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const updateRecipeWithIngredients= async(value)=>{
 
         setIsInProgressUpdate('loading');
+        setIsInProgressUpdateBool(true);
 
         let ings=[];
         ingredients.forEach(ingredient=>{
@@ -118,17 +160,29 @@ debugger;
         recipe = await resp.json();
         
         debugger;
+        setNameError(true);
+        setCategoryError(true);
+        setDescriptionError(true);
+        setFormError(true);
+
+        setIsInProgressUpdateBool(false);
         setIsInProgressUpdate('');
         setUpdatedRecipe(recipe);
         handleCancelView();
     };
 
     const handleCancelView = ()=> {
-        // setIngredients([]);
-        //     setName('');
-        //     setDescription('');
-        //     setCategory('');
-        // setYoutube('');
+        setIngredients([]);
+        setName('');
+        setDescription('');
+        setCategory('');
+        setYoutube('');
+
+        setNameError(true);
+        setCategoryError(true);
+        setDescriptionError(true);
+        setFormError(true);
+
         cancelUpdateRecipeModal();
     };
 
@@ -143,16 +197,17 @@ debugger;
             <Modal.Header>Update</Modal.Header>
             <Modal.Content>
             <Modal.Description>
-                <Form className={isInProgressUpdate}>
+                <Form error={formError} className={isInProgressUpdate}>
                     <Form.Field>
                     <label>Category</label>
                         <SearchCategory
                         defaultValue={category}
-                        getCategory={getCategory} />
+                        getCategory={getCategory}
+                        categoryError={categoryError} />
                     </Form.Field>
                     <Form.Field>
                         <label>Name</label>
-                        <input type="text" value={name} onChange={updateName} />
+                        <input type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} required={true} />
                     </Form.Field>
                     <Form.Field>
                         <label>Ingredients</label>
@@ -184,14 +239,15 @@ debugger;
                     </Form.Field> 
                     <Form.Field>
                         <label>Description</label>
-                        <TextArea rows="5" value={description} onChange={updateDescription} />
+                        <TextArea rows="5" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
                     </Form.Field>  
                     </Form>
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='button' floated='right' onClick={handleCancelView}>Cancel</Button>
-                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)}>Update</Button>
+                <Button type='button' floated='right' onClick={handleCancelView} disabled={isInProgressUpdateBool}>Cancel</Button>
+                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)} disabled={isInProgressUpdateBool}>Update</Button>
+                {formError?<p style={{"color":"red","fontSize":"medium","float":"left"}}>{errorMessage}</p>:<div></div>}
             </Modal.Actions>
         </Modal>
         </div>

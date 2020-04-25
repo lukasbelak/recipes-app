@@ -51,7 +51,7 @@ const SearchCategory =({defaultValue,getCategory,categoryError})=> {
   };
 
     return (
-          <Search className={`${categoryError ? 'error':''} required field`}
+          <Search className={`${categoryError && value==='' ? 'error':''} required field`}
             loading={isLoading}
             onResultSelect={handleResultSelect}
             onSearchChange={_.debounce(handleSearchChange, 500, {

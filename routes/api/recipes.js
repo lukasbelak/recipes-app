@@ -31,6 +31,7 @@ router.get('/:activePage/:sortBy/:isAscSort',async(req,res)=>{
             res.json(result);
             });
     }catch(err){
+        console.log(err.message);
         res.json({message:err.message});
     }
 });
@@ -64,6 +65,7 @@ router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort',async(req,res)=>{
             res.json(result);
             });
     }catch(err){
+        console.log(err.message);
         res.json({message:err.message});
     }
 });
@@ -75,6 +77,7 @@ router.get('/byid/:id',async(req,res)=>{
             .then(recipe=>res.json(recipe))
 
     }catch(err){
+        console.log(err.message);
         res.json({message:err.message});
     }
 });
@@ -86,7 +89,7 @@ const createRecipe = (recipe) => {
 
 // @route POST api/recipes
 router.post('/', async(req,res,next)=>{
-    console.log(req.body.youtube);
+    //console.log(req.body.youtube);
     let youtube=req.body.youtube!=='false'?req.body.youtube:null
 
     let newRecipe={
@@ -132,10 +135,11 @@ router.patch('/:id', async(req,res)=>{
         }
 
         await Recipe.findOneAndUpdate({_id: req.params.id}, query,{new:true},(err, recipe)=>{
-            console.log(recipe);
+            //console.log(recipe);
                 res.json(recipe);
         });
     }catch(err){
+        console.log(err.message);
         res.json({message:err.message});
     }
 });
