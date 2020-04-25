@@ -1,15 +1,15 @@
 import React,{useState} from 'react';
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal,Form } from 'semantic-ui-react';
 
 const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeModal,showMessage}) => {
 
-    // const [isInProgressDelete, setIsInProgressDelete]=useState('');
+    const [isInProgressDelete, setIsInProgressDelete]=useState('');
     const [isInProgressDeleteBool, setIsInProgressDeleteBool]=useState(false);
 
     const handleYesOption=()=>{
         debugger;
 
-        // setIsInProgressDelete('loading');
+        setIsInProgressDelete('loading');
         setIsInProgressDeleteBool(true);
 
         const requestOptions = {
@@ -36,7 +36,7 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
                 }); 
             }
 
-            // setIsInProgressDelete('');
+            setIsInProgressDelete('');
             setIsInProgressDeleteBool(false);
             cancelDeleteRecipeModal(true);
         });
@@ -57,7 +57,11 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
                 centered>
                 <Modal.Header>Delete recipe</Modal.Header>
                 <Modal.Content>
-                    <p>Are you sure you want to delete this recipe?</p>
+                    <Form className={isInProgressDelete}>
+                        <Form.Field>
+                            <p>Are you sure you want to delete this recipe?</p>
+                        </Form.Field>
+                    </Form>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button negative onClick={handleNoOption} disabled={isInProgressDeleteBool}>No</Button>
