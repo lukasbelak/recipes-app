@@ -99,8 +99,17 @@ router.post('/', async(req,res,next)=>{
         category: req.body.category,
         youtube: youtube,
         img:null,
-        ingredients:req.body.ingredients
+        // ingredients:req.body.ingredients
     };
+
+    let ings=[];
+    req.body.ingredients.forEach(ing=>{
+        if(ing.name!==''){
+            ings.push(ing);
+        }
+    });
+
+    newRecipe.ingredients=ings;
 
     //console.log(req.body.img);
     if(req.body.img.data && req.body.img.contentType){

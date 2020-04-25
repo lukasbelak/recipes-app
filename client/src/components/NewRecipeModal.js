@@ -43,7 +43,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
         const recipe = {
             name:name,
             description: description,
-            ingredients: ingredients,
+            // ingredients: ingredients,
             category: category,
             img: {
                 data:fileData,
@@ -52,6 +52,17 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
             youtube: youtubeParser(youtube)
         };
 debugger;
+
+        let ings=[];
+        ingredients.forEach(ing=>{
+            if(ing.name!==undefined&&ing.name!==''
+                &&ing.quantity!==undefined&&ing.quantity!==''
+                &&ing.unit!==undefined&&ing.unit!==''){
+                ings.push(ing);
+            }
+        });
+        recipe.ingredients=ings;
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

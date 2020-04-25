@@ -144,11 +144,13 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
 
         let ings=[];
         ingredients.forEach(ingredient=>{
-            ings.push({
-                name:ingredient.name,
-                quantity:ingredient.quantity,
-                unit:ingredient.unit
-            });
+            if(name!==''){
+                ings.push({
+                    name:ingredient.name,
+                    quantity:ingredient.quantity,
+                    unit:ingredient.unit
+                });
+            }
         });
 
         const recipeToUpdate = {
@@ -160,9 +162,9 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         };
 
         if(fileData && fileContentType){
-            recipe.img={};
-            recipe.img.data=fileData;
-            recipe.img.contentType= fileContentType;
+            recipeToUpdate.img={};
+            recipeToUpdate.img.data=fileData;
+            recipeToUpdate.img.contentType= fileContentType;
         }
 
 debugger;

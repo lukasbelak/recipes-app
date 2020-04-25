@@ -10,7 +10,9 @@ export function getImageUrl(img){
     
     var imgArrByte= Uint8Array.from(Buffer.from(img.data))
     let image = new Blob([imgArrByte], { type: img.contentType });
-    return URL.createObjectURL(image);
+    let url = URL.createObjectURL(image);
+    debugger;
+    return url;
 }
 
 export function getBase64(file, cb) {
