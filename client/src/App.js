@@ -83,18 +83,16 @@ const App=()=> {
           createRecipe={createRecipe}
           cancelCreateRecipe={cancelCreateRecipe}
           showMessage={showMessage} />
-        <span style={{"margin": "10px 5px"}}> 
-          <Dropdown onChange={onChangeFilter}
-          button 
-          labeled 
-          text='Sort by'
-          icon='filter'   
-          className='icon' 
-          options={sortByOptions}
-          defaultValue={sortByOptions[0].value} 
-          />
-        </span>
-        <Button size="small" color="grey" onClick={handleIsAscSort}>
+          <div>
+            <span style={{"margin": "10px 5px"}}> 
+              <Dropdown onChange={onChangeFilter}
+              selection
+              options={sortByOptions}
+              defaultValue={sortByOptions[0].value} 
+              />
+            </span>
+        </div>
+        <Button size="medium" color="grey" onClick={handleIsAscSort}>
           {isAscSort?<Icon name="sort content descending" />:<Icon name="sort content ascending" />}
         </Button>
       </form>
