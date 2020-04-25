@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Modal,Form,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
-import {youtubeParser,getBase64} from '../utils';
+import {youtubeParser} from '../utils';
+const Compress = require('compress.js');
+
+const compress = new Compress();
 
 const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,showMessage }) => {
 
@@ -84,16 +87,7 @@ debugger;
                 }); 
             }
 
-            setIngredients([]);
-            setName('');
-            setDescription('');
-            setCategory('');
-            setYoutube('');
-
-            setNameError(true);
-            setCategoryError(true);
-            setDescriptionError(true);
-            setFormError(true);
+            resetForm();
 
             setIsInProgressCreateBool(false);
             setIsInProgressCreate('');
@@ -113,18 +107,25 @@ debugger;
     };
 
     const handleCancelCreate = () =>{
+        resetForm();
+
+        cancelCreateRecipe();
+    };
+
+    const resetForm =()=>{
         setIngredients([]);
         setName('');
         setDescription('');
         setCategory('');
         setYoutube('');
+        setFileData('');
+        setFileContentType('');
+        setFileName('');
 
         setNameError(true);
         setCategoryError(true);
         setDescriptionError(true);
         setFormError(true);
-
-        cancelCreateRecipe();
     };
 
     const handleAddIngredient=()=>{
@@ -204,9 +205,16 @@ debugger;
         setFileContentType(file.type);
         setFileName(file.name);
 
-        getBase64(file, (result) => {
-            setFileData(result);
-        });
+        compress.compress([...e.target.files], {
+            size: 4, // the max size in MB, defaults to 2MB
+            quality: .75, // the quality of the image, max is 1,
+            maxWidth: 1920, // the max width of the output image, defaults to 1920px
+            maxHeight: 1920, // the max height of the output image, defaults to 1920px
+            resize: true, // defaults to true, set false if you do not want to resize the image width and height
+          }).then((data) => {
+              debugger;
+              setFileData(data[0].data);
+          })
     }
 
     const onRemoveImage=(e)=>{

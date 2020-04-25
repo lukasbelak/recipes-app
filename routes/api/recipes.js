@@ -103,8 +103,7 @@ router.post('/', async(req,res,next)=>{
 
     //console.log(req.body.img);
     if(req.body.img.data && req.body.img.contentType){
-        let fileDataSplit = req.body.img.data.split(',');
-        let imgData = Buffer.from(fileDataSplit[1], "base64");
+        let imgData = Buffer.from(req.body.img.data,"base64");
         newRecipe.img={
             data: imgData,
             contentType: req.body.img.contentType
