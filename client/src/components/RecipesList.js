@@ -9,6 +9,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated}) => {
     const [totalPages, setTotalPages]=useState(100);
     const [activePage, setActivePage]=useState(1);
     const [isLoading, setIsLoading] =useState(true);
+    const [isRefresh, setIsRefresh]=useState(1);
 
     useEffect(()=>{
         const getRecipes =  async ()=>{
@@ -40,11 +41,15 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated}) => {
     
         getRecipes();
         console.log('effect run');
-      }, [query,recipeCreated,activePage,selectedFilter,isAscSort,setIsLoading]);
+      }, [query,recipeCreated,activePage,selectedFilter,isAscSort,setIsLoading,isRefresh]);
 
       const onPaginationChange=(e, pageInfo)=>{
         setActivePage(pageInfo.activePage);
       };
+
+      const reloadList=()=>{
+        setIsRefresh(isRefresh+1);
+      }
 
     return(
         <div>
@@ -57,6 +62,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated}) => {
                     <Recipe 
                         key={recipe._id} 
                         recipe={recipe}
+                        reloadList={reloadList}
                     />
                 ))}
             </div>

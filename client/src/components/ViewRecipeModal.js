@@ -4,7 +4,7 @@ import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
 
-const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) => {
+const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,reloadList}) => {
     //debugger;
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
     const [viewRecipe, setViewRecipe]=useState(recipe);
@@ -19,7 +19,7 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
     };
 
     const handleCancelView =()=>{
-        cancelViewRecipeModal();
+        cancelViewRecipeModal(true,false);
     };
 
     const setUpdatedRecipe=(value)=>{
@@ -35,7 +35,7 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal}) =
         debugger;
         setOpenDeleteRecipeModal(false);
         if(isDeleted){
-            cancelViewRecipeModal(true);
+            cancelViewRecipeModal(true, isDeleted);
         }
     };
 
