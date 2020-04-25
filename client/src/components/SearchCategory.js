@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { Search } from 'semantic-ui-react';
 
-const SearchCategory =({defaultValue,getCategory,categoryError})=> {
+const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=> {
 
   const [isLoading, setIsLoading]=useState(false);
   const [results, setResults]=useState([]);
@@ -11,7 +11,7 @@ const SearchCategory =({defaultValue,getCategory,categoryError})=> {
   
   useEffect(()=>{
       getCategories();
-  },[]);
+  },[isNewCategory]);
   
   const getCategories=async ()=>{
       const resp = await fetch('/api/categories');
@@ -27,6 +27,7 @@ const SearchCategory =({defaultValue,getCategory,categoryError})=> {
   };
 
   const handleResultSelect = (e, { result }) => {
+    debugger;
         setValue(result.title);
         getCategory(result.title);
     };
@@ -51,7 +52,7 @@ const SearchCategory =({defaultValue,getCategory,categoryError})=> {
   };
 
     return (
-          <Search className={`${categoryError && value==='' ? 'error':''} required field`}
+          <Search className={`${categoryError && value==='' ? 'error':''} required field category-search`}
             loading={isLoading}
             onResultSelect={handleResultSelect}
             onSearchChange={_.debounce(handleSearchChange, 500, {

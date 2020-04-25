@@ -68,7 +68,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,se
                 ))}
             </div>
 
-            <div className={!isLoading && recipes.length>0 ? "center show" : "hidden"}>
+            <div className={!isLoading && recipes.length>0 && totalPages>1? "center show" : "hidden"}>
             <Pagination 
                 activePage={activePage}
                 onPageChange={onPaginationChange}

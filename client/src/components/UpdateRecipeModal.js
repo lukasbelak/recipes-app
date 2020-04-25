@@ -3,6 +3,7 @@ import { Button, Modal,Form,Icon,TextArea,Input } from 'semantic-ui-react';
 import {youtubeParser} from '../utils';
 import SearchCategory from './SearchCategory';
 import Compress from 'compress.js';
+import NewCategoryModal from './NewCategoryModal';
 
 const compress = new Compress();
 
@@ -22,6 +23,8 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [descriptionError, setDescriptionError] = useState(recipe.description==='');
     const [nameError, setNameError]=useState(recipe.name==='');
     const [formError, setFormError]=useState(recipe.category===''||recipe.description===''||recipe.name==='');
+    const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
+    const [isNewCategory, setIsNewCategory] = useState(0);
     const errorMessage='Please complete all required fields.';
 
     const updateYoutube = (e) =>{
@@ -209,6 +212,18 @@ debugger;
         cancelUpdateRecipeModal();
     };
 
+    const handleAddCategory=()=>{
+        setOpenNewCategoryModal(true);
+    };
+
+    const cancelNewCategoryModal=()=>{
+        setOpenNewCategoryModal(false);
+    };
+
+    const reloadCategories = ()=>{
+        setIsNewCategory(isNewCategory+1);
+    }
+
     return(
         <div>
         <Modal open={openUpdateRecipeModal}
@@ -226,7 +241,17 @@ debugger;
                         <SearchCategory
                         defaultValue={category}
                         getCategory={getCategory}
-                        categoryError={categoryError} />
+                        categoryError={categoryError}
+                        isNewCategory={isNewCategory} />
+                        <Button color='green' circular icon style={{margin:"0px 10px"}} type='button' title='Add new category' onClick={handleAddCategory} >
+                            <Icon name='add' />
+                        </Button>
+                        <NewCategoryModal
+                            openNewCategoryModal={openNewCategoryModal}
+                            cancelNewCategoryModal={cancelNewCategoryModal}
+                            getCategory={getCategory}
+                            reloadCategories={reloadCategories}
+                            />
                     </Form.Field>
                     <Form.Field>
                         <label className='requiredField'>Name</label>

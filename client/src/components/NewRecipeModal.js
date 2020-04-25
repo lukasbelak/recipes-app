@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal,Form,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser} from '../utils';
+import NewCategoryModal from './NewCategoryModal';
 const Compress = require('compress.js');
 
 const compress = new Compress();
@@ -22,6 +23,8 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     const [descriptionError, setDescriptionError] = useState(true);
     const [nameError, setNameError]=useState(true);
     const [formError, setFormError]=useState(true);
+    const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
+    const [isNewCategory, setIsNewCategory] = useState(0);
     const errorMessage='Please complete all required fields.';
 
     const handleNewRecipe=(value)=>{
@@ -185,6 +188,7 @@ debugger;
     };
 
     const getCategory=(value)=>{
+        debugger;
         let categoryValue=value;
         setCategory(categoryValue);
 
@@ -223,6 +227,18 @@ debugger;
         setFileContentType('');
     }
 
+    const handleAddCategory=()=>{
+        setOpenNewCategoryModal(true);
+    };
+
+    const cancelNewCategoryModal=()=>{
+        setOpenNewCategoryModal(false);
+    };
+
+    const reloadCategories = ()=>{
+        setIsNewCategory(isNewCategory+1);
+    }
+
     return(
         <div>
 
@@ -239,9 +255,19 @@ debugger;
                     <Form.Field>
                         <label className='requiredField'>Category</label>
                         <SearchCategory
-                        defaultValue={''}
+                        defaultValue={category}
                         getCategory={getCategory} 
-                        categoryError={categoryError}/>
+                        categoryError={categoryError}
+                        isNewCategory={isNewCategory}/>
+                        <Button color='green' circular icon style={{margin:"0px 10px"}} type='button' title='Add new category' onClick={handleAddCategory} >
+                            <Icon name='add' />
+                        </Button>
+                        <NewCategoryModal
+                            openNewCategoryModal={openNewCategoryModal}
+                            cancelNewCategoryModal={cancelNewCategoryModal}
+                            getCategory={getCategory}
+                            reloadCategories={reloadCategories}
+                            />
                     </Form.Field>
                     <Form.Field>
                         <label className='requiredField'>Name</label>

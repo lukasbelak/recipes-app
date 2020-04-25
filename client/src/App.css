@@ -66,4 +66,9 @@ font-weight: bold;
 .requiredField:after {
     content:" *";
     color: red;
-  }
+}
+
+.category-search{
+    float:left;
+    width: 450px;
+}
