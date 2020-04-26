@@ -28,8 +28,6 @@ const RecipeSchema = new Schema({
             type: String,
             required:true
         }
-        // type: mongoose.ObjectId, 
-        // ref: 'Ingredient'
     }],
     category: {
         type: String,

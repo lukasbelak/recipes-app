@@ -9,8 +9,6 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
     const [nameError,setNameError]=useState(true);
 
     const handleCreateOption=()=>{
-        debugger;
-
         setIsInProgressCreate('loading');
         setIsInProgressCreateBool(true);
 
@@ -26,14 +24,11 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
 
         fetch('/api/categories/', requestOptions)
         .then(resp=>{
-            debugger;
             resp.json();
         })
         .then((err)=>{
-            debugger;
             if(err && err.message){
                 console.log(err.message);
-                
             }
 
             getCategory(name);

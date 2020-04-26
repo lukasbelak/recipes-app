@@ -11,8 +11,15 @@ export function getImageUrl(img){
     var imgArrByte= Uint8Array.from(Buffer.from(img.data))
     let image = new Blob([imgArrByte], { type: img.contentType });
     let url = URL.createObjectURL(image);
-    debugger;
     return url;
+}
+
+export function getImageBase64(img){
+    if(!img) return null;
+
+    let buff = new Buffer(img.data);
+    let base64=buff.toString('base64');
+    return base64;;
 }
 
 export function getBase64(file, cb) {

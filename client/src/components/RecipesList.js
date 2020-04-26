@@ -18,7 +18,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,se
           setIsLoading(true);
           window.scrollTo(0, 0);
           let data=[];
-    debugger;
+          
           try{
             if(query){
               const resp = await fetch('/api/recipes/bysearch/' + query+"/"+activePage+"/"+selectedFilter+"/"+isAscSort+"/"+selectedCategory);

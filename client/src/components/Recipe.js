@@ -13,7 +13,6 @@ const Recipe = ({recipe,reloadList,showMessage}) =>{
       };
 
       const cancelViewRecipeModal=(isCancel)=>{
-          debugger;
           if(isCancel){
               setOpenViewRecipeModal(false);
           }
@@ -22,7 +21,7 @@ const Recipe = ({recipe,reloadList,showMessage}) =>{
     return (
         <div key={recipe._id} className={`${style.recipe} hvr-grow`}>
             <h1 className={style.recipe_header} onClick={onRecipeClick.bind(onRecipeClick,true)}>{recipe.name}</h1>
-            <Image className={style.recipe_img} src={getImageUrl(recipe.img)} alt='' onClick={onRecipeClick.bind(onRecipeClick,true)} />
+            <Image className={style.recipe_img} src={recipe.img ? getImageUrl(recipe.img) : ''} alt='' onClick={onRecipeClick.bind(onRecipeClick,true)} />
             <ViewRecipeModal
                 recipe={recipe}
                 openViewRecipeModal = {openViewRecipeModal}

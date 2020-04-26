@@ -12,7 +12,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [ingredients, setIngredients]=useState(recipe.ingredients);
     const [category, setCategory] = useState(recipe.category);
     const [name, setName] = useState(recipe.name);
-    const [youtube, setYoutube]=useState(recipe.youtube==="false" ? '' : 'https://www.youtube.com/watch?v='+recipe.youtube);
+    const [youtube, setYoutube]=useState(recipe.youtube==='' ? '' : 'https://www.youtube.com/watch?v='+recipe.youtube);
     const [fileData, setFileData] = useState('');
     const [fileName, setFileName]=useState('');
     const [fileContentType, setFileContentType]=useState('');
@@ -40,7 +40,6 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     };
 
     const updateDescription=(e)=>{
-        debugger;
         let descriptionValue=e.target.value
         setDescription(descriptionValue);
 
@@ -94,19 +93,17 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         setFileName(file.name);
 
         compress.compress([...e.target.files], {
-            size: 4, // the max size in MB, defaults to 2MB
-            quality: .75, // the quality of the image, max is 1,
-            maxWidth: 1920, // the max width of the output image, defaults to 1920px
-            maxHeight: 1920, // the max height of the output image, defaults to 1920px
-            resize: true, // defaults to true, set false if you do not want to resize the image width and height
+            size: 4,
+            quality: .75, 
+            maxWidth: 1920,
+            maxHeight: 1920,
+            resize: true,
           }).then((data) => {
-              debugger;
               setFileData(data[0].data);
           })
     }
 
     const handleAddIngredientName=(e,index)=>{
-        debugger;
         let value=e.target.value;
         ingredients[index].name=value;
         setIngredients([...ingredients]);
@@ -135,11 +132,10 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     };
 
     const handleUpdateRecipe=(value)=>{
-        debugger;
         updateRecipeWithIngredients(value);
     };
+    
     const updateRecipeWithIngredients= async(value)=>{
-        debugger;
         if(formError)return;
 
         setIsInProgressUpdate('loading');
@@ -170,7 +166,6 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             recipeToUpdate.img.contentType= fileContentType;
         }
 
-debugger;
         const requestOptions = {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -178,8 +173,6 @@ debugger;
         };
         let resp = await fetch('/api/recipes/' + recipe._id, requestOptions);
         recipe = await resp.json();
-        
-        debugger;
 
         setIsInProgressUpdateBool(false);
         setIsInProgressUpdate('');

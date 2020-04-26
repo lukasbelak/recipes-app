@@ -32,7 +32,6 @@ const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=>
   };
 
   const handleResultSelect = (e, { result }) => {
-    debugger;
         setValue(result.title);
         getCategory(result.title);
     };

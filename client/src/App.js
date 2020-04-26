@@ -33,7 +33,6 @@ const App=()=> {
             value:cat.name
           });
         });
-        debugger;
         setCategoryOptions(data);
       }catch(err){
         console.log(err.message);
@@ -63,13 +62,11 @@ const App=()=> {
   };
 
   const onChangeSort=(e)=>{
-    debugger;
     let selectedValue = e.target.textContent;
     setSelectedSort(selectedValue);
   }
 
   const handleIsAscSort=()=>{
-    debugger;
     if(isAscSort===true){
       setIsAscSort(false);
     } else{
@@ -87,7 +84,6 @@ const App=()=> {
   };
 
   const onChangeCategory=(e)=>{
-    debugger;
     let selectedValue = e.target.textContent;
     setSelectedCategory(selectedValue);
   };

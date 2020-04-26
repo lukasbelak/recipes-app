@@ -7,8 +7,6 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
     const [isInProgressDeleteBool, setIsInProgressDeleteBool]=useState(false);
 
     const handleYesOption=()=>{
-        debugger;
-
         setIsInProgressDelete('loading');
         setIsInProgressDeleteBool(true);
 
@@ -18,11 +16,9 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
 
         fetch('/api/recipes/'+recipe._id, requestOptions)
         .then(resp=>{
-            debugger;
             resp.json();
         })
         .then((err)=>{
-            debugger;
             if(err && err.message){
                 console.log(err.message);
                 showMessage({

@@ -53,7 +53,6 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
             },
             youtube: youtubeParser(youtube)
         };
-debugger;
 
         let ings=[];
         ingredients.forEach(ing=>{
@@ -187,7 +186,6 @@ debugger;
     };
 
     const getCategory=(value)=>{
-        debugger;
         let categoryValue=value;
         setCategory(categoryValue);
 
@@ -209,13 +207,12 @@ debugger;
         setFileName(file.name);
 
         compress.compress([...e.target.files], {
-            size: 4, // the max size in MB, defaults to 2MB
-            quality: .75, // the quality of the image, max is 1,
-            maxWidth: 1920, // the max width of the output image, defaults to 1920px
-            maxHeight: 1920, // the max height of the output image, defaults to 1920px
-            resize: true, // defaults to true, set false if you do not want to resize the image width and height
+            size: 4,
+            quality: .75,
+            maxWidth: 1920,
+            maxHeight: 1920,
+            resize: true,
           }).then((data) => {
-              debugger;
               setFileData(data[0].data);
           })
     }

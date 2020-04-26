@@ -32,8 +32,7 @@ router.get('/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{
 
           console.log('before get '+req.params.category);
           await Recipe.paginate(query,options, (err, result) => {
-            debugger;
-            console.log('in get');  
+            console.log('in get'); 
             res.json(result);
             });
     }catch(err){
@@ -75,7 +74,6 @@ router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort/:category',async(re
           }
 
           await Recipe.paginate(query, options, (err, result)=>{
-            debugger;
             res.json(result);
             });
     }catch(err){
@@ -103,7 +101,6 @@ const createRecipe = (recipe) => {
 
 // @route POST api/recipes
 router.post('/', async(req,res,next)=>{
-    //console.log(req.body.youtube);
     let youtube=req.body.youtube!=='false'?req.body.youtube:null
 
     let newRecipe={
@@ -111,8 +108,7 @@ router.post('/', async(req,res,next)=>{
         description:req.body.description,
         category: req.body.category,
         youtube: youtube,
-        img:null,
-        // ingredients:req.body.ingredients
+        img:null
     };
 
     let ings=[];
@@ -151,19 +147,22 @@ router.patch('/:id', async(req,res)=>{
 
         let query = {$set: {}};
         for (let key in req.body) {
-            console.log('key:' + key);
-            console.log('val: ' +req.body[key]);
-            if (recipe[key] !== req.body[key]  ) { //recipe[key] && 
-                console.log(key+' is there')
+            console.log('Key: '+key);
+            if (recipe[key] !== req.body[key] && key!=='img') {
                 query.$set[key] = req.body[key];
-            }else{
-                console.log(key+' not there');
             }
         }
-        console.log('recipe:'+recipe);
-console.log('queryBody:'+req.body.description);
+
+        if(req.body.img){
+            let imgData = Buffer.from(req.body.img.data,"base64");
+            query.$set['img']={
+                data: imgData,
+                contentType:req.body.img.contentType
+            }
+        }
+
         await Recipe.findOneAndUpdate({_id: req.params.id}, query,{new:true},(err, recipe)=>{
-            console.log('created:'+recipe);
+                console.log('created:'+recipe);
                 res.json(recipe);
         });
     }catch(err){

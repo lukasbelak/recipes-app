@@ -5,7 +5,6 @@ import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
 
 const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,reloadList,showMessage}) => {
-    //debugger;
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
     const [viewRecipe, setViewRecipe]=useState(recipe);
     const [openDeleteRecipeModal, setOpenDeleteRecipeModal]=useState(false);
@@ -27,12 +26,10 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,rel
     };
 
     const handleDeleteRecipe=()=>{
-        debugger;
         setOpenDeleteRecipeModal(true);
     };
 
     const cancelDeleteRecipeModal=(isDeleted)=>{
-        debugger;
         setOpenDeleteRecipeModal(false);
         if(isDeleted){
             cancelViewRecipeModal(true);
