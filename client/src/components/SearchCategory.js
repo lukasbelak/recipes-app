@@ -13,6 +13,10 @@ const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=>
       getCategories();
   },[isNewCategory]);
   
+  useEffect(()=>{
+    setValue(defaultValue);
+  },[defaultValue]);
+
   const getCategories=async ()=>{
       const resp = await fetch('/api/categories');
 
