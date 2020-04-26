@@ -8,6 +8,7 @@ const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=>
   const [results, setResults]=useState([]);
   const [value, setValue]=useState(defaultValue);
   const [categories, setCategories]=useState([]);
+  const [isCategoryError, setIsCategoryError]=useState(categoryError);
   
   useEffect(()=>{
       getCategories();
@@ -39,6 +40,10 @@ const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=>
   const handleSearchChange = (e, { value }) => {
     setIsLoading(true);
     setValue(value);
+    getCategory(value);
+    if(value===''){
+      setIsCategoryError(true);
+    }
 
     setTimeout(() => {
       if (value.length < 1) {
@@ -56,7 +61,7 @@ const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=>
   };
 
     return (
-          <Search className={`${categoryError && value==='' ? 'error':''} required field category-search`}
+          <Search className={`${isCategoryError && value==='' ? 'error':''} required field category-search`}
             loading={isLoading}
             onResultSelect={handleResultSelect}
             onSearchChange={_.debounce(handleSearchChange, 500, {

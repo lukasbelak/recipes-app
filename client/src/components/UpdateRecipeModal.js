@@ -139,7 +139,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         updateRecipeWithIngredients(value);
     };
     const updateRecipeWithIngredients= async(value)=>{
-
+        debugger;
         if(formError)return;
 
         setIsInProgressUpdate('loading');
