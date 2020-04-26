@@ -46,7 +46,6 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
         const recipe = {
             name:name,
             description: description,
-            // ingredients: ingredients,
             category: category,
             img: {
                 data:fileData,

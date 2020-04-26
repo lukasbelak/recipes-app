@@ -180,16 +180,6 @@ debugger;
         recipe = await resp.json();
         
         debugger;
-        // setNameError(true);
-        // setCategoryError(true);
-        // setDescriptionError(true);
-        // setFormError(true);
-
-        // setIngredients([]);
-        // setName('');
-        // setDescription('');
-        // setCategory('');
-        // setYoutube('');
 
         setIsInProgressUpdateBool(false);
         setIsInProgressUpdate('');
@@ -198,17 +188,6 @@ debugger;
     };
 
     const handleCancelView = ()=> {
-        // setIngredients([]);
-        // setName('');
-        // setDescription('');
-        // setCategory('');
-        // setYoutube('');
-
-        // setNameError(true);
-        // setCategoryError(true);
-        // setDescriptionError(true);
-        // setFormError(true);
-
         cancelUpdateRecipeModal();
     };
 
