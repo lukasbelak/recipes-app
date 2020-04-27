@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import {Container,Header,Menu,Responsive,Image} from 'semantic-ui-react';
 import AdminCategories from '../components/AdminCategories';
 import AdminRecipes from '../components/AdminRecipes';
+import './Admin.css';
 
 const Admin = () => {
 
@@ -31,7 +32,7 @@ const Admin = () => {
                 </Container>
             </Menu>
 
-            <Container style={isCategoriesVisible?{ display: 'block',marginTop:'8em' }:{display:'none'}}>
+            <Container  style={isCategoriesVisible?{ display: 'block',marginTop:'8em' }:{display:'none'}}>
                 <AdminCategories />
             </Container>
 
