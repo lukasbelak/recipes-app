@@ -35,6 +35,7 @@ const LoginForm = () => {
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='olive' textAlign='center'>
+                <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
                 Log-in to your account
             </Header>
             <Form size='large'>
