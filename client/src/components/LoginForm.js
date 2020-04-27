@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom';
 const LoginForm = () => {
 
     const [isRedirectToHome,setIsRedirectToHome]=useState(false);
+    const [userEmail,setUserEmail]=useState('');
+    const [userPassword, setUserPassword]=useState('');
 
     const redirectToHome=()=>{
         if(isRedirectToHome){
@@ -18,13 +20,14 @@ const LoginForm = () => {
     };
 
     const userOnChange=(e)=>{
-
+        var userEmailValue = e.target.value;
+        setUserEmail(userEmailValue);
     };
 
     const passwordOnChange=(e)=>{
-
+        var userPasswordValue = e.target.value;
+        setUserPassword(userPasswordValue);
     };
-
 
     return(
         <div>
@@ -36,19 +39,19 @@ const LoginForm = () => {
             </Header>
             <Form size='large'>
                 <Segment stacked>
-                <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' onChange={userOnChange} />
-                <Form.Input
-                    fluid
-                    icon='lock'
-                    iconPosition='left'
-                    placeholder='Password'
-                    type='password'
-                    onChange={passwordOnChange}
-                />
+                    <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' onChange={userOnChange} />
+                    <Form.Input
+                        fluid
+                        icon='lock'
+                        iconPosition='left'
+                        placeholder='Password'
+                        type='password'
+                        onChange={passwordOnChange}
+                    />
 
-                <Button color='olive' fluid size='large' onClick={handleLogin}>
-                    Login
-                </Button>
+                    <Button color='olive' fluid size='large' onClick={handleLogin}>
+                        Login
+                    </Button>
                 </Segment>
             </Form>
             <Message style={{width:"100%"}}>

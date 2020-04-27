@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-//import './App.css';
 import NewRecipeModal from '../components/NewRecipeModal';
 import {Dropdown,Button, Icon,Message} from 'semantic-ui-react';
-//import 'semantic-ui-css/semantic.min.css';
-//import 'hover.css';
 import {sortByOptions} from '../enums';
 import RecipesList from '../components/RecipesList';
 
