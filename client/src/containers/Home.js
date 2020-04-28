@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import NewRecipeModal from '../components/NewRecipeModal';
-import {Dropdown,Button, Icon,Message} from 'semantic-ui-react';
+import {Dropdown,Button, Icon,Message,Popup,Grid} from 'semantic-ui-react';
 import {sortByOptions} from '../enums';
 import RecipesList from '../components/RecipesList';
 
@@ -128,6 +129,18 @@ const Home=()=> {
               />
             </span>
         </div>
+        <div>
+          <Popup position='bottom right' wide trigger={<Button  circular floated content='U' />} on='click'>
+            <Grid divided columns='equal'>
+              <Grid.Row>
+                <Button color='blue' content='Admin' fluid as={Link} to='/admin' />
+              </Grid.Row>
+              <Grid.Row>
+                <Button color='red' content='Log out' fluid />
+              </Grid.Row>
+            </Grid>
+          </Popup>
+          </div>
       </form>
 
       <RecipesList
