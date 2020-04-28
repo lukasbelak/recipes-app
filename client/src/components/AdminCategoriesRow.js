@@ -1,15 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {Table,Checkbox,Button,Icon} from 'semantic-ui-react';
 
-const AdminCategoriesRow =({name,setIsLoading,handleDeleted,handleChecked,isChecked}) =>{
-
-    //const [isCatChecked,setIsCatChecked]=useState(isChecked);
-
-    const handleCheck=(e,data)=>{
-        debugger;
-        //setIsCatChecked(data.checked);
-        handleChecked(data.checked,e.target.parentNode.parentNode.parentNode.children[1].innerText);
-    }
+const AdminCategoriesRow =({category, isItemSelected,handleSelect,setIsLoading,handleDeleted}) =>{
 
     const handleDelete=()=>{
         debugger;
@@ -19,7 +11,7 @@ const AdminCategoriesRow =({name,setIsLoading,handleDeleted,handleChecked,isChec
             method: 'DELETE'
         };
 
-        fetch('/api/categories/byname/'+name, requestOptions)
+        fetch('/api/categories/byname/'+category.name, requestOptions)
         .then(resp=>{
             resp.json();
         })
@@ -33,13 +25,18 @@ const AdminCategoriesRow =({name,setIsLoading,handleDeleted,handleChecked,isChec
     };
 
     return (
-            <Table.Row key={name}>
-                <Table.Cell><Checkbox style={{margin:'0px 15px'}} checked={isChecked} fitted onChange={handleCheck} /></Table.Cell>
-                <Table.Cell>{name}</Table.Cell>
-                <Table.Cell>
-                    <Button icon circular color='red' style={{margin:'0px 15px'}} onClick={handleDelete}><Icon name='delete' color='white' /></Button>
-                </Table.Cell>
-            </Table.Row>
+            <Table.Row key={category.id}>
+                        <Table.Cell>
+                            <Checkbox
+                            checked={isItemSelected(category.id)}
+                            onChange={() => handleSelect(category.id)}
+                            />
+                        </Table.Cell>
+                        <Table.Cell>{category.name}</Table.Cell>
+                        <Table.Cell>
+                            <Button icon circular color='red' style={{margin:'0px 15px'}} onClick={handleDelete}><Icon name='delete' color='white' /></Button>
+                        </Table.Cell>
+                        </Table.Row>
     );
 }
 

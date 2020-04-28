@@ -1,19 +1,33 @@
 import React, { useState,useEffect } from 'react';
 import _ from 'lodash';
-import {Table,Checkbox,Button,Icon,Dimmer,Loader} from 'semantic-ui-react';
+import {Table,Checkbox,Button,Icon,Dimmer,Loader,Segment} from 'semantic-ui-react';
 import AdminCategoriesRow from './AdminCategoriesRow';
+import withSelections from "react-item-select";
 
-const AdminCategories=()=>{
+const AdminCategories=({
+    areAnySelected,
+    selectedCount,
+    handleClearAll,
+    areAllSelected,
+    areAllIndeterminate,
+    handleSelectAll,
+    isItemSelected,
+    handleSelect
+  })=>{
 
     const [column, setColumn]=useState('');
     const [data,setData]=useState([]);
     const [direction,setDirection]=useState('');
     const [isDeleteDisabled, setIsDeleteDisabled]=useState(true);
-    const [checkedCategories, setCheckedCateories]=useState([]); 
     const [isLoading, setIsLoading]=useState(true);
     const [wasDeleted, setWasDeleted]=useState(0);
-    const [isCheckedAll, setIsCheckedAll]=useState(false);
     
+    const segmentStyle = {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      };
+
     useEffect(()=>{
         const getCategories =async()=>{
             setIsLoading(true);
@@ -24,7 +38,7 @@ const AdminCategories=()=>{
             cats.forEach(cat=>{
                 categories.push({
                 name:cat.name,
-                checked:false
+                id:cat._id
               });
             });
             setData(categories);
@@ -56,74 +70,47 @@ const AdminCategories=()=>{
         setDirection(direction === 'ascending' ? 'descending' : 'ascending');
       }
 
-      const handleChecked=(isChecked,name)=>{
-          debugger;
-          let cat = {name:name};
-          if(isChecked){
-            setCheckedCateories([...checkedCategories, cat]);
-            setIsDeleteDisabled(false);
-          }else{
-            for (var i = checkedCategories.length - 1; i >= 0; --i) {
-                if (checkedCategories[i].name === name) {
-                    checkedCategories.splice(i,1);
-                }
-            }
-            setCheckedCateories([...checkedCategories]);
-
-            if(checkedCategories.length<=0){
-                setIsDeleteDisabled(true);
-            }
-        }
-      }
-
-      const handleCheckAll=(e,dt)=>{
-          debugger;
-        setIsCheckedAll(dt.checked);
-
-        if(dt.checked){
-            let checkedCats=[];
-            data.forEach(cat=>{
-                checkedCats.push({name:cat.name, checked:true});
-                setCheckedCateories([...checkedCategories, {name:cat.name}]);
-            });
-            setData(checkedCats);
-        }else{
-            let checkedCats=[];
-            data.forEach(cat=>{
-                checkedCats.push({name:cat.name, checked:false});
-                for (var i = checkedCategories.length - 1; i >= 0; --i) {
-                    if (checkedCategories[i].name === cat.name) {
-                        checkedCategories.splice(i,1);
-                    }
-                }
-                setCheckedCateories([...checkedCategories]);
-            });
-            setData(checkedCats);
-        }
-      };
-
     return (
         <div>
             <Dimmer active={isLoading} inverted>
                 <Loader size='huge'>Loading...</Loader>
             </Dimmer>
 
+            <Segment textAlign="left" style={segmentStyle}>
+                {!areAnySelected && <span>Select items in the table below</span>}
+                <div style={{ visibility: areAnySelected ? "visible" : "hidden" }}>
+                    <span style={{ marginRight: "8px" }}>{selectedCount} selected</span>
+                    <Button basic onClick={handleClearAll}>
+                        Clear
+                    </Button>
+                </div>
+                <div>
+                    <span>{data.length} Categories</span>
+                </div>
+            </Segment>
             <Table sortable fixed celled collapsing>
                 <Table.Header >
                 <Table.Row>
-                    <Table.HeaderCell width={1} ><Checkbox checked={isCheckedAll} style={{margin:'0px 15px'}} fitted onChange={handleCheckAll} /></Table.HeaderCell>
+                    <Table.HeaderCell width={1} >
+                        <Checkbox
+                            checked={areAllSelected(data)}
+                            indeterminate={areAllIndeterminate(data)}
+                            onChange={() => handleSelectAll(data)}
+                        />
+                        </Table.HeaderCell>
                     <Table.HeaderCell width={14} sorted={column === 'name' ? direction : null}onClick={handleSort('name')}>Name</Table.HeaderCell>
                     <Table.HeaderCell width={1}></Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {_.map(data, ({ name,checked }) => (
-                        <AdminCategoriesRow 
-                            name={name} 
-                            setIsLoading={setIsLoading}
-                            handleDeleted={handleDeleted}
-                            handleChecked={handleChecked}
-                            isChecked={checked}/>
+                     {data.map(category => (
+                         <AdminCategoriesRow
+                         category={category}
+                         isItemSelected={isItemSelected}
+                         handleSelect={handleSelect}
+                         setIsLoading={setIsLoading}
+                         handleDeleted={handleDeleted}
+                         />
                     ))}
                 </Table.Body>
                 <Table.Footer fullWidth>
@@ -139,7 +126,7 @@ const AdminCategories=()=>{
                     >
                         <Icon name='add' /> New Category
                     </Button>
-                    <Button size='small' color='red' disabled={isDeleteDisabled}>Delete</Button>
+                    <Button size='small' color='red' disabled={!areAnySelected}>Delete</Button>
                     </Table.HeaderCell>
                 </Table.Row>
                 </Table.Footer>
@@ -148,4 +135,4 @@ const AdminCategories=()=>{
     );
 };
 
-export default AdminCategories;
+export default withSelections(AdminCategories);
