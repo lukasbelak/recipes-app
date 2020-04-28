@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Recipe = require('../../models/Recipe');
 
+// @route GET api/recipes/
+router.get('/',async(req,res)=>{ 
+    try{
+        await Recipe.find().then(recipes => res.json(recipes));
+    }catch(err){
+        console.log(err.message);
+        res.json({message:err.message});
+    }
+});
+
 // @route GET api/recipes/:activePage/:sortBy/:isAscSort/:category
 router.get('/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{ 
     try{
@@ -22,7 +32,7 @@ router.get('/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{
               case 'Name': options.sort={name: isAsc}; break;
               case 'Category': options.sort={category: isAsc}; break;
               case 'Date': options.sort={date: isAsc}; break;
-              default:break;
+              default: options.sort={name: isAsc};break;
           }
 
           let query={};
@@ -62,7 +72,7 @@ router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort/:category',async(re
               case 'Name': options.sort={name: isAsc}; break;
               case 'Category': options.sort={category: isAsc}; break;
               case 'Date': options.sort={date: isAsc}; break;
-              default:break;
+              default: options.sort={name: isAsc}; break;
           }
 
           let query={name :new RegExp(filter, 'i')};

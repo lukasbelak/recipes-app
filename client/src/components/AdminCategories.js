@@ -162,27 +162,27 @@ const AdminCategories=({
                     ))}
                 </Table.Body>
                 <Table.Footer fullWidth>
-                <Table.Row>
-                    <Table.HeaderCell />
-                    <Table.HeaderCell colSpan='4'>
-                    <Button
-                        floated='right'
-                        icon
-                        labelPosition='left'
-                        color='green'
-                        size='small'
-                        onClick={handleAddCategory}
-                    >
-                        <Icon name='add' /> New Category
-                    </Button>
-                    <NewCategoryModal
-                            openNewCategoryModal={openNewCategoryModal}
-                            cancelNewCategoryModal={cancelNewCategoryModal}
-                            reloadCategories={reloadCategories}
-                            />
-                    <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Delete</Button>
-                    </Table.HeaderCell>
-                </Table.Row>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell colSpan='4'>
+                        <Button
+                            floated='right'
+                            icon
+                            labelPosition='left'
+                            color='green'
+                            size='small'
+                            onClick={handleAddCategory}
+                        >
+                            <Icon name='add' /> New Category
+                        </Button>
+                        <NewCategoryModal
+                                openNewCategoryModal={openNewCategoryModal}
+                                cancelNewCategoryModal={cancelNewCategoryModal}
+                                reloadCategories={reloadCategories}
+                                />
+                        <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Delete</Button>
+                        </Table.HeaderCell>
+                    </Table.Row>
                 </Table.Footer>
             </Table>
         </div>
