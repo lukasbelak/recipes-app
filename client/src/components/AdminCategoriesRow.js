@@ -34,7 +34,7 @@ const AdminCategoriesRow =({category, isItemSelected,handleSelect,setIsLoading,h
                         </Table.Cell>
                         <Table.Cell>{category.name}</Table.Cell>
                         <Table.Cell>
-                            <Button icon circular color='red' style={{margin:'0px 15px'}} onClick={handleDelete}><Icon name='delete' color='white' /></Button>
+                            <Button icon circular color='red' style={{margin:'0px 15px'}} onClick={handleDelete}><Icon name='delete' /></Button>
                         </Table.Cell>
                         </Table.Row>
     );

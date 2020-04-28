@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {Table,Checkbox,Button,Icon,Dimmer,Loader,Segment} from 'semantic-ui-react';
 import AdminCategoriesRow from './AdminCategoriesRow';
 import withSelections from "react-item-select";
+import NewCategoryModal from './NewCategoryModal';
 
 const AdminCategories=({
     areAnySelected,
@@ -12,15 +13,16 @@ const AdminCategories=({
     areAllIndeterminate,
     handleSelectAll,
     isItemSelected,
-    handleSelect
+    handleSelect,
+    selections
   })=>{
 
     const [column, setColumn]=useState('');
     const [data,setData]=useState([]);
     const [direction,setDirection]=useState('');
-    const [isDeleteDisabled, setIsDeleteDisabled]=useState(true);
     const [isLoading, setIsLoading]=useState(true);
-    const [wasDeleted, setWasDeleted]=useState(0);
+    const [isReload, setIsReload]=useState(0);
+    const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
     
     const segmentStyle = {
         display: "flex",
@@ -50,10 +52,15 @@ const AdminCategories=({
         };
     
         getCategories();
-      },[wasDeleted]);
+      },[isReload]);
+
+      const cancelNewCategoryModal=()=>{
+        setOpenNewCategoryModal(false);
+    };
 
       const handleDeleted=()=>{
-        setWasDeleted(wasDeleted+1);
+        setIsReload(isReload+1);
+        handleClearAll();
       };
 
       const handleSort = (clickedColumn) => () => {    
@@ -70,8 +77,48 @@ const AdminCategories=({
         setDirection(direction === 'ascending' ? 'descending' : 'ascending');
       }
 
+      const handleDelete=()=>{
+        debugger;
+        let itemArray=Object.entries(selections);
+        let items=[];
+        itemArray.forEach(i=>{
+            items.push(i[0]);
+        });
+
+        const requestOptions = {
+            method: 'DELETE'
+        };
+
+        debugger;
+
+        items.forEach(item=>{
+            setIsLoading(true);
+
+            fetch('/api/categories/byid/'+item, requestOptions)
+            .then(resp=>{
+                resp.json();
+            })
+            .then((err)=>{
+                setIsLoading(false);
+                handleDeleted();
+                if(err && err.message){
+                    console.log(err.message);
+                }
+            });
+        });
+      };
+
+      const handleAddCategory=()=>{
+        setOpenNewCategoryModal(true);
+        };
+
+    const reloadCategories=()=>{
+        setIsReload(isReload+1);
+        handleClearAll();
+    }
+
     return (
-        <div>
+        <div style={{margin:'auto',width:'700px'}}>
             <Dimmer active={isLoading} inverted>
                 <Loader size='huge'>Loading...</Loader>
             </Dimmer>
@@ -85,7 +132,7 @@ const AdminCategories=({
                     </Button>
                 </div>
                 <div>
-                    <span>{data.length} Categories</span>
+                    {data.length===1?<span>{data.length} Category</span>:<span>{data.length} Categories</span>}
                 </div>
             </Segment>
             <Table sortable fixed celled collapsing>
@@ -105,6 +152,7 @@ const AdminCategories=({
                 <Table.Body>
                      {data.map(category => (
                          <AdminCategoriesRow
+                         key={category.id}
                          category={category}
                          isItemSelected={isItemSelected}
                          handleSelect={handleSelect}
@@ -123,10 +171,16 @@ const AdminCategories=({
                         labelPosition='left'
                         color='green'
                         size='small'
+                        onClick={handleAddCategory}
                     >
                         <Icon name='add' /> New Category
                     </Button>
-                    <Button size='small' color='red' disabled={!areAnySelected}>Delete</Button>
+                    <NewCategoryModal
+                            openNewCategoryModal={openNewCategoryModal}
+                            cancelNewCategoryModal={cancelNewCategoryModal}
+                            reloadCategories={reloadCategories}
+                            />
+                    <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Delete</Button>
                     </Table.HeaderCell>
                 </Table.Row>
                 </Table.Footer>

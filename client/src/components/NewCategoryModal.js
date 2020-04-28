@@ -31,7 +31,7 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
                 console.log(err.message);
             }
 
-            getCategory(name);
+            if(getCategory!==undefined)getCategory(name);
             reloadCategories();
 
             setName('');
