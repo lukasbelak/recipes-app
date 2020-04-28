@@ -56,6 +56,13 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
         }
     };
 
+    const enterPressed=(event)=> {
+        var code = event.keyCode || event.which;
+        if(code === 13) { //13 is the enter keycode
+            handleCreateOption();
+        } 
+    }
+
     return (
         <div>
             <Modal size='tiny' 
@@ -70,7 +77,7 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
                     <Form className={isInProgressCreate}>
                         <Form.Field>
                             <label className='requiredField'>Name</label>
-                            <input type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} required={true} />
+                            <input type="text" value={name} autoFocus onChange={updateName} onKeyPress={enterPressed} placeholder='Name' error={nameError} required={true} />
                         </Form.Field>
                     </Form>
                 </Modal.Content>
