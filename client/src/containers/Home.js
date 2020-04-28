@@ -17,6 +17,7 @@ const Home=()=> {
   const [isAscSort, setIsAscSort] = useState(true); 
   const [message, setMessage]=useState({});
   const [messageVisibility,setMessageVisibility]=useState('hidden');
+  const [connectedUser, setConnectedUser]=useState('Lukas'); // TODO
 
   useEffect(()=>{
     const getCategories =async()=>{
@@ -96,6 +97,10 @@ const Home=()=> {
         </Message>
       </div>
 
+<Grid>
+  <Grid.Row columns={3}>
+    <Grid.Column></Grid.Column>
+  <Grid.Column>
       <form className="search-form" onSubmit={getSearch}>
       
         <div className="ui action input">
@@ -129,8 +134,11 @@ const Home=()=> {
               />
             </span>
         </div>
+        </form>
+        </Grid.Column>
+        <Grid.Column>
         <div>
-          <Popup position='bottom right' wide trigger={<Button  circular floated content='U' />} on='click'>
+          <Popup position='bottom right' wide trigger={<div className='account-form'><Button color='yellow' circular floated content={connectedUser} /></div>} on='click'>
             <Grid divided columns='equal'>
               <Grid.Row>
                 <Button color='blue' content='Admin' fluid as={Link} to='/admin' />
@@ -141,8 +149,9 @@ const Home=()=> {
             </Grid>
           </Popup>
           </div>
-      </form>
-
+          </Grid.Column>
+</Grid.Row>
+</Grid>
       <RecipesList
         query={query}
         isAscSort={isAscSort}
