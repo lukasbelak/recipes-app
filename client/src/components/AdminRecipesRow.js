@@ -1,6 +1,7 @@
 import React from 'react';
-import {Table,Checkbox,Button,Icon} from 'semantic-ui-react';
+import {Table,Checkbox,Button,Icon,Popup} from 'semantic-ui-react';
 import Moment from 'react-moment';
+import {textEllipsis} from '../utils';
 
 const AdminRecipesRow =({recipe, isItemSelected,handleSelect,setIsLoading,handleDeleted}) =>{
 
@@ -36,7 +37,8 @@ const AdminRecipesRow =({recipe, isItemSelected,handleSelect,setIsLoading,handle
                         <Table.Cell>{recipe.name}</Table.Cell>
                         <Table.Cell>{recipe.category}</Table.Cell>
                         <Table.Cell>{recipe.youtube!==''?'https://www.youtube.com/watch?v='+recipe.youtube:''}</Table.Cell>
-                        <Table.Cell>{recipe.description}</Table.Cell>
+                        <Popup flowing content={recipe.description !==''?recipe.description:''} trigger={<Table.Cell>{recipe.description !==''?textEllipsis(recipe.description,15):''}</Table.Cell>} />
+                        
                         <Table.Cell><Moment format='DD/MM/YYYY hh:mm:ss'>{recipe.createdOn}</Moment></Table.Cell>
                         <Table.Cell>
                             <Button icon circular color='red' style={{margin:'0px 15px'}} onClick={handleDelete}><Icon name='delete' /></Button>
