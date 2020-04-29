@@ -14,6 +14,8 @@ const recipes = require('./routes/api/recipes');
 app.use('/api/recipes', recipes);
 const categories = require('./routes/api/categories');
 app.use('/api/categories', categories);
+const users = require('./routes/api/users');
+app.use('/api/users', users);
 
 const uri = process.env.DB_CONNECTION;
 const mongoose = require('mongoose');
