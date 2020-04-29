@@ -1,204 +1,25 @@
-const express = require('express');
-const router = express.Router();
-const Recipe = require('../../models/Recipe');
+const router = require('express-promise-router')();
+const RecipesController = require('../../controllers/recipes');
 
-// @route GET api/recipes/
-router.get('/',async(req,res)=>{ 
-    try{
-        await Recipe.find().then(recipes => res.json(recipes));
-    }catch(err){
-        console.log(err.message);
-        res.json({message:err.message});
-    }
-});
+// @route GET api/recipes/getAll
+router.route('/').get(RecipesController.getAll); 
 
 // @route GET api/recipes/:activePage/:sortBy/:isAscSort/:category
-router.get('/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{ 
-    try{
-        const sortByValue = req.params.sortBy;
-        let isAscSort = req.params.isAscSort;
-
-        const options = {
-            page: req.params.activePage,
-            limit: 12,
-            collation: {
-              locale: 'en'
-            }
-          };
-
-          let isAsc = isAscSort === 'true' ? 'asc': 'desc';
-          switch(sortByValue)
-          {
-              case 'Name': options.sort={name: isAsc}; break;
-              case 'Category': options.sort={category: isAsc}; break;
-              case 'Date': options.sort={date: isAsc}; break;
-              default: options.sort={name: isAsc};break;
-          }
-
-          let query={};
-          if(req.params.category!=='All'){
-            query={category:req.params.category}
-          }
-
-          console.log('before get '+req.params.category);
-          await Recipe.paginate(query,options, (err, result) => {
-            console.log('in get'); 
-            res.json(result);
-            });
-    }catch(err){
-        console.log(err.message);
-        res.json({message:err.message});
-    }
-});
+router.route('/:activePage/:sortBy/:isAscSort/:category').get(RecipesController.get);
 
 // @route GET api/recipes/bysearch/:search/:activePage/:sortBy/:isAscSort/:category
-router.get('/bysearch/:search/:activePage/:sortBy/:isAscSort/:category',async(req,res)=>{
-    try{
-        let filter = req.params.search;
-        let sortByValue = req.params.sortBy;
-        let isAscSort = req.params.isAscSort;
-
-        const options = {
-            page: req.params.activePage,
-            limit: 12,
-            collation: {
-              locale: 'en'
-            }
-          };
-
-          let isAsc = isAscSort === 'true' ? 'asc': 'desc';
-          switch(sortByValue)
-          {
-              case 'Name': options.sort={name: isAsc}; break;
-              case 'Category': options.sort={category: isAsc}; break;
-              case 'Date': options.sort={date: isAsc}; break;
-              default: options.sort={name: isAsc}; break;
-          }
-
-          let query={name :new RegExp(filter, 'i')};
-          if(req.params.category!=='All'){
-            query={
-                name :new RegExp(filter, 'i'),
-                category:req.params.category
-            }
-          }
-
-          await Recipe.paginate(query, options, (err, result)=>{
-            res.json(result);
-            });
-    }catch(err){
-        console.log(err.message);
-        res.json({message:err.message});
-    }
-});
+router.route('/bysearch/:search/:activePage/:sortBy/:isAscSort/:category').get(RecipesController.getBySearch);
 
 // @route GET api/recipes/byid/:id
-router.get('/byid/:id',async(req,res)=>{
-    try{
-        await Recipe.findById(req.params.id)
-            .then(recipe=>res.json(recipe))
-
-    }catch(err){
-        console.log(err.message);
-        res.json({message:err.message});
-    }
-});
-
-const createRecipe = (recipe) => {
-    return Recipe.create(recipe).then(docRecipe => {
-        return docRecipe;});
-};
+router.route('/byid/:id').get(RecipesController.getById);
 
 // @route POST api/recipes
-router.post('/', async(req,res,next)=>{
-    let youtube=req.body.youtube!=='false'?req.body.youtube:null
-
-    let newRecipe={
-        name:req.body.name,
-        description:req.body.description,
-        category: req.body.category,
-        youtube: youtube,
-        img:null
-    };
-
-    let ings=[];
-    req.body.ingredients.forEach(ing=>{
-        if(ing.name!==''){
-            ings.push(ing);
-        }
-    });
-
-    newRecipe.ingredients=ings;
-
-    //console.log(req.body.img);
-    if(req.body.img.data && req.body.img.contentType){
-        let imgData = Buffer.from(req.body.img.data,"base64");
-        newRecipe.img={
-            data: imgData,
-            contentType: req.body.img.contentType
-        };
-    }
-
-    try{
-        let recipe = await createRecipe(newRecipe);
-
-        res.json(recipe._id);
-    }catch(err){
-        console.log(err.message);
-        res.json({message:err.message});
-    }
-});
+router.route('/').post(RecipesController.create);
 
 // @route PATCH api/recipes/:id
-router.patch('/:id', async(req,res)=>{
-    try{
-        const recipe = await Recipe.findById(req.params.id);
-        if (!recipe) return res.status(404).send('The recipe with the given ID was not found.');
-
-        let query = {$set: {}};
-        for (let key in req.body) {
-            console.log('Key: '+key);
-            if (recipe[key] !== req.body[key] && key!=='img') {
-                query.$set[key] = req.body[key];
-            }
-        }
-
-        if(req.body.img){
-            let imgData = Buffer.from(req.body.img.data,"base64");
-            query.$set['img']={
-                data: imgData,
-                contentType:req.body.img.contentType
-            }
-        }
-
-        await Recipe.findOneAndUpdate({_id: req.params.id}, query,{new:true},(err, recipe)=>{
-                console.log('created:'+recipe);
-                res.json(recipe);
-        });
-    }catch(err){
-        console.log(err.message);
-        res.json({message:err.message});
-    }
-});
+router.route('/:id').patch(RecipesController.update);
 
 // @route DELETE api/recipes/:id
-router.delete('/:id',async(req,res,next)=>{
-    try{
-        await Recipe.findById({_id:req.params.id})
-        .then(recipe=>{
-            Recipe.deleteMany({recipe:recipe._id}, (err, result)=>{
-                if(err) {
-                    console.log(err.message);
-                    res.json(err.message);
-                } else {
-                    recipe.deleteOne();
-                    res.json(recipe);
-                }
-            });
-        });
-    }catch(err){
-        res.json({message:err.message});
-    }
-});
+router.route('/:id').delete(RecipesController.delete);
 
 module.exports=router;
