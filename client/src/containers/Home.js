@@ -138,7 +138,7 @@ const Home=()=> {
         </Grid.Column>
         <Grid.Column>
         <div>
-          <Popup position='bottom right' wide trigger={<div className='account-form'><Button color='yellow' circular floated content={connectedUser} /></div>} on='click'>
+          {/* <Popup position='bottom right' wide trigger={<div className='account-form'><Button color='yellow' circular floated content={connectedUser} /></div>} on='click'>
             <Grid divided columns='equal'>
               <Grid.Row>
                 <Button color='blue' content='Admin' fluid as={Link} to='/admin' />
@@ -147,7 +147,26 @@ const Home=()=> {
                 <Button color='red' content='Log out' fluid />
               </Grid.Row>
             </Grid>
-          </Popup>
+          </Popup> */}
+          <div className='account-form'>
+          <Button.Group>
+            <Button color='yellow' circular floated>Lukas</Button>
+            <Dropdown
+              className='button icon'
+              floating
+              trigger={<React.Fragment />}
+            >
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Button color='blue' content='Admin' fluid as={Link} to='/admin'  />
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Button color='red' content='Log out' fluid  />
+                </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+          </Button.Group>
+          </div>
           </div>
           </Grid.Column>
 </Grid.Row>

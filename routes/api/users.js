@@ -7,3 +7,5 @@ router.route('/signin').post(UsersController.signIn);
 
 // @route POST api/users/signup
 router.route('/signup').post(validateBody(schemas.authSchema), UsersController.signUp);
+
+module.exports=router;
