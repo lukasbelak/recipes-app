@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Grid, Header, Message, Segment, Label,Image } from 'semantic-ui-react';
+import { Button, Form, Grid, Message, Segment, Label,Image } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import RegisterUserForm from './RegisterUserForm';
 import { ToastContainer } from 'react-toastify';
