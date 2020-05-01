@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Image, Message, Segment, Label } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
+import RegisterUserForm from './RegisterUserForm';
+import { ToastContainer, toast } from 'react-toastify';
 
 const LoginForm = () => {
 
     const [isRedirectToHome,setIsRedirectToHome]=useState(false);
-    const [userEmail,setUserEmail]=useState('');
-    const [userPassword, setUserPassword]=useState('');
+    const [userName,setUserName]=useState('');
+    const [password, setPassword]=useState('');
+    const [openSignUpModal,setOpenSignUpModal]=useState(false);
+    const [errorMessage,setErrorMessage]=useState('');
 
     const redirectToHome=()=>{
         if(isRedirectToHome){
@@ -16,27 +20,58 @@ const LoginForm = () => {
 
     const handleLogin=()=>{
         debugger;
-        setIsRedirectToHome(true);
+
+        setErrorMessage('');
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({userName:userName,password:password})
+        };
+
+        fetch('/api/users/signin', requestOptions)
+        .then(resp=>resp.json())
+        .then((result)=>{
+            debugger;
+            if(result.isError){
+                setErrorMessage(result.message);
+            }else{
+                setIsRedirectToHome(true);
+            }
+        })
+        .catch(err=>{
+            debugger;
+        });    
     };
 
     const userOnChange=(e)=>{
-        var userEmailValue = e.target.value;
-        setUserEmail(userEmailValue);
+        var userNameValue = e.target.value;
+        setUserName(userNameValue);
     };
 
     const passwordOnChange=(e)=>{
-        var userPasswordValue = e.target.value;
-        setUserPassword(userPasswordValue);
+        var passwordValue = e.target.value;
+        setPassword(passwordValue);
     };
+
+    const handleOpenSignUpModal=()=>{
+        setOpenSignUpModal(true);
+    };
+
+    const cancelSignupModal=()=>{
+        setOpenSignUpModal(false);
+    }
 
     return(
         <div>
+        <div className="login-blur App"></div>
+        <div className='login-form'>
             {redirectToHome()}
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as='h2' color='olive' textAlign='center'>
-                <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
-                Log-in to your account
+            <Header as='h2' color='green' textAlign='center'>
+                {/* <Image size="mini" src="https://react.semantic-ui.com/logo.png" /> */}
+                Log-in to Reciperaptor
             </Header>
             <Form size='large'>
                 <Segment stacked>
@@ -50,16 +85,35 @@ const LoginForm = () => {
                         onChange={passwordOnChange}
                     />
 
-                    <Button color='olive' fluid size='large' onClick={handleLogin}>
-                        Login
-                    </Button>
+                    <Button color='green' fluid size='large' onClick={handleLogin}>Login</Button>
+                    {errorMessage?<Label color='red' style={{textAlign:"center",margin:'10px'}}>{errorMessage}</Label>:<div></div>}
                 </Segment>
             </Form>
             <Message style={{width:"100%"}}>
-                New to us? <a href='/register'>Sign Up</a>
+                New to us? <Button onClick={handleOpenSignUpModal}>Sign Up</Button>
+                <RegisterUserForm
+                    openSignUpModal={openSignUpModal}
+                    cancelSignupModal={cancelSignupModal}
+                    setUserName={setUserName}
+                    setPassword={setPassword}
+                />
             </Message>
             </Grid.Column>
         </Grid>
+        </div>
+        <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            enableMultiContainer
+            containerId='loginFrom'
+            />
         </div>
     )
 };

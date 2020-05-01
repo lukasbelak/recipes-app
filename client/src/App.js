@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'hover.css';
 import Home from './containers/Home';

@@ -4,14 +4,15 @@ var mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10,
     // these values can be whatever you want - we're defaulting to a
     // max of 5 attempts, resulting in a 2 hour lock
-    MAX_LOGIN_ATTEMPTS = 5,
+    MAX_LOGIN_ATTEMPTS = 15,
     LOCK_TIME = 2 * 60 * 60 * 1000;
 
 var UserSchema = new Schema({
-    username: { type: String, required: true, index: { unique: true } },
+    userName: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
-    firstname: { type: String, required: true },
-    lastname: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    isActive: { type: Boolean, required: true, default: true },
     loginAttempts: { type: Number, required: true, default: 0 },
     lockUntil: { type: Number }
 });
@@ -73,8 +74,8 @@ var reasons = UserSchema.statics.failedLogin = {
     MAX_ATTEMPTS: 2
 };
 
-UserSchema.statics.getAuthenticated = function(username, password, cb) {
-    this.findOne({ username: username }, function(err, user) {
+UserSchema.statics.getAuthenticated = function(userName, password, cb) {
+    this.findOne({ userName: userName }, function(err, user) {
         if (err) return cb(err);
 
         // make sure the user exists
@@ -119,4 +120,5 @@ UserSchema.statics.getAuthenticated = function(username, password, cb) {
     });
 };
 
-module.exports = mongoose.model('User', UserSchema);
+// eslint-disable-next-line no-undef
+module.exports = User= mongoose.model('User', UserSchema);
