@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form, Grid, Header, Image, Message, Segment, Label } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Message, Segment, Label } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import RegisterUserForm from './RegisterUserForm';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const LoginForm = () => {
 
@@ -36,6 +36,7 @@ const LoginForm = () => {
             if(result.isError){
                 setErrorMessage(result.message);
             }else{
+                localStorage.setItem('userName', userName);
                 setIsRedirectToHome(true);
             }
         })

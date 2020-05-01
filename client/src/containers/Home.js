@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import NewRecipeModal from '../components/NewRecipeModal';
-import {Dropdown,Button, Icon,Message,Popup,Grid} from 'semantic-ui-react';
+import {Dropdown,Button, Icon,Message,Grid} from 'semantic-ui-react';
 import {sortByOptions} from '../enums';
 import RecipesList from '../components/RecipesList';
 
@@ -17,7 +17,37 @@ const Home=()=> {
   const [isAscSort, setIsAscSort] = useState(true); 
   const [message, setMessage]=useState({});
   const [messageVisibility,setMessageVisibility]=useState('hidden');
-  const [connectedUser, setConnectedUser]=useState('Lukas'); // TODO
+  const [connectedUser, setConnectedUser]=useState(''); 
+
+  useEffect(()=>{
+    
+    const getUser= async () => {
+      try{
+        const userName=localStorage.getItem('userName');
+        if(!userName) {
+          setConnectedUser('');
+          // TODO logout
+          return;
+        }
+
+        const resp = await fetch('/api/users/'+userName);
+        let result=await resp.json();
+
+debugger;
+
+        if(result.user){
+          setConnectedUser(result.user.firstName);
+        } else{
+          setConnectedUser('');
+        }
+      }catch(err){
+        console.log(err.message);
+        setConnectedUser('');
+      }
+    };
+
+    getUser();
+  },[]);
 
   useEffect(()=>{
     const getCategories =async()=>{
@@ -150,7 +180,7 @@ const Home=()=> {
           </Popup> */}
           <div className='account-form'>
           <Button.Group>
-            <Button color='yellow' circular floated>Lukas</Button>
+        <Button color='yellow' circular floated='right'>{connectedUser}</Button>
             <Dropdown
               className='button icon'
               floating

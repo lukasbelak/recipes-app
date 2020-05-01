@@ -8,4 +8,6 @@ router.route('/signup').post(validateBody(schemas.authSchema), UsersController.s
 // @route POST api/users/signin
 router.route('/signin').post(UsersController.signIn);
 
+router.route('/:userName').get(UsersController.getByUserName);
+
 module.exports=router;

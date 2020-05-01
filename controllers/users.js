@@ -1,6 +1,30 @@
 const User = require('../models/User');
 
 module.exports = {
+    getByUserName: async (req,res,next) => {
+        await User.findOne({ userName: req.params.userName }, function(err, user) {
+            if (err) return res.json({
+                isError: true,
+                message: err.message,
+                user:null
+            });
+    
+            if (user) {
+                return res.json({
+                    isError: false,
+                    message: 'Ok',
+                    user:user
+                });
+            } else {
+                return res.json({
+                    isError: false,
+                    message: 'not found',
+                    user:null
+                });
+            }
+        });
+    },
+
     signUp: async (req,res,next) => {
         const { userName,password,firstName,lastName} = req.value.body;
 
