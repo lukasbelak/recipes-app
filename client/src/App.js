@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'semantic-ui-css/semantic.min.css';
@@ -13,6 +13,7 @@ const App=()=> {
   return (
     <Router>
       <Switch>
+        <Redirect from='/recipes-app' to='/' />>
         <Route path="/" exact component={LoginForm} />
         <Route path="/admin" exact component={Admin} />
         <Route path="/home" exact component={Home} />
