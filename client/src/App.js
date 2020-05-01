@@ -13,7 +13,7 @@ const App=()=> {
   return (
     <Router>
       <Switch>
-        <Redirect from='/recipes-app' to='/' />>
+        <Redirect exact from='/recipes-app' to='/' />>
         <Route path="/" exact component={LoginForm} />
         <Route path="/admin" exact component={Admin} />
         <Route path="/home" exact component={Home} />

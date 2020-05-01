@@ -4,6 +4,7 @@ import NewRecipeModal from '../components/NewRecipeModal';
 import {Dropdown,Button, Icon,Message,Grid} from 'semantic-ui-react';
 import {sortByOptions} from '../enums';
 import RecipesList from '../components/RecipesList';
+import { Redirect } from 'react-router-dom';
 
 const Home=()=> {
 
@@ -18,6 +19,7 @@ const Home=()=> {
   const [message, setMessage]=useState({});
   const [messageVisibility,setMessageVisibility]=useState('hidden');
   const [connectedUser, setConnectedUser]=useState(''); 
+  const [isRedirectToLogin,setIsRedirectToLogin]=useState(false);
 
   useEffect(()=>{
     
@@ -117,9 +119,21 @@ debugger;
     setSelectedCategory(selectedValue);
   };
 
+  const handleLogOut=()=>{
+    setConnectedUser('');
+    localStorage.removeItem('userName');
+    setIsRedirectToLogin(true);
+  }
+
+  const redirectToLogin=()=>{
+    if(isRedirectToLogin){
+        return <Redirect to='/' />;
+    }
+} 
+
   return (
     <div className="App">
-
+    {redirectToLogin()}
       <div className="message">
         <Message className={`${messageVisibility} ${message.header==='Error' ? 'negative' : 'positive'}`} >
           <Message.Header>{message.header}</Message.Header>
@@ -191,7 +205,7 @@ debugger;
                   <Button color='blue' content='Admin' fluid as={Link} to='/admin'  />
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <Button color='red' content='Log out' fluid as={Link} to='/'  />
+                  <Button color='red' content='Log out' fluid onClick={handleLogOut}  />
                 </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
