@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Form, Grid, Header, Message, Segment, Label } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Message, Segment, Label,Image } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import RegisterUserForm from './RegisterUserForm';
 import { ToastContainer } from 'react-toastify';
+import logo from '../images/logo.png';
 
 const LoginForm = () => {
 
@@ -70,10 +71,7 @@ const LoginForm = () => {
             {redirectToHome()}
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as='h2' color='green' textAlign='center'>
-                {/* <Image size="mini" src="https://react.semantic-ui.com/logo.png" /> */}
-                Log-in to Reciperaptor
-            </Header>
+            <Image size='huge' src={logo}/> 
             <Form size='large'>
                 <Segment stacked>
                     <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' onChange={userOnChange} />

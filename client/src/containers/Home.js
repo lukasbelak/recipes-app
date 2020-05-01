@@ -191,7 +191,7 @@ debugger;
                   <Button color='blue' content='Admin' fluid as={Link} to='/admin'  />
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <Button color='red' content='Log out' fluid  />
+                  <Button color='red' content='Log out' fluid as={Link} to='/'  />
                 </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

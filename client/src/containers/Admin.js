@@ -3,6 +3,7 @@ import {Container,Menu,Responsive,Image} from 'semantic-ui-react';
 import AdminCategories from '../components/AdminCategories';
 import AdminRecipes from '../components/AdminRecipes';
 import './Admin.css';
+import logo from '../images/logo_white.png';
 
 const Admin = () => {
 
@@ -25,7 +26,7 @@ const Admin = () => {
             <Menu fixed='top' inverted >
                 <Container>
                     <Menu.Item>
-                        <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
+                        <Image size='small' src={logo} />
                     </Menu.Item>
                     <Menu.Item as='a' onClick={handleCategoriesClick}>Categories</Menu.Item>
                     <Menu.Item as='a' onClick={handleRecipesClick}>Recipes</Menu.Item>
