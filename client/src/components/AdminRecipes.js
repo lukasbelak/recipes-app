@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {Table,Checkbox,Button,Segment,Dimmer,Loader} from 'semantic-ui-react';
 import AdminRecipesRow from './AdminRecipesRow';
 import withSelections from "react-item-select";
+import { useHistory } from "react-router-dom";
 
 const AdminRecipes=({
     areAnySelected,
@@ -22,6 +23,8 @@ const AdminRecipes=({
     const [isLoading, setIsLoading]=useState(true);
     const [isReload, setIsReload]=useState(0);
 
+    let history=useHistory();
+
     const segmentStyle = {
         display: "flex",
         alignItems: "center",
@@ -33,7 +36,13 @@ const AdminRecipes=({
             setIsLoading(true);
           let recipes=[];
           try{
-            const resp = await fetch('/api/recipes');
+            
+          const requestOptions = {
+            method: 'GET',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
+          };
+
+            const resp = await fetch('/api/recipes',requestOptions);
             let cats=await resp.json();
             cats.forEach(cat=>{
                 recipes.push({
@@ -51,11 +60,12 @@ const AdminRecipes=({
             console.log('recipes: '+recipes);
           }catch(err){
             console.log(err.message);
+            history.push('/');
           }
         };
     
         getRecipes();
-      },[isReload]);
+      },[isReload,history]);
 
       const handleDeleted=()=>{
         setIsReload(isReload+1);
@@ -85,7 +95,8 @@ const AdminRecipes=({
         });
 
         const requestOptions = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
         };
 
         debugger;
@@ -102,6 +113,7 @@ const AdminRecipes=({
                 handleDeleted();
                 if(err && err.message){
                     console.log(err.message);
+                    history.push('/');
                 }
             });
         });

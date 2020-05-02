@@ -3,12 +3,14 @@ import {Table,Checkbox,Button,Icon} from 'semantic-ui-react';
 
 const AdminCategoriesRow =({category, isItemSelected,handleSelect,setIsLoading,handleDeleted}) =>{
 
+
     const handleDelete=()=>{
         debugger;
         setIsLoading(true);
 
         const requestOptions = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
         };
 
         fetch('/api/categories/byname/'+category.name, requestOptions)

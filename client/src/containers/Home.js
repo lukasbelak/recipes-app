@@ -4,7 +4,7 @@ import NewRecipeModal from '../components/NewRecipeModal';
 import {Dropdown,Button, Icon,Message,Grid} from 'semantic-ui-react';
 import {sortByOptions} from '../enums';
 import RecipesList from '../components/RecipesList';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const Home=()=> {
 
@@ -19,20 +19,25 @@ const Home=()=> {
   const [message, setMessage]=useState({});
   const [messageVisibility,setMessageVisibility]=useState('hidden');
   const [connectedUser, setConnectedUser]=useState(''); 
-  const [isRedirectToLogin,setIsRedirectToLogin]=useState(false);
+
+  let history = useHistory();
 
   useEffect(()=>{
     
     const getUser= async () => {
       try{
-        const userName=localStorage.getItem('userName');
+        const userName=localStorage.getItem('rcp_userName');
         if(!userName) {
           setConnectedUser('');
-          // TODO logout
           return;
         }
 
-        const resp = await fetch('/api/users/'+userName);
+        const requestOptions = {
+          method: 'GET',
+          headers: { 'Authorization': localStorage.getItem('rcp_token') }
+        };
+
+        const resp = await fetch('/api/users/byUserName/'+userName,requestOptions);
         let result=await resp.json();
 
 debugger;
@@ -45,17 +50,24 @@ debugger;
       }catch(err){
         console.log(err.message);
         setConnectedUser('');
+        history.push('/');
       }
     };
 
     getUser();
-  },[]);
+  },[history]);
 
   useEffect(()=>{
     const getCategories =async()=>{
       let data=[{key:'All',text:'All',value:'All'}];
       try{
-        const resp = await fetch('/api/categories');
+
+        const requestOptions = {
+          method: 'GET',
+          headers: { 'Authorization': localStorage.getItem('rcp_token') }
+        };
+
+        const resp = await fetch('/api/categories',requestOptions);
         let cats=await resp.json();
         cats.forEach(cat=>{
           data.push({
@@ -67,11 +79,12 @@ debugger;
         setCategoryOptions(data);
       }catch(err){
         console.log(err.message);
+        history.push('/');
       }
     };
 
     getCategories();
-  },[]);
+  },[history]);
 
   const updateSearch = (e)=>{
     setSearch(e.target.value);
@@ -120,20 +133,15 @@ debugger;
   };
 
   const handleLogOut=()=>{
-    setConnectedUser('');
-    localStorage.removeItem('userName');
-    setIsRedirectToLogin(true);
-  }
+    localStorage.removeItem('rcp_userName');
+    localStorage.removeItem('rcp_token');
+    fetch('/api/users/logout');
 
-  const redirectToLogin=()=>{
-    if(isRedirectToLogin){
-        return <Redirect to='/' />;
-    }
-} 
+    history.push('/');
+  }
 
   return (
     <div className="App">
-    {redirectToLogin()}
       <div className="message">
         <Message className={`${messageVisibility} ${message.header==='Error' ? 'negative' : 'positive'}`} >
           <Message.Header>{message.header}</Message.Header>
@@ -182,16 +190,6 @@ debugger;
         </Grid.Column>
         <Grid.Column>
         <div>
-          {/* <Popup position='bottom right' wide trigger={<div className='account-form'><Button color='yellow' circular floated content={connectedUser} /></div>} on='click'>
-            <Grid divided columns='equal'>
-              <Grid.Row>
-                <Button color='blue' content='Admin' fluid as={Link} to='/admin' />
-              </Grid.Row>
-              <Grid.Row>
-                <Button color='red' content='Log out' fluid />
-              </Grid.Row>
-            </Grid>
-          </Popup> */}
           <div className='account-form'>
           <Button.Group>
         <Button color='yellow' circular floated='right'>{connectedUser}</Button>

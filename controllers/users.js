@@ -1,4 +1,16 @@
+const JWT = require('jsonwebtoken');
 const User = require('../models/User');
+const {JWT_SECRET} = require('../config');
+require('passport');
+
+const signToken=user=>{
+    return JWT.sign({
+        iss: 'Reciperaptor',
+        sub: user._id,
+        iat: new Date().getTime(),
+        exp: new Date().setDate(new Date().getDate()+1)
+    },JWT_SECRET);
+};
 
 module.exports = {
     getByUserName: async (req,res,next) => {
@@ -17,7 +29,7 @@ module.exports = {
                 });
             } else {
                 return res.json({
-                    isError: false,
+                    isError: true,
                     message: 'not found',
                     user:null
                 });
@@ -31,70 +43,38 @@ module.exports = {
         let newUser = new User({
             userName,password,firstName,lastName
         });
-        await newUser.save(function(err) {
+        await newUser.save(function(err, obj) {
             if (err) {
                 console.log(err);
                 return res.json({
                     message:err.errmsg,
-                    isError:true
+                    isError:true,
+                    token:null
                 });
             }
         
-            console.log(err.message);
-                return res.json({
-                    message:'register success',
-                    isError:false
-                });
+            const token = signToken(newUser);
+
+            return res.json({
+                message:'register success',
+                isError:false,
+                token: token
+            });
         });
     },
 
     signIn: async (req,res,next) => {
-
-        const {userName, password}=req.body;
-
-        // attempt to authenticate user
-        User.getAuthenticated(userName, password, function(err, user, reason) {
-            if (err) {
-                console.log(err.message);
-                return res.json({
-                    message:err.message,
-                    isError:true
-                });
-            };
-    
-            // login was successful if we have a user
-            if (user) {
-                // handle login success
-                console.log('login success');
-                //console.log(user);
-                return res.json({
-                    message:'Login success',
-                    isError: false
-                });
-            }
-    
-            // otherwise we can determine why we failed
-            var reasons = User.failedLogin;
-            switch (reason) {
-                case reasons.NOT_FOUND:
-                case reasons.PASSWORD_INCORRECT:
-                    // note: these cases are usually treated the same - don't tell
-                    // the user *why* the login failed, only that it did
-                    console.log('Password incorrect');
-                    return res.json({
-                        message:'Password incorrect',
-                        isError: true
-                    });
-                case reasons.MAX_ATTEMPTS:
-                    // send email or otherwise notify user that account is
-                    // temporarily locked
-                    console.log('Max login attempts reached');
-                    return res.json({
-                        message:'Max login attempts reached',
-                        isError: true
-                    });
-                default: break;
-            }
-        });
+        const token = signToken(req.user);
+        res.status(200).json({token});
     },
+
+    secret: async (req,res,next)=>{
+        res.json({secret:'resource'});
+    },
+
+    logOut: async (req,res,next)=>{
+        console.log('in logout');
+        req.logOut();
+        res.redirect('/')
+    }
 };

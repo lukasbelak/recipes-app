@@ -168,7 +168,8 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
 
         const requestOptions = {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(recipeToUpdate)
         };
         let resp = await fetch('/api/recipes/' + recipe._id, requestOptions);

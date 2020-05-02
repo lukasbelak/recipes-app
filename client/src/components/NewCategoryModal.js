@@ -18,7 +18,8 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(category)
         };
 

@@ -7,6 +7,7 @@ import 'hover.css';
 import Home from './containers/Home';
 import Admin from './containers/Admin';
 import LoginForm from './components/LoginForm';
+import ErrorPage from './containers/ErrorPage';
 
 const App=()=> {
 
@@ -17,6 +18,7 @@ const App=()=> {
         <Route path="/" exact component={LoginForm} />
         <Route path="/admin" exact component={Admin} />
         <Route path="/home" exact component={Home} />
+        <Route path="/error" exact component={ErrorPage} />
       </Switch>
     </Router>
   );

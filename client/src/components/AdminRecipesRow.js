@@ -10,7 +10,8 @@ const AdminRecipesRow =({recipe, isItemSelected,handleSelect,setIsLoading,handle
         setIsLoading(true);
 
         const requestOptions = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
         };
 
         fetch('/api/recipes/'+recipe.id, requestOptions)

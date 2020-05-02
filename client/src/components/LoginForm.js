@@ -34,10 +34,11 @@ const LoginForm = () => {
         .then(resp=>resp.json())
         .then((result)=>{
             debugger;
-            if(result.isError){
-                setErrorMessage(result.message);
+            if(!result.token){
+                setErrorMessage('Not Authorized');
             }else{
-                localStorage.setItem('userName', userName);
+                localStorage.setItem('rcp_userName', userName);
+                localStorage.setItem('rcp_token', result.token);
                 setIsRedirectToHome(true);
             }
         })

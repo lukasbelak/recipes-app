@@ -19,6 +19,7 @@ app.use('/api/users', users);
 
 const uri = process.env.DB_CONNECTION;
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology:true,useFindAndModify:false }, ()=>{
     console.log('mongoose connected');
 });

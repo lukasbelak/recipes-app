@@ -19,7 +19,13 @@ const SearchCategory =({defaultValue,getCategory,categoryError,isNewCategory})=>
   },[defaultValue]);
 
   const getCategories=async ()=>{
-      const resp = await fetch('/api/categories');
+
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Authorization': localStorage.getItem('rcp_token') }
+    };
+
+      const resp = await fetch('/api/categories',requestOptions);
 
       let data = await resp.json();
 

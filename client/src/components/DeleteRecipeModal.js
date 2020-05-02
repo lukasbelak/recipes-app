@@ -11,7 +11,8 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
         setIsInProgressDeleteBool(true);
 
         const requestOptions = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
         };
 
         fetch('/api/recipes/'+recipe._id, requestOptions)

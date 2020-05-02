@@ -4,6 +4,7 @@ import {Table,Checkbox,Button,Icon,Dimmer,Loader,Segment} from 'semantic-ui-reac
 import AdminCategoriesRow from './AdminCategoriesRow';
 import withSelections from "react-item-select";
 import NewCategoryModal from './NewCategoryModal';
+import { useHistory } from "react-router-dom";
 
 const AdminCategories=({
     areAnySelected,
@@ -24,6 +25,8 @@ const AdminCategories=({
     const [isReload, setIsReload]=useState(0);
     const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
     
+    let history=useHistory();
+
     const segmentStyle = {
         display: "flex",
         alignItems: "center",
@@ -35,7 +38,13 @@ const AdminCategories=({
             setIsLoading(true);
           let categories=[];
           try{
-            const resp = await fetch('/api/categories');
+
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Authorization': localStorage.getItem('rcp_token') }
+              };
+
+            const resp = await fetch('/api/categories',requestOptions);
             let cats=await resp.json();
             cats.forEach(cat=>{
                 categories.push({
@@ -48,11 +57,12 @@ const AdminCategories=({
             console.log('categories: '+categories);
           }catch(err){
             console.log(err.message);
+            history.push('/');
           }
         };
     
         getCategories();
-      },[isReload]);
+      },[isReload,history]);
 
       const cancelNewCategoryModal=()=>{
         setOpenNewCategoryModal(false);
@@ -86,7 +96,8 @@ const AdminCategories=({
         });
 
         const requestOptions = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
         };
 
         debugger;
