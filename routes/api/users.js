@@ -19,4 +19,7 @@ router.route('/secret').get(passportJwt, UsersController.secret);
 
 router.route('/logout').get(UsersController.logOut);
 
+// @route GET api/users/byid/:id
+router.route('/byid/:id').get(passportJwt,UsersController.getById);
+
 module.exports=router;  

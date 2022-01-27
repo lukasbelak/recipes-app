@@ -262,7 +262,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
                     </Form.Field> 
                     <Form.Field>
                         <label className='requiredField'>Description</label>
-                        <TextArea rows="5" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
+                        <TextArea rows="20" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
                     </Form.Field>  
                     </Form>
             </Modal.Description>

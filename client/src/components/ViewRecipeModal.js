@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal,Form, Embed, Image } from 'semantic-ui-react';
+import { Button, Modal,Form, Embed, Image,Label } from 'semantic-ui-react';
 import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
@@ -54,11 +54,13 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,rel
             closeOnEscape={true} 
             onClose={handleCancelView}>
             <Modal.Header>
+            <Label as='a' color='teal' style={{fontSize:'20px', float:'left'}} horizontal> {recipe.category} </Label>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
-                    <div style={{display:'flex', flexDirection:'column-reverse'}}>
+                    <div style={{display:'flex', flexDirection:'column-reverse', alignSelf:'center'}}>
                         {viewRecipe.name}
                     </div>
-                    <div>
+                    <div>          
+                        <Button type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button>
                         <Button type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
                         <DeleteRecipeModal
                             recipe={recipe}
@@ -96,12 +98,15 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,rel
                             day:"2-digit"
                         }).format(new Date(viewRecipe.date))}</p>
                     </Form.Field>
+                    <Form.Field>
+                        <p style={{"textAlign":"center"}}>Created by: <b>{viewRecipe.createdBy}</b></p>
+                    </Form.Field>
                     </Form>
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button floated='right' type='button' onClick={handleCancelView}>Cancel</Button>
-                <Button type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button>
+                <Button type='button' onClick={handleCancelView}>Cancel</Button>
+                {/* <Button type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button> */}
                 <UpdateRecipeModal
                     recipe={viewRecipe}
                     openUpdateRecipeModal={openUpdateRecipeModal}

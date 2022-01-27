@@ -13,6 +13,7 @@ var UserSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     isActive: { type: Boolean, required: true, default: true },
+    isAdmin: {type: Boolean, required: true, default: false },
     loginAttempts: { type: Number, required: true, default: 0 },
     lockUntil: { type: Number }
 });
@@ -121,4 +122,4 @@ UserSchema.statics.getAuthenticated = function(userName, password, cb) {
 };
 
 // eslint-disable-next-line no-undef
-module.exports = User= mongoose.model('User', UserSchema);
+module.exports = User= mongoose.model('User', UserSchema,'users');

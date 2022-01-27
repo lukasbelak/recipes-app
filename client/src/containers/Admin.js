@@ -4,11 +4,14 @@ import AdminCategories from '../components/AdminCategories';
 import AdminRecipes from '../components/AdminRecipes';
 import './Admin.css';
 import logo from '../images/logo_white.png';
+import { useHistory } from "react-router-dom";
 
 const Admin = () => {
 
   const [isCategoriesVisible, setIsCategoriesVisible]=useState(true);
   const [isRecipesVisible,setIsRecipesVisible ]=useState(false);
+
+  let history=useHistory();
 
   const handleCategoriesClick=()=>{
     setIsCategoriesVisible(true);
@@ -20,13 +23,18 @@ const Admin = () => {
     setIsRecipesVisible(true);
   }
 
+const handleLogoClick=()=>{
+    debugger;
+    history.push('/home');
+}
+
   return(
     <div>
         <Responsive>
             <Menu fixed='top' inverted >
                 <Container>
                     <Menu.Item>
-                        <Image size='small' src={logo} />
+                        <Image size='small' src={logo} onClick={handleLogoClick} />
                     </Menu.Item>
                     <Menu.Item as='a' onClick={handleCategoriesClick}>Categories</Menu.Item>
                     <Menu.Item as='a' onClick={handleRecipesClick}>Recipes</Menu.Item>

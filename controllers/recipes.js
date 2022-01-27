@@ -112,7 +112,8 @@ module.exports = {
             description:req.body.description,
             category: req.body.category,
             youtube: youtube,
-            img:null
+            img:null,
+            user_id: req.body.userId
         };
 
         let ings=[];

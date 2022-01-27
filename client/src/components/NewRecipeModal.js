@@ -3,7 +3,7 @@ import { Button, Modal,Form,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
 import {youtubeParser} from '../utils';
 import NewCategoryModal from './NewCategoryModal';
-const Compress = require('compress.js');
+import Compress from 'compress.js';
 
 const compress = new Compress();
 
@@ -36,12 +36,22 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
         createRecipeWithIngredients(value);
     };
 
-    const createRecipeWithIngredients=(value)=>{
+    const createRecipeWithIngredients=async (value)=>{
 
         if(formError)return;
 
         setIsInProgressCreate('loading');
         setIsInProgressCreateBool(true);
+
+        const requestOptionsUser = {
+            method: 'GET',
+            headers: { 'Authorization': localStorage.getItem('rcp_token') }
+          };
+
+        const userName=localStorage.getItem('rcp_userName');
+
+        const resp = await fetch('/api/users/byUserName/' + userName, requestOptionsUser);
+        let result=await resp.json();
 
         const recipe = {
             name:name,
@@ -51,7 +61,8 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 data:fileData,
                 contentType: fileContentType
             },
-            youtube: youtubeParser(youtube)
+            youtube: youtubeParser(youtube),
+            userId: result.user._id
         };
 
         let ings=[];
@@ -62,7 +73,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 ings.push(ing);
             }
         });
-        recipe.ingredients=ings;
+        recipe.ingredients=ings;        
 
         const requestOptions = {
             method: 'POST',
@@ -70,7 +81,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(recipe)
         };
-
+debugger;
         fetch('/api/recipes', requestOptions)
         .then(resp=>resp.json())
         .then((err)=>{

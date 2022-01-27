@@ -13,6 +13,18 @@ const signToken=user=>{
 };
 
 module.exports = {
+    getById: async (req,res,next)=>{
+        try{
+            console.log("UserID: " +req.params.id);
+            await User.findById(req.params.id)
+                .then(user=>res.json(user))
+    
+        }catch(err){
+            console.log("User.getById error: " + err.message);
+            res.json({message:err.message});
+        }
+    },
+
     getByUserName: async (req,res,next) => {
         await User.findOne({ userName: req.params.userName }, function(err, user) {
             if (err) return res.json({

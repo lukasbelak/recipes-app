@@ -36,7 +36,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,se
               data = await resp.json();
             }
             console.log(data.docs);
-    
+    debugger;
             setIsLoading(false);
             setRecipes(data.docs);
             setTotalPages(data.totalPages);

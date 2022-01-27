@@ -37,6 +37,8 @@ const LoginForm = () => {
             if(!result.token){
                 setErrorMessage('Not Authorized');
             }else{
+                localStorage.removeItem('rcp_userName');
+                localStorage.removeItem('rcp_token');
                 localStorage.setItem('rcp_userName', userName);
                 localStorage.setItem('rcp_token', result.token);
                 setIsRedirectToHome(true);

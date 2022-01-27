@@ -45,3 +45,37 @@ export function textEllipsis(str, maxLength, { side = "end", ellipsis = "..." } 
     }
     return str;
   }
+
+  export function getRequestOptions(method) {
+    return {
+      method: method,
+      headers: { 'Authorization': localStorage.getItem('rcp_token') }
+    };
+}
+
+  export async function getLoggedUser() {
+    try{
+      const userName=localStorage.getItem('rcp_userName');
+      if(!userName) {
+        return null;
+      }
+
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Authorization': localStorage.getItem('rcp_token') }
+      };
+
+      const resp = await fetch('/api/users/byUserName/'+userName,requestOptions);
+      let result=await resp.json();
+
+debugger;
+
+      if(result.user){
+        return result.user;
+      } else{
+        return null;
+      }
+    }catch(err){
+      console.log(err.message);
+    }
+  };

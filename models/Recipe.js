@@ -33,6 +33,9 @@ const RecipeSchema = new Schema({
         type: String,
         required: true
     },
+    user_id: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'},
     img: { 
         data: Buffer, 
         contentType: String
