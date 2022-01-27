@@ -35,7 +35,9 @@
     "uuid": "^7.0.3"
   },
   "scripts": {
-    "client-install": "npm install --prefix client",
+    "install-client": "cd client && npm install",
+    "build":"cd client && npm run build",
+    "heroku-postbuild":"npm run install-client && npm run build",
     "start": "cd client && yarn && yarn run build && cd .. && node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
