@@ -38,7 +38,7 @@
     "install-client": "cd client && npm install",
     "build":"cd client && npm run build",
     "heroku-postbuild":"npm run install-client && npm run build",
-    "start": "cd client && npm && npm run build && cd .. && node server.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
