@@ -29,7 +29,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,se
 
           try{
             if(query){
-              const resp = await fetch('/api/recipes/bysearch/' + query+"/"+activePage+"/"+selectedFilter+"/"+isAscSort+"/"+selectedCategory.requestOptions);
+              const resp = await fetch('/api/recipes/bysearch/' + query+"/"+activePage+"/"+selectedFilter+"/"+isAscSort+"/"+selectedCategory, requestOptions);
               data = await resp.json();
             }else{
               const resp = await fetch('/api/recipes/'+activePage+"/"+selectedFilter+"/"+isAscSort+"/"+selectedCategory,requestOptions);
