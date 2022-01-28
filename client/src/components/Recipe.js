@@ -19,7 +19,7 @@ const Recipe = ({recipe,reloadList,showMessage}) =>{
 
           const resp = await fetch('/api/users/byid/'+recipe.user_id,getRequestOptions('GET'));
           let user=await resp.json();
-
+debugger;
           if(user){
             setRecipeCreatedBy(user.firstName + " " + user.lastName);
           } else{
@@ -33,7 +33,7 @@ const Recipe = ({recipe,reloadList,showMessage}) =>{
       };
  
       getUser();
-    },[history,recipe.user_id]);
+    },[history,recipe]);
 
     const onRecipeClick=(value)=>{
         setOpenViewRecipeModal(value);
@@ -45,7 +45,7 @@ const Recipe = ({recipe,reloadList,showMessage}) =>{
           }
       };
 
-    recipe.createdBy=recipeCreatedBy;
+     recipe.createdBy=recipeCreatedBy;
 
     return (
         <div key={recipe._id} className={`${style.recipe} hvr-grow`}>

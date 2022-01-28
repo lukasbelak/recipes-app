@@ -17,6 +17,8 @@ module.exports = {
 
     get: async (req,res,next) => {
         try{
+            console.log("in get recipe: ");
+
             const sortByValue = req.params.sortBy;
             let isAscSort = req.params.isAscSort;
     
@@ -42,10 +44,25 @@ module.exports = {
                 query={category:req.params.category}
               }
     
+              //let token = req.headers.authorization;
+
               console.log('before get '+req.params.category);
               await Recipe.paginate(query,options, (err, result) => {
-                console.log('in get'); 
+                //  debugger;
+                // if(result){
+                //  let requestOptions={
+                //     method: 'GETmethod',
+                //     headers: { 'Authorization': token }
+                //   };
+
+                // for(var i=0;i<result.docs.length;i++){
+                //     var recipe=result.docs[i];
+                //     const resp =  fetch('/api/users/byid/'+recipe.user_id,requestOptions);
+                //     let user= resp.json();
+                //     recipe.createdBy=user.firstName + " " + user.lastName;
+                // }     
                 res.json(result);
+            //}
                 });
         }catch(err){
             console.log(err.message);
@@ -55,6 +72,8 @@ module.exports = {
     
     getBySearch: async (req,res,next)=>{
         try{
+            console.log("in getBySearch recipe: ");
+
             let filter = req.params.search;
             let sortByValue = req.params.sortBy;
             let isAscSort = req.params.isAscSort;
@@ -85,6 +104,7 @@ module.exports = {
               }
     
               await Recipe.paginate(query, options, (err, result)=>{
+                  console.log("RecipePaginate: "+result);
                 res.json(result);
                 });
         }catch(err){
@@ -95,8 +115,21 @@ module.exports = {
 
     getById: async (req,res,next)=>{
         try{
+            console.log("in getById recipe: ");
+
             await Recipe.findById(req.params.id)
-                .then(recipe=>res.json(recipe))
+                .then(async(recipe)=>{
+
+                    let requestOptions={
+                        method: 'GETmethod',
+                        headers: { 'Authorization': localStorage.getItem('rcp_token') }
+                      };
+                    const resp = await fetch('/api/users/byid/'+recipe.user_id,requestOptions);
+                    let user=await resp.json();
+                    recipe.createdBy=user.firstName + " " + user.lastName;
+
+                    res.json(recipe)
+                })
     
         }catch(err){
             console.log(err.message);
