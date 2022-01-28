@@ -23,21 +23,27 @@ background:url('./images/main.jpg') no-repeat center center fixed;
 }
 
 .search-form{
-min-height: 10vh;
+/* min-height: 10vh;
 display: flex;
 justify-content: center;
-align-items: center;
-}
+align-items: center;*/
+text-align: center;
+background: none;
+padding-top: 2%;
+} 
 
 .account-form{
-    float: right;
+    /* float: right;
     margin: 20px;
     align-items: center;
     justify-content: center;
     display: flex;
-    min-height: 5vh;
-
-}
+    min-height: 5vh; */
+background: none;
+text-align: right;
+padding-right: 2%;
+    padding-top: 2%;
+} 
 
 .search-bar{
 width: 50%;
@@ -53,9 +59,9 @@ color: white;
 font-weight: bold;
 }
 
-.new-recipe-button{
+/* .new-recipe-button{
     margin: 10px 50px; 
-}
+} */
 
 .floatLeft{
     float: left;

@@ -255,7 +255,7 @@ debugger;
             onClose={handleCancelCreate}
             closeOnDimmerClick={true}
             closeOnEscape={true}
-            trigger={<Button color="green" floated="right" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New</Button>}>
+            trigger={<Button color="green" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New</Button>}>
             <Modal.Header>New recipe</Modal.Header>
             <Modal.Content>
             <Modal.Description>
