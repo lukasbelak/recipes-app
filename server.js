@@ -1,6 +1,7 @@
 const express = require("express");
 const Cors =require('cors');
 const morgan=require('morgan');
+const path = require('path');
 require('dotenv/config');
 
 const app = express();
@@ -24,8 +25,11 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology:true,useFindAn
     console.log('mongoose connected');
 });
 
-app.get('/*', (req,res) => {
-    res.sendFile('index.html',{root: __dirname+'/client/build/'});
+// app.get('/*', (req,res) => {
+//     res.sendFile('index.html',{root: __dirname+'/client/build/'});
+// });
+app.get('*', (req,res) => {
+    res.sendFile(path.resolve(__dirname,"../client","build","index.html"));
 });
 
 if(process.env.NODE_ENV==='production'){
