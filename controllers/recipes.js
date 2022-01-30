@@ -33,9 +33,10 @@ module.exports = {
               let isAsc = isAscSort === 'true' ? 'asc': 'desc';
               switch(sortByValue)
               {
-                  case 'Name': options.sort={name: isAsc}; break;
-                  case 'Category': options.sort={category: isAsc}; break;
-                  case 'Date': options.sort={date: isAsc}; break;
+                  case 'name': options.sort={name: isAsc}; break;
+                  case 'category': options.sort={category: isAsc}; break;
+                  case 'date': options.sort={date: isAsc}; break;
+                  case 'season': options.sort={season: isAsc}; break;
                   default: options.sort={name: isAsc};break;
               }
     
@@ -89,9 +90,10 @@ module.exports = {
               let isAsc = isAscSort === 'true' ? 'asc': 'desc';
               switch(sortByValue)
               {
-                  case 'Name': options.sort={name: isAsc}; break;
-                  case 'Category': options.sort={category: isAsc}; break;
-                  case 'Date': options.sort={date: isAsc}; break;
+                  case 'name': options.sort={name: isAsc}; break;
+                  case 'category': options.sort={category: isAsc}; break;
+                  case 'date': options.sort={date: isAsc}; break;
+                  case 'season': options.sort={season: isAsc}; break;
                   default: options.sort={name: isAsc}; break;
               }
     

@@ -20,7 +20,7 @@ const Home = () => {
   const [query, setQuery] = useState("");
   const [recipeCreated, setRecipeCreated] = useState(false);
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
-  const [selectedSort, setSelectedSort] = useState(sortByOptions[0].text);
+  const [selectedSort, setSelectedSort] = useState(sortByOptions[0].value);
   const [categoryOptions, setCategoryOptions] = useState([
     { key: "All", text: "Všetky", value: "All" },
   ]);
@@ -101,7 +101,8 @@ const Home = () => {
   };
 
   const onChangeSort = (e) => {
-    let selectedValue = e.target.value;
+    debugger;
+    let selectedValue = e.target.id;
     setSelectedSort(selectedValue);
   };
 
