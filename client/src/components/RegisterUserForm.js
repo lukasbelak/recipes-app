@@ -174,30 +174,30 @@ const RegisterUserForm =({openSignUpModal,cancelSignupModal,setUserName,setPassw
                 closeOnEscape={false} 
                 dimmer='blurring'
                 centered>
-                <Modal.Header>New user</Modal.Header>
+                <Modal.Header>Nový používateľ</Modal.Header>
                 <Modal.Content>
                     <Form className={isInProgressRegister}>
                         <Form.Field>
-                            <label className='requiredField'>UserName (Email)</label>
-                            <input type="text" value={userNameRegister} autoFocus onChange={updateUserName} placeholder='UserName' error={userNameError} required={true} />
+                            <label className='requiredField'>Používateľské meno (email)</label>
+                            <input type="text" value={userNameRegister} autoFocus onChange={updateUserName} placeholder='Email' error={userNameError} required={true} />
                         </Form.Field>
                         <Form.Field>
-                            <label className='requiredField'>Password</label>
-                            <input type="password" value={passwordRegister} autoFocus onChange={updatePassword} placeholder='Password' error={passwordError} required={true} />
+                            <label className='requiredField'>Heslo</label>
+                            <input type="password" value={passwordRegister} autoFocus onChange={updatePassword} placeholder='Heslo' error={passwordError} required={true} />
                         </Form.Field>
                         <Form.Field>
-                            <label className='requiredField'>FirstName</label>
-                            <input type="text" value={firstNameRegister} autoFocus onChange={updateFirstName} placeholder='FirstName' error={firstNameError} required={true} />
+                            <label className='requiredField'>Meno</label>
+                            <input type="text" value={firstNameRegister} autoFocus onChange={updateFirstName} placeholder='Meno' error={firstNameError} required={true} />
                         </Form.Field>
                         <Form.Field>
-                            <label className='requiredField'>LastName</label>
-                            <input type="text" value={lastNameRegister} autoFocus onChange={updateLastName} placeholder='LastName' error={lastNameError} required={true} />
+                            <label className='requiredField'>Priezvisko</label>
+                            <input type="text" value={lastNameRegister} autoFocus onChange={updateLastName} placeholder='Priezvisko' error={lastNameError} required={true} />
                         </Form.Field>
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button type='submit' color='blue' onClick={handleRegisterOption} disabled={isInProgressRegisterBool}>Register</Button>
-                    <Button type='button' onClick={handleCancelOption} disabled={isInProgressRegisterBool}>Cancel</Button>
+                    <Button type='submit' color='blue' onClick={handleRegisterOption} disabled={isInProgressRegisterBool}>Registrovať</Button>
+                    <Button type='button' onClick={handleCancelOption} disabled={isInProgressRegisterBool}>Zrušiť</Button>
                     <ToastContainer
                         position="top-right"
                         autoClose={5000}

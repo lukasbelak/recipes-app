@@ -22,13 +22,13 @@ const Home = () => {
   const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
   const [selectedSort, setSelectedSort] = useState(sortByOptions[0].text);
   const [categoryOptions, setCategoryOptions] = useState([
-    { key: "All", text: "All", value: "All" },
+    { key: "All", text: "Všetky", value: "All" },
   ]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isAscSort, setIsAscSort] = useState(true);
   const [message, setMessage] = useState({});
   const [messageVisibility, setMessageVisibility] = useState("hidden");
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
 
   let history = useHistory();
 
@@ -55,7 +55,7 @@ const Home = () => {
 
   useEffect(() => {
     const getCategories = async () => {
-      let data = [{ key: "All", text: "All", value: "All" }];
+      let data = [{ key: "All", text: "Všetky", value: "All" }];
       try {
         const requestOptions = {
           method: "GET",
@@ -101,7 +101,7 @@ const Home = () => {
   };
 
   const onChangeSort = (e) => {
-    let selectedValue = e.target.textContent;
+    let selectedValue = e.target.value;
     setSelectedSort(selectedValue);
   };
 
@@ -162,12 +162,12 @@ const Home = () => {
                       <div className="ui action input">
                         <input
                           type="text"
-                          placeholder="Search..."
+                          placeholder="hľadať..."
                           value={search}
                           onChange={updateSearch}
                         />
                         <button className="ui button blue" type="submit">
-                          Search
+                          Vyhľadať
                         </button>
                       </div>
                     </form>
@@ -229,7 +229,7 @@ const Home = () => {
           <Container className="account-form">
             <Button.Group>
               <Button color="yellow" circular floated="right">
-                {user.firstName}
+                {user?.firstName}
               </Button>
               <Dropdown
                 className="button icon"
@@ -237,7 +237,7 @@ const Home = () => {
                 trigger={<React.Fragment />}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item style={{display:user.isAdmin?'block':'none'}}>
+                  <Dropdown.Item style={{display:user?.isAdmin?'block':'none'}}>
                     <Button
                       color="blue"
                       content="Admin"
@@ -249,7 +249,7 @@ const Home = () => {
                   <Dropdown.Item>
                     <Button
                       color="red"
-                      content="Log out"
+                      content="Odhlásiť"
                       fluid
                       onClick={handleLogOut}
                     />

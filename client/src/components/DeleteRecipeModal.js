@@ -52,17 +52,17 @@ const DeleteRecipeModal = ({recipe, openDeleteRecipeModal, cancelDeleteRecipeMod
                 closeOnEscape={false} 
                 dimmer='blurring'
                 centered>
-                <Modal.Header>Delete recipe</Modal.Header>
+                <Modal.Header>Vymazať recept</Modal.Header>
                 <Modal.Content>
                     <Form className={isInProgressDelete}>
                         <Form.Field>
-                            <p>Are you sure you want to delete this recipe?</p>
+                            <p>Ste si istý, že chete vymazať tento recept?</p>
                         </Form.Field>
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button negative onClick={handleNoOption} disabled={isInProgressDeleteBool}>No</Button>
-                    <Button positive onClick={handleYesOption} disabled={isInProgressDeleteBool}>Yes</Button>
+                    <Button negative onClick={handleNoOption} disabled={isInProgressDeleteBool}>Nie</Button>
+                    <Button positive onClick={handleYesOption} disabled={isInProgressDeleteBool}>Áno</Button>
                 </Modal.Actions>
             </Modal>
         </div>

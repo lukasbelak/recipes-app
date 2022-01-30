@@ -4,6 +4,7 @@ import SearchCategory from './SearchCategory';
 import {youtubeParser} from '../utils';
 import NewCategoryModal from './NewCategoryModal';
 import Compress from 'compress.js';
+import SeasonList  from './SeasonList';
 
 const compress = new Compress();
 
@@ -13,6 +14,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     const [name, setName]=useState('');
     const [description, setDescription]=useState('');
     const [category, setCategory]=useState('');
+    const [season, setSeason]=useState(0);
     const [youtube, setYoutube]=useState('');
     const [fileData, setFileData] = useState('');
     const [fileName, setFileName]=useState('');
@@ -25,7 +27,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     const [formError, setFormError]=useState(true);
     const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
     const [isNewCategory, setIsNewCategory] = useState(0);
-    const errorMessage='Please complete all required fields.';
+    const errorMessage='Vyplňte všetky povinné polia, prosím.';
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
@@ -62,7 +64,8 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 contentType: fileContentType
             },
             youtube: youtubeParser(youtube),
-            userId: result.user._id
+            userId: result.user._id,
+            season: season
         };
 
         let ings=[];
@@ -132,6 +135,7 @@ debugger;
         setFileData('');
         setFileContentType('');
         setFileName('');
+        setSeason(null);
 
         setNameError(true);
         setCategoryError(true);
@@ -210,6 +214,12 @@ debugger;
         checkFormError(categoryValue,name,description);
     };
 
+    const getSeason=(value)=>{
+        debugger;
+        let seasonValue=value;
+        setSeason(seasonValue);
+    };
+
     const onUploadImageChange= (e)=>{
         let file = e.target.files[0];
         if(file===undefined)return;
@@ -255,19 +265,19 @@ debugger;
             onClose={handleCancelCreate}
             closeOnDimmerClick={true}
             closeOnEscape={true}
-            trigger={<Button color="green" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>New</Button>}>
-            <Modal.Header>New recipe</Modal.Header>
+            trigger={<Button color="green" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>Nový</Button>}>
+            <Modal.Header>Nový recept</Modal.Header>
             <Modal.Content>
             <Modal.Description>
                 <Form error={formError} className={isInProgressCreate}>
                     <Form.Field>
-                        <label className='requiredField'>Category</label>
+                        <label className='requiredField'>Kategória</label>
                         <SearchCategory
                         defaultValue={category}
                         getCategory={getCategory} 
                         categoryError={categoryError}
                         isNewCategory={isNewCategory}/>
-                        <Button color='green' circular icon style={{margin:"0px 10px"}} type='button' title='Add new category' onClick={handleAddCategory} >
+                        <Button color='green' circular icon style={{margin:"0px 10px"}} type='button' title='Pridať novú kategóriu' onClick={handleAddCategory} >
                             <Icon name='add' />
                         </Button>
                         <NewCategoryModal
@@ -278,33 +288,37 @@ debugger;
                             />
                     </Form.Field>
                     <Form.Field>
-                        <label className='requiredField'>Name</label>
-                        <Form.Input required={true} type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} />
+                        <label>Obdobie</label>
+                        <SeasonList defaultValue={null} getSeason={getSeason} />
                     </Form.Field>
                     <Form.Field>
-                        <label>Image</label>
+                        <label className='requiredField'>Názov</label>
+                        <Form.Input required={true} type="text" value={name} onChange={updateName} placeholder='Názov' error={nameError} />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Obrázok</label>
                         <div style={{"display":"table"}}>
-                            <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>                          
+                            <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Nahrať</Button>                          
                             <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} accept='.png,.jpg,.jpeg' />
                             <label style={{display:"table-cell",verticalAlign:"middle"}}>{fileName}</label>
                             <Icon style={fileName===''?{display:'none'}:{display:'table-cell',verticalAlign:'middle'}} link color='red' name='close' onClick={onRemoveImage} />
                         </div>
                     </Form.Field>
                     <Form.Field>
-                        <label>Ingredients</label>
+                        <label>Ingrediencie</label>
                         {
                             ingredients.map((ingredient,index)=>{
                                 return(
                                     <div key={index} className="floatLeft">
-                                        <div className="floatLeft"><Input placeholder='name' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
-                                        <div className="floatLeft"><Input placeholder='quantity' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
-                                        <div className="floatLeft"><Input placeholder='unit' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
-                                        <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Remove</Button></div>
+                                        <div className="floatLeft"><Input placeholder='názov' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
+                                        <div className="floatLeft"><Input placeholder='množstvo' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
+                                        <div className="floatLeft"><Input placeholder='jednotka' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
+                                        <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Odstrániť</Button></div>
                                     </div>
                                 );
                             })
                         }
-                        <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Add</Button></div>
+                        <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Pridať</Button></div>
                         
                     </Form.Field>
                     <Form.Field>
@@ -312,15 +326,15 @@ debugger;
                         <input type="text" value={youtube} onChange={updateYoutube} />
                     </Form.Field> 
                     <Form.Field>
-                        <label className='requiredField'>Description</label>
-                        <Form.TextArea rows="5" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
+                        <label className='requiredField'>Popis</label>
+                        <Form.TextArea rows="5" value={description} onChange={updateDescription} placeholder='Popis' required={true} error={descriptionError} />
                     </Form.Field>  
                 </Form>
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)} disabled={isInProgressCreateBool}> Create</Button>
-                <Button type='button' onClick={handleCancelCreate} disabled={isInProgressCreateBool}>Cancel</Button>
+                <Button type='submit' color="blue" onClick={handleCreate.bind(handleCreate, false)} disabled={isInProgressCreateBool}>Uložiť</Button>
+                <Button type='button' onClick={handleCancelCreate} disabled={isInProgressCreateBool}>Zrušiť</Button>
                 {formError?<p style={{"color":"red","fontSize":"medium","float":"left"}}>{errorMessage}</p>:<div></div>}
             </Modal.Actions>
         </Modal>

@@ -3,6 +3,7 @@ import { Button, Modal,Form, Embed, Image,Label } from 'semantic-ui-react';
 import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
+import {getSeasonsList} from '../utils';
 
 const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeModal,reloadList,showMessage}) => {
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
@@ -37,6 +38,28 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
         }
     };
 
+    const getSeasonText=()=>{
+        let seasons=getSeasonsList();
+        let season= seasons.find(x=>x.value===viewRecipe.season);
+        return season.text;
+    };
+
+    const getHeaderColor=()=>{
+        debugger;
+        switch(viewRecipe.season)
+        {
+            case 1:
+                return {backgroundColor:'#E6FFDA'};
+            case 2:
+                return {backgroundColor:'#FFFFDB'};
+            case 3:
+                return {backgroundColor:'#FFEEDB'};
+            case 4:
+                return {backgroundColor:'#DCF7FF'};
+            default:break;
+        }
+    };
+
     let video;
     if(viewRecipe.youtube!==''){
         video=<div><label style={{fontWeight:"700"}}>Video</label>
@@ -53,15 +76,15 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
             closeOnDimmerClick={true} 
             closeOnEscape={true} 
             onClose={handleCancelView}>
-            <Modal.Header>
+            <Modal.Header style={getHeaderColor()}>
             <Label as='a' color='teal' style={{fontSize:'20px', float:'left'}} horizontal> {recipe.category} </Label>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
                     <div style={{display:'flex', flexDirection:'column-reverse', alignSelf:'center'}}>
                         {viewRecipe.name}
                     </div>
                     <div>          
-                        <Button style={{display:user.isAdmin?'inline':'none'}} type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button>
-                        <Button style={{display:user.isAdmin?'inline':'none'}} type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
+                        <Button style={{display:user?.isAdmin?'inline':'none'}} type='button' color="blue" onClick={handleUpdateRecipe}>Zmeniť</Button>
+                        <Button style={{display:user?.isAdmin?'inline':'none'}} type='button' color="red" onClick={handleDeleteRecipe}>Vymazať</Button>
                         <DeleteRecipeModal
                             recipe={recipe}
                             openDeleteRecipeModal={openDeleteRecipeModal}
@@ -76,8 +99,13 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
                     <Form.Field>
                         <Image src={getImageUrl(viewRecipe.img)} alt='' style={{"width":"100%"}} />
                     </Form.Field>
+                    {viewRecipe.season>0?(
                     <Form.Field>
-                        <label>Ingredients</label>
+                        <label>Obdobie</label>
+                        {getSeasonText()}
+                    </Form.Field>):null}
+                    <Form.Field>
+                        <label>Ingrediencie</label>
                         <ul>
                             {viewRecipe.ingredients.map(i=>(
                                 <li key={i.name}>{i.name} {i.quantity} {i.unit}</li>
@@ -85,27 +113,27 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
                         </ul>
                     </Form.Field>
                     <Form.Field>
-                        <label>Description</label>
+                        <label>Popis</label>
                         <p style={{"whiteSpace":"pre-line"}}>{viewRecipe.description}</p>
                     </Form.Field>
                     <Form.Field>
                         {video}
                     </Form.Field>
                     <Form.Field>
-                        <p style={{"textAlign":"center"}}>Created on: {new Intl.DateTimeFormat('en-GB',{
+                        <p style={{"textAlign":"center"}}>Vytvorené dňa: {new Intl.DateTimeFormat('en-GB',{
                             year: "numeric",
                             month:"long",
                             day:"2-digit"
                         }).format(new Date(viewRecipe.date))}</p>
                     </Form.Field>
                     <Form.Field>
-                        <p style={{"textAlign":"center"}}>Created by: <b>{viewRecipe.createdBy}</b></p>
+                        <p style={{"textAlign":"center"}}>Vytvoril: <b>{viewRecipe.createdBy}</b></p>
                     </Form.Field>
                     </Form>
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='button' onClick={handleCancelView}>Cancel</Button>
+                <Button type='button' onClick={handleCancelView}>Zrušiť</Button>
                 {/* <Button type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button> */}
                 <UpdateRecipeModal
                     recipe={viewRecipe}

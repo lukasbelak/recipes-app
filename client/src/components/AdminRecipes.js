@@ -104,7 +104,7 @@ const AdminRecipes=({
         items.forEach(item=>{
             setIsLoading(true);
 
-            fetch('/api/recipesS/'+item, requestOptions)
+            fetch('/api/recipes/'+item, requestOptions)
             .then(resp=>{
                 resp.json();
             })
@@ -130,7 +130,7 @@ const AdminRecipes=({
           <div style={{ visibility: areAnySelected ? "visible" : "hidden" }}>
               <span style={{ marginRight: "8px" }}>{selectedCount} selected</span>
               <Button basic onClick={handleClearAll}>
-                  Clear
+                  Vymazať
               </Button>
           </div>
           <div>
@@ -147,11 +147,11 @@ const AdminRecipes=({
                       onChange={() => handleSelectAll(data)}
                   />
                   </Table.HeaderCell>
-              <Table.HeaderCell width={14} sorted={column === 'name' ? direction : null}onClick={handleSort('name')}>Name</Table.HeaderCell>
-              <Table.HeaderCell width={14} sorted={column === 'category' ? direction : null}onClick={handleSort('categry')}>Category</Table.HeaderCell>
+              <Table.HeaderCell width={14} sorted={column === 'name' ? direction : null}onClick={handleSort('name')}>Názov</Table.HeaderCell>
+              <Table.HeaderCell width={14} sorted={column === 'category' ? direction : null}onClick={handleSort('categry')}>Kategória</Table.HeaderCell>
               <Table.HeaderCell width={14} sorted={column === 'youtube' ? direction : null}onClick={handleSort('youtube')}>Youtube</Table.HeaderCell>
-              <Table.HeaderCell width={14} sorted={column === 'description' ? direction : null}onClick={handleSort('description')}>Description</Table.HeaderCell>
-              <Table.HeaderCell width={14} sorted={column === 'createdOn' ? direction : null}onClick={handleSort('createdOn')}>CreatedOn</Table.HeaderCell>
+              <Table.HeaderCell width={14} sorted={column === 'description' ? direction : null}onClick={handleSort('description')}>Popis</Table.HeaderCell>
+              <Table.HeaderCell width={14} sorted={column === 'createdOn' ? direction : null}onClick={handleSort('createdOn')}>Vytvorené dňa</Table.HeaderCell>
               <Table.HeaderCell width={1}></Table.HeaderCell>
           </Table.Row>
           </Table.Header>
@@ -171,7 +171,7 @@ const AdminRecipes=({
             <Table.Row>
                 <Table.HeaderCell />
                 <Table.HeaderCell colSpan='6'>
-                <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Delete</Button>
+                <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Vymazať</Button>
                 </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

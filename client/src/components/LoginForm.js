@@ -20,7 +20,6 @@ const LoginForm = () => {
     }
 
     const handleLogin=()=>{
-        debugger;
 
         setErrorMessage('');
 
@@ -33,7 +32,6 @@ const LoginForm = () => {
         fetch('/api/users/signin', requestOptions)
         .then(resp=>resp.json())
         .then((result)=>{
-            debugger;
             if(!result.token){
                 setErrorMessage('Not Authorized');
             }else{
@@ -77,22 +75,22 @@ const LoginForm = () => {
             <Image size='huge' src={logo}/> 
             <Form size='large'>
                 <Segment stacked>
-                    <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' onChange={userOnChange} />
+                    <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail' onChange={userOnChange} />
                     <Form.Input
                         fluid
                         icon='lock'
                         iconPosition='left'
-                        placeholder='Password'
+                        placeholder='Heslo'
                         type='password'
                         onChange={passwordOnChange}
                     />
 
-                    <Button color='green' fluid size='large' onClick={handleLogin}>Login</Button>
+                    <Button color='green' fluid size='large' onClick={handleLogin}>Prihlásiť</Button>
                     {errorMessage?<Label color='red' style={{textAlign:"center",margin:'10px'}}>{errorMessage}</Label>:<div></div>}
                 </Segment>
             </Form>
             <Message style={{width:"100%"}}>
-                New to us? <Button onClick={handleOpenSignUpModal}>Sign Up</Button>
+                Ste tu nový? <Button onClick={handleOpenSignUpModal}>Vytvoriť konto</Button>
                 <RegisterUserForm
                     openSignUpModal={openSignUpModal}
                     cancelSignupModal={cancelSignupModal}

@@ -36,7 +36,7 @@ const RecipesList =({user, query,isAscSort,selectedFilter,recipeCreated,showMess
               data = await resp.json();
             }
             console.log(data.docs);
-    debugger;
+
             setIsLoading(false);
             setRecipes(data.docs);
             setTotalPages(data.totalPages);
@@ -63,7 +63,7 @@ const RecipesList =({user, query,isAscSort,selectedFilter,recipeCreated,showMess
     return(
         <div>
             <Dimmer active={isLoading} inverted>
-                <Loader size='huge'>Loading...</Loader>
+                <Loader size='huge'>Načítavanie...</Loader>
             </Dimmer>
 
             <div className={style.recipes}>

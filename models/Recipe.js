@@ -15,6 +15,10 @@ const RecipeSchema = new Schema({
         type: Date,
         default:Date.now
     },
+    season:{
+        type: Number,
+        required:false
+    },
     ingredients:[{
         name:{
             type: String,

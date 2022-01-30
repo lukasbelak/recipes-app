@@ -83,8 +83,8 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button negative onClick={handleCancelOption} disabled={isInProgressCreateBool}>Cancel</Button>
-                    <Button positive onClick={handleCreateOption} disabled={isInProgressCreateBool}>Create</Button>
+                    <Button negative onClick={handleCancelOption} disabled={isInProgressCreateBool}>Zrušiť</Button>
+                    <Button positive onClick={handleCreateOption} disabled={isInProgressCreateBool}>Uložiť</Button>
                 </Modal.Actions>
             </Modal>
         </div>

@@ -5,6 +5,15 @@ export function youtubeParser(url){
     return (match&&match[1].length===11)? match[1] : '';
 };
 
+export function getSeasonsList() {
+  let seasons=[];
+  seasons.push({ key: 1, text: 'Jar', value: 1 });
+  seasons.push({ key: 2, text: 'Leto', value: 2 }); 
+  seasons.push({ key: 3, text: 'Jeseň', value: 3 }); 
+  seasons.push({ key: 4, text: 'Zima', value: 4 });   
+  return seasons;
+};
+
 export function getImageUrl(img){
     if(!img) return null;
     
@@ -67,8 +76,6 @@ export function textEllipsis(str, maxLength, { side = "end", ellipsis = "..." } 
 
       const resp = await fetch('/api/users/byUserName/'+userName,requestOptions);
       let result=await resp.json();
-
-debugger;
 
       if(result.user){
         return result.user;

@@ -4,6 +4,7 @@ import {youtubeParser} from '../utils';
 import SearchCategory from './SearchCategory';
 import Compress from 'compress.js';
 import NewCategoryModal from './NewCategoryModal';
+import SeasonList  from './SeasonList';
 
 const compress = new Compress();
 
@@ -11,6 +12,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
 
     const [ingredients, setIngredients]=useState(recipe.ingredients);
     const [category, setCategory] = useState(recipe.category);
+    const [season, setSeason]=useState(recipe.season);
     const [name, setName] = useState(recipe.name);
     const [youtube, setYoutube]=useState(recipe.youtube==='' ? '' : 'https://www.youtube.com/watch?v='+recipe.youtube);
     const [fileData, setFileData] = useState('');
@@ -25,7 +27,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [formError, setFormError]=useState(recipe.category===''||recipe.description===''||recipe.name==='');
     const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
     const [isNewCategory, setIsNewCategory] = useState(0);
-    const errorMessage='Please complete all required fields.';
+    const errorMessage='Vyplňte všetky povinné polia, prosím.';
 
     const updateYoutube = (e) =>{
         setYoutube(e.target.value); 
@@ -63,6 +65,11 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
         }
 
         checkFormError(categoryValue,name,description);
+    };
+
+    const getSeason=(value)=>{
+        let seasonValue=value;
+        setSeason(seasonValue);
     };
 
     const updateName = (e) =>{
@@ -157,7 +164,8 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             description: description,
             ingredients: ings,
             category: category,
-            youtube: youtubeParser(youtube)
+            youtube: youtubeParser(youtube),
+            season: season
         };
 
         if(fileData && fileContentType){
@@ -210,13 +218,13 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             <Modal.Description>
                 <Form error={formError} className={isInProgressUpdate}>
                     <Form.Field>
-                    <label className='requiredField'>Category</label>
+                    <label className='requiredField'>Kategória</label>
                         <SearchCategory
                         defaultValue={category}
                         getCategory={getCategory}
                         categoryError={categoryError}
                         isNewCategory={isNewCategory} />
-                        <Button color='green' circular icon style={{margin:"0px 10px"}} type='button' title='Add new category' onClick={handleAddCategory} >
+                        <Button color='green' circular icon style={{margin:"0px 10px"}} type='button' title='Pridať novú kategóriu' onClick={handleAddCategory} >
                             <Icon name='add' />
                         </Button>
                         <NewCategoryModal
@@ -226,31 +234,36 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
                             reloadCategories={reloadCategories}
                             />
                     </Form.Field>
+                    
                     <Form.Field>
-                        <label className='requiredField'>Name</label>
-                        <input type="text" value={name} onChange={updateName} placeholder='Name' error={nameError} required={true} />
+                        <label>Obdobie</label>
+                        <SeasonList defaultValue={season} getSeason={getSeason} />
                     </Form.Field>
                     <Form.Field>
-                        <label>Ingredients</label>
+                        <label className='requiredField'>Názov</label>
+                        <input type="text" value={name} onChange={updateName} placeholder='Názov' error={nameError} required={true} />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Ingrediencie</label>
                         {
                             ingredients.map((ingredient,index)=>{
                                 return(
                                     <div key={index} className="floatLeft">
-                                        <div className="floatLeft"><Input placeholder='name' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
-                                        <div className="floatLeft"><Input placeholder='quantity' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
-                                        <div className="floatLeft"><Input placeholder='unit' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
-                                        <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Remove</Button></div>
+                                        <div className="floatLeft"><Input placeholder='názov' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
+                                        <div className="floatLeft"><Input placeholder='množstvo' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
+                                        <div className="floatLeft"><Input placeholder='jednotka' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
+                                        <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Odstrániť</Button></div>
                                     </div>
                                 );
                             })
                         }
-                        <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Add</Button></div>
+                        <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Pridať</Button></div>
                         
                     </Form.Field>
                     <Form.Field>
-                        <label>Image</label>
+                        <label>Obrázok</label>
                         <div style={{"display":"table"}}>
-                            <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Upload</Button>
+                            <Button as="label" htmlFor="file" type="button" style={{ width: "100px",float:"left" }}>Nahrať</Button>
                             <input type="file" id="file" style={{ display: "none" }} onChange={onUploadImageChange} accept='.png,.jpg,.jpeg' />
                             <label style={{display:"table-cell",verticalAlign:"middle"}}>{fileName}</label>
                             <Icon style={fileName===''?{display:'none'}:{display:'table-cell',verticalAlign:'middle'}} link color='red' name='close' onClick={onRemoveImage} />
@@ -261,15 +274,15 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
                         <input type="text" value={youtube} onChange={updateYoutube} />
                     </Form.Field> 
                     <Form.Field>
-                        <label className='requiredField'>Description</label>
-                        <TextArea rows="20" value={description} onChange={updateDescription} placeholder='Description' required={true} error={descriptionError} />
+                        <label className='requiredField'>Popis</label>
+                        <TextArea rows="20" value={description} onChange={updateDescription} placeholder='Popis' required={true} error={descriptionError} />
                     </Form.Field>  
                     </Form>
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button type='button' floated='right' onClick={handleCancelView} disabled={isInProgressUpdateBool}>Cancel</Button>
-                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)} disabled={isInProgressUpdateBool}>Update</Button>
+                <Button type='button' floated='right' onClick={handleCancelView} disabled={isInProgressUpdateBool}>Zrušiť</Button>
+                <Button type='button' color="blue" onClick={handleUpdateRecipe.bind(handleUpdateRecipe, false)} disabled={isInProgressUpdateBool}>Uložiť</Button>
                 {formError?<p style={{"color":"red","fontSize":"medium","float":"left"}}>{errorMessage}</p>:<div></div>}
             </Modal.Actions>
         </Modal>

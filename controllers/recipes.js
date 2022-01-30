@@ -146,7 +146,8 @@ module.exports = {
             category: req.body.category,
             youtube: youtube,
             img:null,
-            user_id: req.body.userId
+            user_id: req.body.userId,
+            season: req.body.season
         };
 
         let ings=[];

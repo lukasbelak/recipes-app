@@ -131,19 +131,19 @@ const AdminCategories=({
     return (
         <div style={{margin:'auto',width:'700px'}}>
             <Dimmer active={isLoading} inverted>
-                <Loader size='huge'>Loading...</Loader>
+                <Loader size='huge'>Načítavanie...</Loader>
             </Dimmer>
 
             <Segment textAlign="left" style={segmentStyle}>
-                {!areAnySelected && <span>Select items in the table below</span>}
+                {!areAnySelected && <span>Zvoľte položky v tabuľke</span>}
                 <div style={{ visibility: areAnySelected ? "visible" : "hidden" }}>
                     <span style={{ marginRight: "8px" }}>{selectedCount} selected</span>
                     <Button basic onClick={handleClearAll}>
-                        Clear
+                        Vymazať
                     </Button>
                 </div>
                 <div>
-                    {data.length===1?<span>{data.length} Category</span>:<span>{data.length} Categories</span>}
+                    {data.length===1?<span>{data.length} Kategória</span>:<span>{data.length} Kategórie</span>}
                 </div>
             </Segment>
             <Table sortable fixed celled collapsing>
@@ -156,7 +156,7 @@ const AdminCategories=({
                             onChange={() => handleSelectAll(data)}
                         />
                         </Table.HeaderCell>
-                    <Table.HeaderCell width={14} sorted={column === 'name' ? direction : null}onClick={handleSort('name')}>Name</Table.HeaderCell>
+                    <Table.HeaderCell width={14} sorted={column === 'name' ? direction : null}onClick={handleSort('name')}>Názov</Table.HeaderCell>
                     <Table.HeaderCell width={1}></Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>
@@ -184,14 +184,14 @@ const AdminCategories=({
                             size='small'
                             onClick={handleAddCategory}
                         >
-                            <Icon name='add' /> New Category
+                            <Icon name='add' />Nová kategória
                         </Button>
                         <NewCategoryModal
                                 openNewCategoryModal={openNewCategoryModal}
                                 cancelNewCategoryModal={cancelNewCategoryModal}
                                 reloadCategories={reloadCategories}
                                 />
-                        <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Delete</Button>
+                        <Button size='small' color='red' disabled={!areAnySelected} onClick={handleDelete}>Vymazať</Button>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
