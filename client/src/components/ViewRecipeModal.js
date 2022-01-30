@@ -45,7 +45,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
     };
 
     const getHeaderColor=()=>{
-        debugger;
+
         switch(viewRecipe.season)
         {
             case 1:
@@ -68,7 +68,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
             source='youtube'
         /></div>;
     }
-
+debugger;
     return(
         <div>
         <Modal open={openViewRecipeModal} 
@@ -83,7 +83,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
                         {viewRecipe.name}
                     </div>
                     <div>          
-                        <Button style={{display:user?.isAdmin?'inline':'none'}} type='button' color="blue" onClick={handleUpdateRecipe}>Zmeniť</Button>
+                        <Button style={{display:user?.isAdmin || user?._id===viewRecipe.user_id ?'inline':'none'}} type='button' color="blue" onClick={handleUpdateRecipe}>Zmeniť</Button>
                         <Button style={{display:user?.isAdmin?'inline':'none'}} type='button' color="red" onClick={handleDeleteRecipe}>Vymazať</Button>
                         <DeleteRecipeModal
                             recipe={recipe}
