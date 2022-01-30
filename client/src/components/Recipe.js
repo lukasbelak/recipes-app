@@ -5,35 +5,41 @@ import ViewRecipeModal from './ViewRecipeModal';
 import {getImageUrl,getRequestOptions} from '../utils';
 import { useHistory } from "react-router-dom";
 
-const Recipe = ({recipe,reloadList,showMessage}) =>{
+const Recipe = ({user,recipe,reloadList,showMessage}) =>{
 
     const [openViewRecipeModal, setOpenViewRecipeModal] = useState(false);
     const [recipeCreatedBy, setRecipeCreatedBy] = useState('');
+    // const [loggedUser, setLoggedUser] = useState(null);
 
-    let history = useHistory();
+//     let history = useHistory();
 
-    useEffect(()=>{
+//     useEffect(()=>{
       
-      const getUser= async () => {
-        try{
+//       const getUser= async () => {
+//         try{
 
-          const resp = await fetch('/api/users/byid/'+recipe.user_id,getRequestOptions('GET'));
-          let user=await resp.json();
-debugger;
-          if(user){
-            setRecipeCreatedBy(user.firstName + " " + user.lastName);
-          } else{
-            setRecipeCreatedBy('');
-          }
-        }catch(err){
-          console.log(err.message);
-          setRecipeCreatedBy('');
-          history.push('/');
-        }
-      };
+//           const resp = await fetch('/api/users/byid/'+recipe.user_id,getRequestOptions('GET'));
+//           let user=await resp.json();
+// debugger;
+//           if(user){
+//             setLoggedUser(user);
+//             setRecipeCreatedBy(user.firstName + " " + user.lastName);
+//           } else{
+//             setLoggedUser(null);
+//             setRecipeCreatedBy('');
+//           }
+//         }catch(err){
+//           console.log(err.message);
+
+//           setLoggedUser(null);
+//           setRecipeCreatedBy('');
+
+//           history.push('/');
+//         }
+//       };
  
-      getUser();
-    },[history,recipe]);
+//       getUser();
+//     },[history,recipe]);
 
     const onRecipeClick=(value)=>{
         setOpenViewRecipeModal(value);
@@ -53,6 +59,7 @@ debugger;
             <Image className={style.recipe_img} src={recipe.img ? getImageUrl(recipe.img) : ''} alt='' onClick={onRecipeClick.bind(onRecipeClick,true)} />
             <ViewRecipeModal
                 recipe={recipe}
+                user={user}
                 openViewRecipeModal = {openViewRecipeModal}
                 cancelViewRecipeModal = {cancelViewRecipeModal}
                 reloadList={reloadList}

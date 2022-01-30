@@ -13,6 +13,7 @@ import {
 import { sortByOptions } from "../enums";
 import RecipesList from "../components/RecipesList";
 import { useHistory } from "react-router-dom";
+import {getLoggedUser} from '../utils';
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -27,40 +28,24 @@ const Home = () => {
   const [isAscSort, setIsAscSort] = useState(true);
   const [message, setMessage] = useState({});
   const [messageVisibility, setMessageVisibility] = useState("hidden");
-  const [connectedUser, setConnectedUser] = useState("");
+  const [user, setUser] = useState("");
 
   let history = useHistory();
 
   useEffect(() => {
+
     const getUser = async () => {
       try {
-        const userName = localStorage.getItem("rcp_userName");
-        if (!userName) {
-          setConnectedUser("");
-          return;
-        }
+        let user=await getLoggedUser()
 
-        const requestOptions = {
-          method: "GET",
-          headers: { Authorization: localStorage.getItem("rcp_token") },
-        };
-
-        const resp = await fetch(
-          "/api/users/byUserName/" + userName,
-          requestOptions
-        );
-        let result = await resp.json();
-
-        debugger;
-
-        if (result.user) {
-          setConnectedUser(result.user.firstName);
+        if (user) {
+          setUser(user);
         } else {
-          setConnectedUser("");
+          setUser("");
         }
       } catch (err) {
         console.log(err.message);
-        setConnectedUser("");
+        setUser("");
         history.push("/");
       }
     };
@@ -244,7 +229,7 @@ const Home = () => {
           <Container className="account-form">
             <Button.Group>
               <Button color="yellow" circular floated="right">
-                {connectedUser}
+                {user.firstName}
               </Button>
               <Dropdown
                 className="button icon"
@@ -252,7 +237,7 @@ const Home = () => {
                 trigger={<React.Fragment />}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item>
+                  <Dropdown.Item style={{display:user.isAdmin?'block':'none'}}>
                     <Button
                       color="blue"
                       content="Admin"
@@ -277,6 +262,7 @@ const Home = () => {
         {/* </Grid.Row> */}
       </Grid>
       <RecipesList
+        user={user}
         query={query}
         isAscSort={isAscSort}
         selectedFilter={selectedSort}

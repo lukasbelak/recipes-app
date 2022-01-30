@@ -4,7 +4,7 @@ import Recipe from './Recipe';
 import style from'./recipeslist.module.css';
 import { useHistory } from "react-router-dom";
 
-const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,selectedCategory}) => {
+const RecipesList =({user, query,isAscSort,selectedFilter,recipeCreated,showMessage,selectedCategory}) => {
 
     const [recipes, setRecipes]=useState([]);
     const [totalPages, setTotalPages]=useState(100);
@@ -70,6 +70,7 @@ const RecipesList =({query,isAscSort,selectedFilter,recipeCreated,showMessage,se
                 {recipes.map(recipe => (
                     <Recipe 
                         key={recipe._id} 
+                        user={user}
                         recipe={recipe}
                         reloadList={reloadList}
                         showMessage={showMessage}

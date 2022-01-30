@@ -1,17 +1,44 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Container,Menu,Responsive,Image} from 'semantic-ui-react';
 import AdminCategories from '../components/AdminCategories';
 import AdminRecipes from '../components/AdminRecipes';
 import './Admin.css';
 import logo from '../images/logo_white.png';
 import { useHistory } from "react-router-dom";
+import {getLoggedUser} from '../utils';
 
 const Admin = () => {
 
   const [isCategoriesVisible, setIsCategoriesVisible]=useState(true);
   const [isRecipesVisible,setIsRecipesVisible ]=useState(false);
+  const [user, setUser] = useState(null);
 
   let history=useHistory();
+
+  useEffect(() => {
+
+    const getUser = async () => {
+      try {
+        let user=await getLoggedUser()
+
+        if (user) {
+          setUser(user);
+        } else {
+          setUser("");
+        }
+
+        if(!user.isAdmin){
+            history.push("/home");
+        }
+      } catch (err) {
+        console.log(err.message);
+        setUser("");
+        history.push("/");
+      }
+    };
+
+    getUser();
+  }, [history]);
 
   const handleCategoriesClick=()=>{
     setIsCategoriesVisible(true);

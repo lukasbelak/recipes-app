@@ -4,7 +4,7 @@ import {getImageUrl} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
 
-const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,reloadList,showMessage}) => {
+const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeModal,reloadList,showMessage}) => {
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
     const [viewRecipe, setViewRecipe]=useState(recipe);
     const [openDeleteRecipeModal, setOpenDeleteRecipeModal]=useState(false);
@@ -60,8 +60,8 @@ const ViewRecipeModal = ({recipe, openViewRecipeModal, cancelViewRecipeModal,rel
                         {viewRecipe.name}
                     </div>
                     <div>          
-                        <Button type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button>
-                        <Button type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
+                        <Button style={{display:user.isAdmin?'inline':'none'}} type='button' color="blue" onClick={handleUpdateRecipe}>Update</Button>
+                        <Button style={{display:user.isAdmin?'inline':'none'}} type='button' color="red" onClick={handleDeleteRecipe}>Delete</Button>
                         <DeleteRecipeModal
                             recipe={recipe}
                             openDeleteRecipeModal={openDeleteRecipeModal}
