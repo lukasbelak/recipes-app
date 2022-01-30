@@ -149,7 +149,8 @@ module.exports = {
             youtube: youtube,
             img:null,
             user_id: req.body.userId,
-            season: req.body.season
+            season: req.body.season,
+            tags:req.body.tags
         };
 
         let ings=[];

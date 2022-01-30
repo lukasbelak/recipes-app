@@ -1,3 +1,5 @@
+import  _  from 'lodash';
+
 export function youtubeParser(url){
     // eslint-disable-next-line no-useless-escape
     var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
@@ -86,3 +88,47 @@ export function textEllipsis(str, maxLength, { side = "end", ellipsis = "..." } 
       console.log(err.message);
     }
   };
+
+  export async function createTag(selectedTag){
+    let reqOption=getRequestOptions('GET');
+
+    var customTags=selectedTag.filter(x=>x.customOption);
+    _.forEach(customTags, async(obj)=>{
+        debugger;
+
+        const resp = await fetch("/api/tags/byname/"+obj.label, reqOption);
+        let tag = await resp.json();
+
+        if(tag === null) {
+            const newTag = {name: obj.label};
+
+            const newTagRequestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('rcp_token') },
+                body: JSON.stringify(newTag)
+            };
+
+            fetch('/api/tags', newTagRequestOptions)
+                .then(resp=>resp.json())
+                .then((err)=>{
+                })
+                .catch(err=>{
+                    debugger;
+                });
+        }
+    });
+  };
+
+export function parseTags(tags){
+    debugger;
+    if(tags==null)return [];
+
+    let splittedTags = tags.split(';');
+    let recipeTags = [];
+    _.forEach(splittedTags, (obj)=>{
+      recipeTags.push({label:obj});
+    });
+
+    return recipeTags;
+};

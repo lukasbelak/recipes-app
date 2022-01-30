@@ -17,6 +17,8 @@ const categories = require('./routes/api/categories');
 app.use('/api/categories', categories);
 const users = require('./routes/api/users');
 app.use('/api/users', users);
+const tags = require('./routes/api/tags');
+app.use('/api/tags', tags);
 
 const uri = process.env.DB_CONNECTION;
 const mongoose = require('mongoose');

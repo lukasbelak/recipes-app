@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Modal,Form,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
-import {youtubeParser} from '../utils';
+import {youtubeParser,getRequestOptions,createTag} from '../utils';
 import NewCategoryModal from './NewCategoryModal';
 import Compress from 'compress.js';
 import SeasonList  from './SeasonList';
+import { Typeahead} from 'react-bootstrap-typeahead';
+import { useHistory } from "react-router-dom";
+import  _  from 'lodash';
 
 const compress = new Compress();
 
@@ -27,7 +30,41 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
     const [formError, setFormError]=useState(true);
     const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
     const [isNewCategory, setIsNewCategory] = useState(0);
+    const typeaheadRef = useRef(null);
+    const [selectedTag, setSelectedTag] = useState([]);
+    const [tags, setTags] = useState([]);
     const errorMessage='Vyplňte všetky povinné polia, prosím.';
+
+    let history = useHistory();
+
+    useEffect(() => {
+        const getTags = async () => {
+          try {
+            let data = [];
+
+            const requestOptions = getRequestOptions('GET');
+    
+            const resp = await fetch("/api/tags", requestOptions);
+            let result = await resp.json();
+            
+            debugger;
+            
+            result.forEach((tag) => {
+              data.push({
+                key: tag._id,
+                label: tag.name,
+                value: tag.name,
+              });
+            });
+            setTags(data);
+          } catch (err) {
+            console.log(err.message);
+            history.push("/");
+          }
+        };
+    
+        getTags();
+      }, [history]);
 
     const handleNewRecipe=(value)=>{
         createRecipe(value);
@@ -65,7 +102,8 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
             },
             youtube: youtubeParser(youtube),
             userId: result.user._id,
-            season: season
+            season: season,
+            tags: selectedTag.map(function(obj){ return obj.label; }).join(";")
         };
 
         let ings=[];
@@ -84,7 +122,9 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(recipe)
         };
-debugger;
+
+        await createTag();
+
         fetch('/api/recipes', requestOptions)
         .then(resp=>resp.json())
         .then((err)=>{
@@ -136,6 +176,7 @@ debugger;
         setFileContentType('');
         setFileName('');
         setSeason(null);
+        setSelectedTag([]);
 
         setNameError(true);
         setCategoryError(true);
@@ -255,7 +296,14 @@ debugger;
 
     const reloadCategories = ()=>{
         setIsNewCategory(isNewCategory+1);
-    }
+    };
+
+    const tagOnChange=(value) => {
+        debugger;
+        setSelectedTag(value);
+        // Keep the menu open when making multiple selections.
+        // typeaheadRef.current.toggleMenu();
+    };
 
     return(
         <div>
@@ -324,6 +372,19 @@ debugger;
                     <Form.Field>
                         <label>Youtube</label>
                         <input type="text" value={youtube} onChange={updateYoutube} />
+                    </Form.Field> 
+                    <Form.Field>
+                    <label>Tagy</label>
+                        <Typeahead
+                            multiple
+                            id="keep-menu-open"
+                            onChange={tagOnChange}
+                            options={tags}
+                            placeholder="Vyberte tag..."
+                            ref={typeaheadRef}
+                            selected={selectedTag}
+                            allowNew
+                            />
                     </Form.Field> 
                     <Form.Field>
                         <label className='requiredField'>Popis</label>

@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Typeahead} from 'react-bootstrap-typeahead';
 import { Button, Modal,Form,Icon,TextArea,Input } from 'semantic-ui-react';
-import {youtubeParser} from '../utils';
+import {youtubeParser,createTag,parseTags} from '../utils';
 import SearchCategory from './SearchCategory';
 import Compress from 'compress.js';
 import NewCategoryModal from './NewCategoryModal';
 import SeasonList  from './SeasonList';
+import { useHistory } from "react-router-dom";
+import  _  from 'lodash';
+
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const compress = new Compress();
 
@@ -27,7 +32,47 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
     const [formError, setFormError]=useState(recipe.category===''||recipe.description===''||recipe.name==='');
     const [openNewCategoryModal, setOpenNewCategoryModal]=useState(false);
     const [isNewCategory, setIsNewCategory] = useState(0);
+    const typeaheadRef = useRef(null);
+    const [selectedTag, setSelectedTag] = useState([]);
+    const [tags, setTags] = useState([]);
     const errorMessage='Vyplňte všetky povinné polia, prosím.';
+
+    let history = useHistory();
+
+    useEffect(() => {
+        const getTags = async () => {
+          try {
+            let data = [];
+
+            const requestOptions = {
+              method: "GET",
+              headers: { Authorization: localStorage.getItem("rcp_token") },
+            };
+    
+            const resp = await fetch("/api/tags", requestOptions);
+            let result = await resp.json();
+            
+            debugger;
+            
+            result.forEach((tag) => {
+              data.push({
+                key: tag._id,
+                label: tag.name,
+                value: tag.name,
+              });
+            });
+            setTags(data);
+          } catch (err) {
+            console.log(err.message);
+            history.push("/");
+          }
+        };
+    
+        getTags();
+        setSelectedTag(parseTags(recipe.tags));
+      }, [history,recipe]);
+
+
 
     const updateYoutube = (e) =>{
         setYoutube(e.target.value); 
@@ -159,13 +204,16 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             }
         });
 
+debugger;
+
         const recipeToUpdate = {
             name:name,
             description: description,
             ingredients: ings,
             category: category,
             youtube: youtubeParser(youtube),
-            season: season
+            season: season,
+            tags: selectedTag.map(function(obj){ return obj.label; }).join(";")
         };
 
         if(fileData && fileContentType){
@@ -180,6 +228,9 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
                 'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(recipeToUpdate)
         };
+
+        await createTag(selectedTag);
+
         let resp = await fetch('/api/recipes/' + recipe._id, requestOptions);
         recipe = await resp.json();
 
@@ -203,7 +254,14 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
 
     const reloadCategories = ()=>{
         setIsNewCategory(isNewCategory+1);
-    }
+    };
+
+    const tagOnChange=(value) => {
+        debugger;
+        setSelectedTag(value);
+        // Keep the menu open when making multiple selections.
+        // typeaheadRef.current.toggleMenu();
+    };
 
     return(
         <div>
@@ -233,8 +291,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
                             getCategory={getCategory}
                             reloadCategories={reloadCategories}
                             />
-                    </Form.Field>
-                    
+                    </Form.Field>             
                     <Form.Field>
                         <label>Obdobie</label>
                         <SeasonList defaultValue={season} getSeason={getSeason} />
@@ -272,11 +329,24 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
                     <Form.Field>
                         <label>Youtube</label>
                         <input type="text" value={youtube} onChange={updateYoutube} />
+                    </Form.Field>  
+                    <Form.Field>
+                    <label>Tagy</label>
+                        <Typeahead
+                            multiple
+                            id="keep-menu-open"
+                            onChange={tagOnChange}
+                            options={tags}
+                            placeholder="Vyberte tag..."
+                            ref={typeaheadRef}
+                            selected={selectedTag}
+                            allowNew
+                            />
                     </Form.Field> 
                     <Form.Field>
                         <label className='requiredField'>Popis</label>
                         <TextArea rows="20" value={description} onChange={updateDescription} placeholder='Popis' required={true} error={descriptionError} />
-                    </Form.Field>  
+                    </Form.Field> 
                     </Form>
             </Modal.Description>
             </Modal.Content>

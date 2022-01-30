@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { Button, Modal,Form, Embed, Image,Label } from 'semantic-ui-react';
-import {getImageUrl} from '../utils';
+import {getImageUrl,parseTags} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
 import {getSeasonsList} from '../utils';
+import { Typeahead} from 'react-bootstrap-typeahead';
+import { useHistory } from "react-router-dom";
 
 const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeModal,reloadList,showMessage}) => {
     const [openUpdateRecipeModal, setOpenUpdateRecipeModal] = useState(false);
     const [viewRecipe, setViewRecipe]=useState(recipe);
     const [openDeleteRecipeModal, setOpenDeleteRecipeModal]=useState(false);
+    const [selectedTag, setSelectedTag] = useState([]);
+    const typeaheadRef = useRef(null);
+
+    let history = useHistory();
+
+    useEffect(() => {
+        setSelectedTag(parseTags(recipe.tags));
+      }, [history,recipe]);
 
     const handleUpdateRecipe = ()=>{
         setOpenUpdateRecipeModal(true);
@@ -68,7 +78,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
             source='youtube'
         /></div>;
     }
-debugger;
+
     return(
         <div>
         <Modal open={openViewRecipeModal} 
@@ -112,6 +122,17 @@ debugger;
                             ))}
                         </ul>
                     </Form.Field>
+                    {recipe.tags?.length>0?(
+                    <Form.Field>
+                    <label>Tagy</label>
+                        <Typeahead
+                            multiple
+                            id="keep-menu-open"
+                            ref={typeaheadRef}
+                            selected={selectedTag}
+                            disabled={true}
+                            />
+                    </Form.Field> ):null}
                     <Form.Field>
                         <label>Popis</label>
                         <p style={{"whiteSpace":"pre-line"}}>{viewRecipe.description}</p>
