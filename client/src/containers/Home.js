@@ -13,7 +13,7 @@ import {
 import { sortByOptions } from "../enums";
 import RecipesList from "../components/RecipesList";
 import { useHistory } from "react-router-dom";
-import {getLoggedUser} from '../utils';
+import { getLoggedUser } from "../utils";
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -33,10 +33,9 @@ const Home = () => {
   let history = useHistory();
 
   useEffect(() => {
-
     const getUser = async () => {
       try {
-        let user=await getLoggedUser()
+        let user = await getLoggedUser();
 
         if (user) {
           setUser(user);
@@ -123,8 +122,9 @@ const Home = () => {
     }, 5000);
   };
 
-  const onChangeCategory = (e) => {
-    let selectedValue = e.target.textContent;
+  const onChangeCategory = (e,data) => {
+    debugger;
+    let selectedValue = data.value;
     setSelectedCategory(selectedValue);
   };
 
@@ -153,13 +153,13 @@ const Home = () => {
         {/* <Grid.Row> */}
         <Grid.Column style={{ width: "20%" }}></Grid.Column>
 
-        <Grid.Column  style={{ width: "60%" }}>
+        <Grid.Column style={{ width: "60%" }}>
           <Container className="search-form">
             <Grid columns={2} stackable>
               <Grid.Column>
-                <Grid columns={2} stackable>
+                <Grid>
                   <Grid.Column style={{ textAlign: "left", width: "80%" }}>
-                    <form onSubmit={getSearch}>
+                    <form onSubmit={getSearch} style={{ float: "left" }}>
                       <div className="ui action input">
                         <input
                           type="text"
@@ -167,15 +167,12 @@ const Home = () => {
                           value={search}
                           onChange={updateSearch}
                         />
-                        <button className="ui button blue" type="submit">
+                        <Button className="ui button blue" type="submit">
                           Vyhľadať
-                        </button>
+                        </Button>
                       </div>
                     </form>
-                  </Grid.Column>
-                  <Grid.Column style={{ textAlign: "left", width: "20%" }}>
                     <NewRecipeModal
-                      className="new-recipe-button"
                       openNewRecipeModal={openNewRecipeModal}
                       createRecipe={createRecipe}
                       cancelCreateRecipe={cancelCreateRecipe}
@@ -184,11 +181,10 @@ const Home = () => {
                   </Grid.Column>
                 </Grid>
               </Grid.Column>
-
               <Grid.Column>
-                <Grid columns={3} stackable>
+                <Grid>
                   <Grid.Column>
-                    <span style={{ margin: "10px 5px" }}>
+                    <span style={{float: "left" }}>
                       <Dropdown
                         onChange={onChangeSort}
                         selection
@@ -196,12 +192,11 @@ const Home = () => {
                         defaultValue={sortByOptions[0].value}
                       />
                     </span>
-                  </Grid.Column>
-                  <Grid.Column>
                     <Button
                       size="medium"
                       color="grey"
                       onClick={handleIsAscSort}
+                      style={{ height:'38px', float:'left', margin:'0 10px'}}
                     >
                       {isAscSort ? (
                         <Icon name="sort content descending" />
@@ -209,16 +204,12 @@ const Home = () => {
                         <Icon name="sort content ascending" />
                       )}
                     </Button>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <span style={{ margin: "10px 5px" }}>
                       <Dropdown
                         onChange={onChangeCategory}
                         selection
                         options={categoryOptions}
                         defaultValue={categoryOptions[0].value}
                       />
-                    </span>
                   </Grid.Column>
                 </Grid>
               </Grid.Column>
@@ -238,7 +229,9 @@ const Home = () => {
                 trigger={<React.Fragment />}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item style={{display:user?.isAdmin?'block':'none'}}>
+                  <Dropdown.Item
+                    style={{ display: user?.isAdmin ? "block" : "none" }}
+                  >
                     <Button
                       color="blue"
                       content="Admin"

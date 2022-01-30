@@ -313,7 +313,7 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
             onClose={handleCancelCreate}
             closeOnDimmerClick={true}
             closeOnEscape={true}
-            trigger={<Button color="green" className="new-recipe-button" onClick={handleNewRecipe.bind(handleNewRecipe,true)}>Nový</Button>}>
+            trigger={<Button  className="ui button green" style={{position:'fixed', margin:'0 10px', height:'38px'}} onClick={handleNewRecipe.bind(handleNewRecipe,true)}>Nový</Button>}>
             <Modal.Header>Nový recept</Modal.Header>
             <Modal.Content>
             <Modal.Description>
