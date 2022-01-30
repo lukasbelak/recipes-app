@@ -11,6 +11,7 @@
     width: 350px;
     height: 200px;
     position: relative;
+    background-color: rgb(26, 141, 49);
 }
 
 .recipe_img{
