@@ -7,12 +7,14 @@ import {
   Icon,
   Message,
   Grid,
-  Container
+  Container,
+  Image
 } from "semantic-ui-react";
 import { sortByOptions } from "../enums";
 import RecipesList from "../components/RecipesList";
 import { useHistory } from "react-router-dom";
 import { getLoggedUser } from "../utils";
+import logo from '../images/logo_white.png';
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -135,6 +137,11 @@ const Home = () => {
     history.push("/");
   };
 
+  const handleLogoClick=()=>{
+      debugger;
+      history.push('/home');
+  }
+
   return (
     <div className="App">
       <div className="message">
@@ -148,9 +155,13 @@ const Home = () => {
         </Message>
       </div>
 
-      <Grid columns={3} stackable>
+      <Grid columns={3} stackable style={{backgroundColor:'#1b1c1d'}}>
         {/* <Grid.Row> */}
-        <Grid.Column style={{ width: "20%" }}></Grid.Column>
+        <Grid.Column style={{ width: "20%" }}>
+          <Container className="account-form">
+            <Image size='small' src={logo} onClick={handleLogoClick} />
+          </Container>
+        </Grid.Column>
 
         <Grid.Column style={{ width: "60%" }}>
           <Container className="search-form">
