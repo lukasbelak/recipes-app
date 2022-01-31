@@ -102,7 +102,7 @@ const Home = () => {
 
   const onChangeSort = (e) => {
     debugger;
-    let selectedValue = e.target.id;
+    let selectedValue = e.currentTarget.id;
     setSelectedSort(selectedValue);
   };
 
