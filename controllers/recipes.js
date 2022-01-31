@@ -97,18 +97,31 @@ module.exports = {
                   default: options.sort={name: isAsc}; break;
               }
     
-              let query={name :new RegExp(filter, 'i')};
+              let query={
+                  $or:[
+                        {"ingredients.name" : new RegExp(filter, 'i')},
+                        {"name": new RegExp(filter, 'i')}
+                    ]
+                };
+
               if(req.params.category!=='All'){
+
                 query={
-                    name :new RegExp(filter, 'i'),
-                    category:req.params.category
-                }
+                    $and: [
+                        {"category": req.params.category} ,
+                        {
+                            $or: [
+                                { "name": new RegExp(filter, 'i')},
+                                { "ingredients.name": new RegExp(filter, 'i') }
+                            ]
+                        }
+                    ]
+                };
               }
     
               await Recipe.paginate(query, options, (err, result)=>{
-                  console.log("RecipePaginate: "+result);
                 res.json(result);
-                });
+              });
         }catch(err){
             console.log(err.message);
             res.json({message:err.message});
