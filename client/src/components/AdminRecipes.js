@@ -122,11 +122,11 @@ const AdminRecipes=({
     return (
       <div style={{margin:'auto',width:'900px'}}>
       <Dimmer active={isLoading} inverted>
-          <Loader size='huge'>Loading...</Loader>
+          <Loader size='huge'>Načítavanie...</Loader>
       </Dimmer>
 
       <Segment textAlign="left" style={segmentStyle}>
-          {!areAnySelected && <span>Select items in the table below</span>}
+          {!areAnySelected && <span>Zvoľte položky v tabuľke</span>}
           <div style={{ visibility: areAnySelected ? "visible" : "hidden" }}>
               <span style={{ marginRight: "8px" }}>{selectedCount} selected</span>
               <Button basic onClick={handleClearAll}>
@@ -134,7 +134,7 @@ const AdminRecipes=({
               </Button>
           </div>
           <div>
-              {data.length===1?<span>{data.length} Recipe</span>:<span>{data.length} Recipes</span>}
+              {data.length===1?<span>{data.length} Recept</span>:<span>{data.length} Recepty</span>}
           </div>
       </Segment>
       <Table sortable fixed celled collapsing>

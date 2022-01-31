@@ -7,9 +7,7 @@ import {
   Icon,
   Message,
   Grid,
-  Segment,
-  Container,
-  GridColumn,
+  Container
 } from "semantic-ui-react";
 import { sortByOptions } from "../enums";
 import RecipesList from "../components/RecipesList";

@@ -7,7 +7,6 @@ import Compress from 'compress.js';
 import NewCategoryModal from './NewCategoryModal';
 import SeasonList  from './SeasonList';
 import { useHistory } from "react-router-dom";
-import  _  from 'lodash';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 

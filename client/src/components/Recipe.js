@@ -11,35 +11,35 @@ const Recipe = ({user,recipe,reloadList,showMessage}) =>{
     const [recipeCreatedBy, setRecipeCreatedBy] = useState('');
     // const [loggedUser, setLoggedUser] = useState(null);
 
-//     let history = useHistory();
+     let history = useHistory();
 
-//     useEffect(()=>{
+    useEffect(()=>{
       
-//       const getUser= async () => {
-//         try{
+      const getUser= async () => {
+        try{
 
-//           const resp = await fetch('/api/users/byid/'+recipe.user_id,getRequestOptions('GET'));
-//           let user=await resp.json();
-// debugger;
-//           if(user){
-//             setLoggedUser(user);
-//             setRecipeCreatedBy(user.firstName + " " + user.lastName);
-//           } else{
-//             setLoggedUser(null);
-//             setRecipeCreatedBy('');
-//           }
-//         }catch(err){
-//           console.log(err.message);
+          const resp = await fetch('/api/users/byid/'+recipe.user_id,getRequestOptions('GET'));
+          let user=await resp.json();
+debugger;
+          if(user){
+            // setLoggedUser(user);
+            setRecipeCreatedBy(user.firstName + " " + user.lastName);
+          } else{
+            // setLoggedUser(null);
+            setRecipeCreatedBy('');
+          }
+        }catch(err){
+          console.log(err.message);
 
-//           setLoggedUser(null);
-//           setRecipeCreatedBy('');
+        //   setLoggedUser(null);
+          setRecipeCreatedBy('');
 
-//           history.push('/');
-//         }
-//       };
+          history.push('/');
+        }
+      };
  
-//       getUser();
-//     },[history,recipe]);
+      getUser();
+    },[history,recipe]);
 
     const onRecipeClick=(value)=>{
         setOpenViewRecipeModal(value);

@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { Button, Modal,Form } from 'semantic-ui-react';
 
-const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCategory, reloadCategories}) => {
+const NewTagModal = ({openNewTagModal, cancelNewTagModal, getTag, reloadTags}) => {
 
     const [isInProgressCreate, setIsInProgressCreate]=useState('');
     const [isInProgressCreateBool, setIsInProgressCreateBool]=useState(false);
@@ -12,7 +12,7 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
         setIsInProgressCreate('loading');
         setIsInProgressCreateBool(true);
 
-        let category={
+        let tag={
             name:name
         };
 
@@ -20,10 +20,10 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('rcp_token') },
-            body: JSON.stringify(category)
+            body: JSON.stringify(tag)
         };
 
-        fetch('/api/categories/', requestOptions)
+        fetch('/api/tags/', requestOptions)
         .then(resp=>{
             resp.json();
         })
@@ -32,19 +32,19 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
                 console.log(err.message);
             }
 
-            if(getCategory!==undefined)getCategory(name);
-            reloadCategories();
+            if(getTag!==undefined)getTag(name);
+            reloadTags();
 
             setName('');
             setIsInProgressCreate('');
             setIsInProgressCreateBool(false);
-            cancelNewCategoryModal(true);
+            cancelNewTagModal(true);
         });
     };
 
     const handleCancelOption=()=>{
         setName('');
-        cancelNewCategoryModal(false);
+        cancelNewTagModal(false);
     };
 
     const updateName=(e)=>{
@@ -67,13 +67,13 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
     return (
         <div>
             <Modal size='tiny' 
-                open={openNewCategoryModal} 
-                onClose={cancelNewCategoryModal}
+                open={openNewTagModal} 
+                onClose={cancelNewTagModal}
                 closeOnDimmerClick={false} 
                 closeOnEscape={false} 
                 dimmer='blurring'
                 centered>
-                <Modal.Header>Nová kategória</Modal.Header>
+                <Modal.Header>Nový tag</Modal.Header>
                 <Modal.Content>
                     <Form className={isInProgressCreate}>
                         <Form.Field>
@@ -91,4 +91,4 @@ const NewCategoryModal = ({openNewCategoryModal, cancelNewCategoryModal, getCate
     )
 };
 
-export default NewCategoryModal;
+export default NewTagModal;
