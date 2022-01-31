@@ -59,13 +59,13 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
         switch(viewRecipe.season)
         {
             case 1:
-                return {backgroundColor:'#E6FFDA'};
+                return {backgroundColor:'#52d178'};
             case 2:
-                return {backgroundColor:'#FFFFDB'};
+                return {backgroundColor:'#ffff5d'};
             case 3:
-                return {backgroundColor:'#FFEEDB'};
+                return {backgroundColor:'#ff582c'};
             case 4:
-                return {backgroundColor:'#DCF7FF'};
+                return {backgroundColor:'#2dcfff'};
             default:break;
         }
     };
