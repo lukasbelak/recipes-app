@@ -24,7 +24,7 @@ module.exports = {
     
             const options = {
                 page: req.params.activePage,
-                limit: 12,
+                limit: 16,
                 collation: {
                   locale: 'en'
                 }
@@ -81,7 +81,7 @@ module.exports = {
     
             const options = {
                 page: req.params.activePage,
-                limit: 12,
+                limit: 16,
                 collation: {
                   locale: 'en'
                 }

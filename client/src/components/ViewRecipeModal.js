@@ -17,8 +17,8 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
     let history = useHistory();
 
     useEffect(() => {
-        setSelectedTag(parseTags(recipe.tags));
-      }, [history,recipe]);
+        setSelectedTag(parseTags(viewRecipe.tags));
+      }, [history,viewRecipe]);
 
     const handleUpdateRecipe = ()=>{
         setOpenUpdateRecipeModal(true);
@@ -78,7 +78,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
             source='youtube'
         /></div>;
     }
-
+debugger;
     return(
         <div>
         <Modal open={openViewRecipeModal} 
@@ -122,7 +122,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
                             ))}
                         </ul>
                     </Form.Field>
-                    {recipe.tags?.length>0?(
+                    {recipe.tags?.length>2?(
                     <Form.Field>
                     <label>Tagy</label>
                         <Typeahead

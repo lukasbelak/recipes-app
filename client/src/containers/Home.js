@@ -9,6 +9,7 @@ import {
   Grid,
   Segment,
   Container,
+  GridColumn,
 } from "semantic-ui-react";
 import { sortByOptions } from "../enums";
 import RecipesList from "../components/RecipesList";
@@ -122,7 +123,7 @@ const Home = () => {
     }, 5000);
   };
 
-  const onChangeCategory = (e,data) => {
+  const onChangeCategory = (e, data) => {
     debugger;
     let selectedValue = data.value;
     setSelectedCategory(selectedValue);
@@ -173,6 +174,7 @@ const Home = () => {
                       </div>
                     </form>
                     <NewRecipeModal
+                      user={user}
                       openNewRecipeModal={openNewRecipeModal}
                       createRecipe={createRecipe}
                       cancelCreateRecipe={cancelCreateRecipe}
@@ -184,7 +186,7 @@ const Home = () => {
               <Grid.Column>
                 <Grid>
                   <Grid.Column>
-                    <span style={{float: "left" }}>
+                    <span style={{ float: "left" }}>
                       <Dropdown
                         onChange={onChangeSort}
                         selection
@@ -196,7 +198,11 @@ const Home = () => {
                       size="medium"
                       color="grey"
                       onClick={handleIsAscSort}
-                      style={{ height:'38px', float:'left', margin:'0 10px'}}
+                      style={{
+                        height: "38px",
+                        float: "left",
+                        margin: "0 10px",
+                      }}
                     >
                       {isAscSort ? (
                         <Icon name="sort content descending" />
@@ -204,12 +210,13 @@ const Home = () => {
                         <Icon name="sort content ascending" />
                       )}
                     </Button>
-                      <Dropdown
-                        onChange={onChangeCategory}
-                        selection
-                        options={categoryOptions}
-                        defaultValue={categoryOptions[0].value}
-                      />
+                    <Dropdown
+                      style={{ display: "flex" }}
+                      onChange={onChangeCategory}
+                      selection
+                      options={categoryOptions}
+                      defaultValue={categoryOptions[0].value}
+                    />
                   </Grid.Column>
                 </Grid>
               </Grid.Column>
@@ -219,38 +226,42 @@ const Home = () => {
 
         <Grid.Column style={{ width: "20%" }}>
           <Container className="account-form">
-            <Button.Group>
-              <Button color="yellow" circular floated="right">
-                {user?.firstName}
-              </Button>
-              <Dropdown
-                className="button icon"
-                floating
-                trigger={<React.Fragment />}
-              >
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    style={{ display: user?.isAdmin ? "block" : "none" }}
+            <Grid columns={1} stackable>
+              <Grid.Column>
+                <Button.Group>
+                  <Button color="yellow" circular floated="right">
+                    {user?.firstName}
+                  </Button>
+                  <Dropdown
+                    className="button icon"
+                    floating
+                    trigger={<React.Fragment />}
                   >
-                    <Button
-                      color="blue"
-                      content="Admin"
-                      fluid
-                      as={Link}
-                      to="/admin"
-                    />
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Button
-                      color="red"
-                      content="Odhlásiť"
-                      fluid
-                      onClick={handleLogOut}
-                    />
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Button.Group>
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        style={{ display: user?.isAdmin ? "block" : "none" }}
+                      >
+                        <Button
+                          color="blue"
+                          content="Admin"
+                          fluid
+                          as={Link}
+                          to="/admin"
+                        />
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Button
+                          color="red"
+                          content="Odhlásiť"
+                          fluid
+                          onClick={handleLogOut}
+                        />
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Button.Group>
+              </Grid.Column>
+            </Grid>
           </Container>
         </Grid.Column>
         {/* </Grid.Row> */}

@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Modal,Form,Input,Icon} from 'semantic-ui-react';
 import SearchCategory from './SearchCategory';
-import {youtubeParser,getRequestOptions,createTag} from '../utils';
+import {youtubeParser,getRequestOptions,createTags} from '../utils';
 import NewCategoryModal from './NewCategoryModal';
 import Compress from 'compress.js';
 import SeasonList  from './SeasonList';
 import { Typeahead} from 'react-bootstrap-typeahead';
 import { useHistory } from "react-router-dom";
-import  _  from 'lodash';
+// import  _  from 'lodash';
 
 const compress = new Compress();
 
-const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,showMessage }) => {
+const NewRecipeModal = ({user,openNewRecipeModal, createRecipe, cancelCreateRecipe,showMessage }) => {
 
     const [ingredients, setIngredients]=useState([]);
     const [name, setName]=useState('');
@@ -82,15 +82,18 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
         setIsInProgressCreate('loading');
         setIsInProgressCreateBool(true);
 
-        const requestOptionsUser = {
-            method: 'GET',
-            headers: { 'Authorization': localStorage.getItem('rcp_token') }
-          };
+        // const requestOptionsUser = {
+        //     method: 'GET',
+        //     headers: { 'Authorization': localStorage.getItem('rcp_token') }
+        //   };
 
-        const userName=localStorage.getItem('rcp_userName');
+        // const userName=localStorage.getItem('rcp_userName');
 
-        const resp = await fetch('/api/users/byUserName/' + userName, requestOptionsUser);
-        let result=await resp.json();
+        // const resp = await fetch('/api/users/byUserName/' + userName, requestOptionsUser);
+        // let result=await resp.json();
+
+        var createdTags = await createTags(selectedTag); 
+        debugger;
 
         const recipe = {
             name:name,
@@ -101,9 +104,9 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 contentType: fileContentType
             },
             youtube: youtubeParser(youtube),
-            userId: result.user._id,
+            userId: user._id, // result.user._id,
             season: season,
-            tags: selectedTag.map(function(obj){ return obj.label; }).join(";")
+            tags: JSON.stringify(createdTags) // selectedTag.map(function(obj){ return obj.label; }).join(";")
         };
 
         let ings=[];
@@ -122,8 +125,6 @@ const NewRecipeModal = ({openNewRecipeModal, createRecipe, cancelCreateRecipe,sh
                 'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(recipe)
         };
-
-        await createTag();
 
         fetch('/api/recipes', requestOptions)
         .then(resp=>resp.json())

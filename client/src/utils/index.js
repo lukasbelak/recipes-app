@@ -89,45 +89,85 @@ export function textEllipsis(str, maxLength, { side = "end", ellipsis = "..." } 
     }
   };
 
-  export async function createTag(selectedTag){
-    let reqOption=getRequestOptions('GET');
+  export async function createTags(selectedTag){
+    //let reqOption=getRequestOptions('GET');
 
-    var customTags=selectedTag.filter(x=>x.customOption);
-    _.forEach(customTags, async(obj)=>{
-        debugger;
-
-        const resp = await fetch("/api/tags/byname/"+obj.label, reqOption);
-        let tag = await resp.json();
-
-        if(tag === null) {
-            const newTag = {name: obj.label};
-
-            const newTagRequestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem('rcp_token') },
-                body: JSON.stringify(newTag)
-            };
-
-            fetch('/api/tags', newTagRequestOptions)
-                .then(resp=>resp.json())
-                .then((err)=>{
-                })
-                .catch(err=>{
-                    debugger;
-                });
-        }
+    let tags=[];
+    var customTags = selectedTag.filter(x=>x.customOption);
+    var existingTags = selectedTag.filter(x=>!x.customOption);
+debugger;
+    existingTags.forEach(obj=>{
+      tags.push({id:obj.key, name:obj.label});
     });
+
+    await Promise.all(customTags.map(async (obj)=>{
+      try{
+        const newTag = {name: obj.label};
+
+        const newTagRequestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('rcp_token') },
+            body: JSON.stringify(newTag)
+        };
+
+        const resp=await fetch('/api/tags', newTagRequestOptions);
+        let createdTag=await resp.json();
+
+        tags.push({id:createdTag, name:obj.label});
+      } catch (error) {
+        console.log('error'+ error);
+      }
+    }));
+
+    
+    // await _.forEach(customTags, async(obj)=>{
+    //     // debugger;
+
+    //     // const resp = await fetch("/api/tags/byname/"+obj.label, reqOption);
+    //     // let tag = await resp.json();
+
+    //     // if(tag === null) {
+    //         const newTag = {name: obj.label};
+
+    //         const newTagRequestOptions = {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json',
+    //                 'Authorization': localStorage.getItem('rcp_token') },
+    //             body: JSON.stringify(newTag)
+    //         };
+
+    //         const resp=await fetch('/api/tags', newTagRequestOptions);
+    //         let createdTag=await resp.json();
+
+    //         tags.push({id:createdTag, name:obj.label});
+
+    //         debugger;
+    //             // .then(resp=>{
+    //             //   debugger;
+    //             //   resp.json();}
+    //             //   )
+    //             // .then((err)=>{
+    //             // })
+    //             // .catch(err=>{
+    //             //     debugger;
+    //             // });
+    //     //}
+    // });
+
+    return tags;
   };
 
 export function parseTags(tags){
     debugger;
-    if(tags==null)return [];
+    if(tags==null||tags==="")return null;
 
-    let splittedTags = tags.split(';');
-    let recipeTags = [];
-    _.forEach(splittedTags, (obj)=>{
-      recipeTags.push({label:obj});
+    var parsedTags = JSON.parse(tags);
+
+    // let splittedTags = tags.split(';');
+     let recipeTags = [];
+    _.forEach(parsedTags, (obj)=>{
+      recipeTags.push({key:obj.id, label:obj.name});
     });
 
     return recipeTags;

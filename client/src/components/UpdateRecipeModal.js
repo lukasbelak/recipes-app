@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Typeahead} from 'react-bootstrap-typeahead';
 import { Button, Modal,Form,Icon,TextArea,Input } from 'semantic-ui-react';
-import {youtubeParser,createTag,parseTags} from '../utils';
+import {youtubeParser,createTags,parseTags} from '../utils';
 import SearchCategory from './SearchCategory';
 import Compress from 'compress.js';
 import NewCategoryModal from './NewCategoryModal';
@@ -204,7 +204,9 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             }
         });
 
-debugger;
+        debugger;
+
+        var createdTags=await createTags(selectedTag);
 
         const recipeToUpdate = {
             name:name,
@@ -213,7 +215,7 @@ debugger;
             category: category,
             youtube: youtubeParser(youtube),
             season: season,
-            tags: selectedTag.map(function(obj){ return obj.label; }).join(";")
+            tags:JSON.stringify(createdTags) // selectedTag.map(function(obj){ return obj.label; }).join(";")
         };
 
         if(fileData && fileContentType){
@@ -228,8 +230,6 @@ debugger;
                 'Authorization': localStorage.getItem('rcp_token') },
             body: JSON.stringify(recipeToUpdate)
         };
-
-        await createTag(selectedTag);
 
         let resp = await fetch('/api/recipes/' + recipe._id, requestOptions);
         recipe = await resp.json();
