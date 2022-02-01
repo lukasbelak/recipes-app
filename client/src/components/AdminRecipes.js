@@ -60,7 +60,7 @@ const AdminRecipes=({
             console.log('recipes: '+recipes);
           }catch(err){
             console.log(err.message);
-            history.push('/');
+            history.push('/login');
           }
         };
     
@@ -113,7 +113,7 @@ const AdminRecipes=({
                 handleDeleted();
                 if(err && err.message){
                     console.log(err.message);
-                    history.push('/');
+                    history.push('/login');
                 }
             });
         });

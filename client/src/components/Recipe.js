@@ -34,7 +34,7 @@ debugger;
         //   setLoggedUser(null);
           setRecipeCreatedBy('');
 
-          history.push('/');
+          history.push('/login');
         }
       };
  

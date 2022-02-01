@@ -57,7 +57,7 @@ const AdminTags=({
             console.log('tags: '+tags);
           }catch(err){
             console.log(err.message);
-            history.push('/');
+            history.push('/login');
           }
         };
     

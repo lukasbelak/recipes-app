@@ -63,7 +63,7 @@ const UpdateRecipeModal = ({recipe,openUpdateRecipeModal, cancelUpdateRecipeModa
             setTags(data);
           } catch (err) {
             console.log(err.message);
-            history.push("/");
+            history.push('/login');
           }
         };
     

@@ -46,7 +46,7 @@ const Home = () => {
       } catch (err) {
         console.log(err.message);
         setUser("");
-        history.push("/");
+        history.push('/login');
       }
     };
 
@@ -74,7 +74,7 @@ const Home = () => {
         setCategoryOptions(data);
       } catch (err) {
         console.log(err.message);
-        history.push("/");
+        history.push('/login');
       }
     };
 
@@ -134,12 +134,12 @@ const Home = () => {
     localStorage.removeItem("rcp_token");
     fetch("/api/users/logout");
 
-    history.push("/");
+    history.push('/login');
   };
 
   const handleLogoClick=()=>{
       debugger;
-      history.push('/home');
+      history.push('/');
   }
 
   return (

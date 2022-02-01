@@ -15,7 +15,7 @@ const LoginForm = () => {
 
     const redirectToHome=()=>{
         if(isRedirectToHome){
-            return <Redirect to='/home' />;
+            return <Redirect to='/' />;
         }
     }
 

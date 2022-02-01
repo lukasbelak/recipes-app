@@ -57,7 +57,7 @@ const AdminCategories=({
             console.log('categories: '+categories);
           }catch(err){
             console.log(err.message);
-            history.push('/');
+            history.push('/login');
           }
         };
     

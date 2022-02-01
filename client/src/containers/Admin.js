@@ -35,7 +35,7 @@ const Admin = () => {
       } catch (err) {
         console.log(err.message);
         setUser("");
-        history.push("/");
+        history.push('/login');
       }
     };
 
@@ -62,7 +62,7 @@ const Admin = () => {
 
 const handleLogoClick=()=>{
     debugger;
-    history.push('/home');
+    history.push('/');
 }
 
   return(

@@ -44,7 +44,7 @@ const RecipesList =({user, query,isAscSort,selectedFilter,recipeCreated,showMess
             console.log('end getrecipes');
           }catch(err){
             console.log(err);
-            history.push('/');
+            history.push('/login');
           }
         };
     

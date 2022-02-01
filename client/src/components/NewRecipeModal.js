@@ -59,7 +59,7 @@ const NewRecipeModal = ({user,openNewRecipeModal, createRecipe, cancelCreateReci
             setTags(data);
           } catch (err) {
             console.log(err.message);
-            history.push("/");
+            history.push('/login');
           }
         };
     
@@ -362,12 +362,12 @@ const NewRecipeModal = ({user,openNewRecipeModal, createRecipe, cancelCreateReci
                                         <div className="floatLeft"><Input placeholder='názov' onChange={(e)=>handleAddIngredientName(e,index)} value={ingredient.name} /></div>
                                         <div className="floatLeft"><Input placeholder='množstvo' onChange={(e)=>handleAddIngredientQuantity(e,index)} value={ingredient.quantity} /></div>
                                         <div className="floatLeft"><Input placeholder='jednotka' onChange={(e)=>handleAddIngredientUnit(e,index)} value={ingredient.unit} /></div>
-                                        <div className="floatLeft"><Button type="button" onClick={()=>handleRemoveIngredient(index)}>Odstrániť</Button></div>
+                                        <div className="floatLeft"><Button color='red' type="button" onClick={()=>handleRemoveIngredient(index)}>Odstrániť</Button></div>
                                     </div>
                                 );
                             })
                         }
-                        <div className="floatLeft"><Button type='button' onClick={handleAddIngredient}>Pridať</Button></div>
+                        <Button color='green' type='button' onClick={handleAddIngredient}>Pridať</Button>
                         
                     </Form.Field>
                     <Form.Field>
