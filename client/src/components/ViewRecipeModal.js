@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from 'react';
-import { Button, Modal,Form, Embed, Image,Label } from 'semantic-ui-react';
+import { Button, Modal,Form, Embed, Image,Label, Grid, Container } from 'semantic-ui-react';
 import {getImageUrl,parseTags} from '../utils';
 import UpdateRecipeModal from './UpdateRecipeModal';
 import DeleteRecipeModal from './DeleteRecipeModal';
@@ -51,7 +51,7 @@ const ViewRecipeModal = ({recipe, user, openViewRecipeModal, cancelViewRecipeMod
     const getSeasonText=()=>{
         let seasons=getSeasonsList();
         let season= seasons.find(x=>x.value===viewRecipe.season);
-        return season.text;
+        return season?.text;
     };
 
     const getHeaderColor=()=>{
@@ -105,7 +105,71 @@ debugger;
                 </Modal.Header>
             <Modal.Content>
             <Modal.Description>
-                <Form>
+
+                <Grid columns={2} >
+                    <Grid.Row stretched>
+                        <Grid.Column>
+                            <Container>
+                            <label>Ingrediencie</label>
+                                <ul>
+                                    {viewRecipe.ingredients.map(i=>(
+                                        <li key={i.name}>{i.name} {i.quantity} {i.unit}</li>
+                                    ))}
+                                </ul>
+                            </Container>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Container>
+                                <Image src={getImageUrl(viewRecipe.img)} alt='' style={{"width":"100%"}} />
+                            </Container>
+                            {/* <Container>
+                                <label>Obdobie</label>
+                                <p>{getSeasonText()}</p>
+                            </Container> */}
+                            {viewRecipe.tags.length>2?(<Container>
+                                <label></label>
+                                <Typeahead
+                                    multiple
+                                    id="keep-menu-open"
+                                    ref={typeaheadRef}
+                                    selected={selectedTag}
+                                    disabled={true}
+                                    />
+                            </Container>):null}
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+                <Grid >
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Container>
+                                <label>Popis</label>
+                                <p style={{"whiteSpace":"pre-line"}}>{viewRecipe.description}</p> 
+                            </Container> 
+                        </Grid.Column>                  
+                    </Grid.Row>  
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Container>
+                                {video}
+                            </Container> 
+                        </Grid.Column>                  
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Container>
+                                <p style={{"textAlign":"center"}}>Vytvorené dňa: {new Intl.DateTimeFormat('en-GB',{
+                                        year: "numeric",
+                                        month:"long",
+                                        day:"2-digit"
+                                    }).format(new Date(viewRecipe.date))}</p> 
+                                <p style={{"textAlign":"center"}}>Vytvoril: <b>{viewRecipe.createdBy}</b></p> 
+                            </Container>  
+                        </Grid.Column>
+                    </Grid.Row>                  
+                </Grid>
+
+                {/* <Form>
                     <Form.Field>
                         <Image src={getImageUrl(viewRecipe.img)} alt='' style={{"width":"100%"}} />
                     </Form.Field>
@@ -150,7 +214,8 @@ debugger;
                     <Form.Field>
                         <p style={{"textAlign":"center"}}>Vytvoril: <b>{viewRecipe.createdBy}</b></p>
                     </Form.Field>
-                    </Form>
+                    </Form> */}
+
             </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
