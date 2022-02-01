@@ -1,4 +1,4 @@
-import  _  from 'lodash';
+import _ from 'lodash';
 
 export function youtubeParser(url){
     // eslint-disable-next-line no-useless-escape
@@ -90,7 +90,6 @@ export function textEllipsis(str, maxLength, { side = "end", ellipsis = "..." } 
   };
 
   export async function createTags(selectedTag){
-    //let reqOption=getRequestOptions('GET');
 
     let tags=[];
     var customTags = selectedTag.filter(x=>x.customOption);
@@ -120,41 +119,6 @@ debugger;
       }
     }));
 
-    
-    // await _.forEach(customTags, async(obj)=>{
-    //     // debugger;
-
-    //     // const resp = await fetch("/api/tags/byname/"+obj.label, reqOption);
-    //     // let tag = await resp.json();
-
-    //     // if(tag === null) {
-    //         const newTag = {name: obj.label};
-
-    //         const newTagRequestOptions = {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json',
-    //                 'Authorization': localStorage.getItem('rcp_token') },
-    //             body: JSON.stringify(newTag)
-    //         };
-
-    //         const resp=await fetch('/api/tags', newTagRequestOptions);
-    //         let createdTag=await resp.json();
-
-    //         tags.push({id:createdTag, name:obj.label});
-
-    //         debugger;
-    //             // .then(resp=>{
-    //             //   debugger;
-    //             //   resp.json();}
-    //             //   )
-    //             // .then((err)=>{
-    //             // })
-    //             // .catch(err=>{
-    //             //     debugger;
-    //             // });
-    //     //}
-    // });
-
     return tags;
   };
 
@@ -164,7 +128,6 @@ export function parseTags(tags){
 
     var parsedTags = JSON.parse(tags);
 
-    // let splittedTags = tags.split(';');
      let recipeTags = [];
     _.forEach(parsedTags, (obj)=>{
       recipeTags.push({key:obj.id, label:obj.name});

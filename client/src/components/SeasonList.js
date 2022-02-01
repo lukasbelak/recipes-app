@@ -1,35 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { Dropdown } from 'semantic-ui-react';
-import {getSeasonsList}from '../utils';
+import React, { useState, useEffect } from "react";
+import { Dropdown } from "semantic-ui-react";
+import { getSeasonsList } from "../utils";
 
-const SeasonList =({defaultValue,getSeason})=> {
-    
-  const [value, setValue]=useState(defaultValue);
-  const [seasons, setSeasons]=useState([]);
-  
-  useEffect(()=>{
+const SeasonList = ({ defaultValue, getSeason }) => {
+  const [value, setValue] = useState(defaultValue);
+  const [seasons, setSeasons] = useState([]);
+
+  useEffect(() => {
     getSeasons();
-  },[]);
-  
-  useEffect(()=>{
+  }, []);
+
+  useEffect(() => {
     setValue(defaultValue);
-  },[defaultValue]);
+  }, [defaultValue]);
 
   const handleOnChange = (e, { value }) => {
-      debugger;
-    // setIsLoading(true);
     setValue(value);
     getSeason(value);
   };
 
-  const getSeasons=() => { 
-      setSeasons(getSeasonsList());
-    };
+  const getSeasons = () => {
+    setSeasons(getSeasonsList());
+  };
 
-    return (
-          <Dropdown placeholder='Zvoľte obdobie' options={seasons} value={value} onChange={handleOnChange}
-          />
-    )
-}
+  return (
+    <Dropdown
+      placeholder="Zvoľte obdobie"
+      options={seasons}
+      value={value}
+      onChange={handleOnChange}
+    />
+  );
+};
 
 export default SeasonList;
