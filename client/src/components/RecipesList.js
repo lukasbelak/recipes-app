@@ -61,7 +61,7 @@ const RecipesList =({user, query,isAscSort,selectedFilter,recipeCreated,showMess
       }
 
     return(
-        <div >
+        <div>
             <Dimmer active={isLoading} inverted>
                 <Loader size='huge'>Načítavanie...</Loader>
             </Dimmer>

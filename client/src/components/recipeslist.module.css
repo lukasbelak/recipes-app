@@ -3,5 +3,7 @@
     flex-wrap: wrap;
     padding-left: 12%;
     padding-right: 12%;
-    height: 90vh
+    height: 90vh;
+    margin-top: 15px;
+    align-content: flex-start;
 }
