@@ -87,7 +87,7 @@ debugger;
             closeOnEscape={true} 
             onClose={handleCancelView}>
             <Modal.Header style={getHeaderColor()}>
-            <Label as='a' color='teal' style={{fontSize:'20px', float:'left'}} horizontal> {recipe.category} </Label>
+            <Label as='a' color='brown' style={{fontSize:'20px', float:'left'}} horizontal> {recipe.category} </Label>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
                     <div style={{display:'flex', flexDirection:'column-reverse', alignSelf:'center'}}>
                         {viewRecipe.name}
