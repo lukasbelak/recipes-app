@@ -51,12 +51,14 @@ const Recipe = ({ user, recipe, reloadList, showMessage }) => {
 
   return (
     <div key={recipe._id} className={`${style.recipe} hvr-grow`}>
-      <h1
-        className={style.recipe_header}
+      <div className={style.recipe_header}>
+      <h2
+        style={{paddingLeft:'15px', paddingBottom:'5px', paddingTop:'5px'}}
         onClick={onRecipeClick.bind(onRecipeClick, true)}
       >
         {recipe.name}
-      </h1>
+      </h2>
+      </div>
       <Image
         className={style.recipe_img}
         src={recipe.img ? getImageUrl(recipe.img) : ""}
