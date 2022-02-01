@@ -138,7 +138,7 @@ const NewRecipeModal = ({user,openNewRecipeModal, createRecipe, cancelCreateReci
             }else{
                 showMessage({
                     header: 'Success',
-                    text: 'Recipe \''+ recipe.name +'\' was created successfully.'
+                    text: 'Recept \''+ recipe.name +'\' bol úspešne vytvorený.'
                 }); 
             }
 
