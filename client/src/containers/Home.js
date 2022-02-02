@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
+import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import NewRecipeModal from "../components/NewRecipeModal";
 import {
@@ -15,6 +16,70 @@ import RecipesList from "../components/RecipesList";
 import { useHistory } from "react-router-dom";
 import { getLoggedUser } from "../utils";
 import logo from "../images/logo_white.png";
+import { createMedia } from '@artsy/fresnel'
+
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    mobile: 0,
+    tablet: 768,
+    computer: 1024,
+  },
+})
+
+class DesktopContainer extends Component {
+  state = {}
+
+  render() {
+    const { children } = this.props;
+
+    debugger;
+
+    return (
+    <Media greaterThan='mobile'>
+      {children}
+    </Media>
+    )
+  }
+}
+
+DesktopContainer.propTypes = {
+  children: PropTypes.node,
+}
+
+class MobileContainer extends Component {
+  state = {}
+
+  render() {
+    const { children } = this.props;
+
+    debugger;
+
+    return (
+    <Media at='mobile'>
+      {children}
+    </Media>
+    )
+  }
+}
+
+MobileContainer.propTypes = {
+  children: PropTypes.node,
+}
+
+const ResponsiveContainer = ({ children }) => (
+  /* Heads up!
+   * For large applications it may not be best option to put all page into these containers at
+   * they will be rendered twice for SSR.
+   */
+  <MediaContextProvider>
+    <DesktopContainer>{children}</DesktopContainer>
+    <MobileContainer>{children}</MobileContainer>
+  </MediaContextProvider>
+)
+
+ResponsiveContainer.propTypes = {
+  children: PropTypes.node,
+}
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -143,6 +208,7 @@ const Home = () => {
   };
 
   return (
+    <ResponsiveContainer>
     <div className="App">
       <div className="message">
         <Message
@@ -270,6 +336,7 @@ const Home = () => {
         selectedCategory={selectedCategory}
       />
     </div>
+    </ResponsiveContainer>
   );
 };
 
