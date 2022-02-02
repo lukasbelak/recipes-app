@@ -88,7 +88,7 @@ const ViewRecipeModal = ({
   }
 
   return (
-    <div>
+    <Container>
       <Modal
         open={openViewRecipeModal}
         dimmer="blurring"
@@ -234,7 +234,7 @@ const ViewRecipeModal = ({
           />
         </Modal.Actions>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

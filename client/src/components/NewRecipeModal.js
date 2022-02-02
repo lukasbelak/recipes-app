@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Modal, Form, Input, Icon } from "semantic-ui-react";
+import { Button, Modal, Form, Input, Icon, Container } from "semantic-ui-react";
 import SearchCategory from "./SearchCategory";
 import { youtubeParser, getRequestOptions, createTags } from "../utils";
 import NewCategoryModal from "./NewCategoryModal";
@@ -301,7 +301,7 @@ const NewRecipeModal = ({
   };
 
   return (
-    <div>
+    <Container>
       <Modal
         open={openNewRecipeModal}
         dimmer="blurring"
@@ -310,7 +310,7 @@ const NewRecipeModal = ({
         closeOnEscape={true}
         trigger={
           <Button
-            className="ui button green"
+            className="green"
             style={{ position: "fixed", margin: "0 10px", height: "38px" }}
             onClick={handleNewRecipe.bind(handleNewRecipe, true)}
           >
@@ -503,7 +503,7 @@ const NewRecipeModal = ({
           )}
         </Modal.Actions>
       </Modal>
-    </div>
+    </Container>
   );
 };
 
