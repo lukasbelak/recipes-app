@@ -11,7 +11,6 @@ import {
 import { getImageUrl, parseTags } from "../utils";
 import UpdateRecipeModal from "./UpdateRecipeModal";
 import DeleteRecipeModal from "./DeleteRecipeModal";
-import { getSeasonsList } from "../utils";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useHistory } from "react-router-dom";
 

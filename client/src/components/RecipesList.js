@@ -105,44 +105,48 @@ const RecipesList = ({
         <Loader size="huge">Načítavanie...</Loader>
       </Dimmer>
 
-<Grid>
-  <Grid.Row>
-    <Grid.Column>
-      <div className={style.recipes}>
-        {recipes.map((recipe) => (
-          <Recipe
-            key={recipe._id}
-            user={user}
-            recipe={recipe}
-            reloadList={reloadList}
-            showMessage={showMessage}
-          />
-        ))}
-      </div>
-
-      {/* <div
-        className={
-          !isLoading && recipes.length > 0 && totalPages > 1
-            ? "center show"
-            : "hidden"
-        }
-      > */}
-        <Container fluid textAlign="center"  
-          className={
-          !isLoading && recipes.length > 0 && totalPages > 1
-            ? "center show"
-            : "hidden"
-        }>
-          <Pagination
-            activePage={activePage}
-            onPageChange={onPaginationChange}
-            ellipsisItem={null}
-            totalPages={totalPages}
-          />
-        </Container>
-        </Grid.Column>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <div className={style.recipes}>
+              {recipes.map((recipe) => (
+                <Recipe
+                  key={recipe._id}
+                  user={user}
+                  recipe={recipe}
+                  reloadList={reloadList}
+                  showMessage={showMessage}
+                />
+              ))}
+            </div>
+          </Grid.Column>
         </Grid.Row>
-        </Grid>
+        <Grid.Row>
+          <Grid.Column textAlign="center"
+              className={
+                !isLoading && recipes.length > 0 && totalPages > 1
+                  ? "center show"
+                  : "hidden"
+              }>
+          {/* <Container
+              fluid
+              textAlign="center"
+              className={
+                !isLoading && recipes.length > 0 && totalPages > 1
+                  ? "center show"
+                  : "hidden"
+              } 
+            >*/}
+              <Pagination
+                activePage={activePage}
+                onPageChange={onPaginationChange}
+                ellipsisItem={null}
+                totalPages={totalPages}
+              />
+            {/* </Container> */}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
       {/* </div> */}
     </Container>
   );
