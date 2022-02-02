@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, Dimmer, Loader, Container } from "semantic-ui-react";
+import { Pagination, Dimmer, Loader, Container, Grid } from "semantic-ui-react";
 import Recipe from "./Recipe";
 import style from "./recipeslist.module.css";
 import { useHistory } from "react-router-dom";
@@ -105,6 +105,9 @@ const RecipesList = ({
         <Loader size="huge">Načítavanie...</Loader>
       </Dimmer>
 
+<Grid>
+  <Grid.Row>
+    <Grid.Column>
       <div className={style.recipes}>
         {recipes.map((recipe) => (
           <Recipe
@@ -117,20 +120,30 @@ const RecipesList = ({
         ))}
       </div>
 
-      <div
+      {/* <div
         className={
           !isLoading && recipes.length > 0 && totalPages > 1
             ? "center show"
             : "hidden"
         }
-      >
-        <Pagination
-          activePage={activePage}
-          onPageChange={onPaginationChange}
-          ellipsisItem={null}
-          totalPages={totalPages}
-        />
-      </div>
+      > */}
+        <Container fluid textAlign="center"  
+          className={
+          !isLoading && recipes.length > 0 && totalPages > 1
+            ? "center show"
+            : "hidden"
+        }>
+          <Pagination
+            activePage={activePage}
+            onPageChange={onPaginationChange}
+            ellipsisItem={null}
+            totalPages={totalPages}
+          />
+        </Container>
+        </Grid.Column>
+        </Grid.Row>
+        </Grid>
+      {/* </div> */}
     </Container>
   );
 };

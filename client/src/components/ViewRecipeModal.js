@@ -179,7 +179,7 @@ const ViewRecipeModal = ({
                         multiple
                         id="keep-menu-open"
                         ref={typeaheadRef}
-                        selected={selectedTag}
+                        defaultSelected={selectedTag}
                         disabled={true}
                       />
                     </Container>

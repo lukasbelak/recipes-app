@@ -203,7 +203,7 @@ const Home = () => {
 
   return (
     <ResponsiveContainer>
-    <div className="App">
+    <Container fluid className="App">
       <div className="message">
         <Message
           className={`${messageVisibility} ${
@@ -215,6 +215,7 @@ const Home = () => {
         </Message>
       </div>
 
+          <Container fluid>
       <Grid columns={3} stackable style={{ backgroundColor: "#1b1c1d" }}>
         <Grid.Row>
           <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
@@ -319,6 +320,7 @@ const Home = () => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
+      </Container>
 
       <RecipesList
         user={user}
@@ -330,14 +332,16 @@ const Home = () => {
         selectedCategory={selectedCategory}
       />
 
-      <Grid columns={3} stackable style={{ backgroundColor: "#1b1c1d" }}>
-        <Grid.Row>
-          <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
-              <p>TEst</p>
-            </Grid.Column>
-            </Grid.Row>
-            </Grid>
-    </div>
+<Container fluid  style={{ backgroundColor: "#1b1c1d",color:'white', bottom:'0', position:'absolute', overflow:'hidden' }} textAlign="center">
+      <Grid stackable>    
+      <Grid.Row>
+        <Grid.Column>
+        <p>Powered by RECIPERAPTOR</p>
+        </Grid.Column>
+        </Grid.Row>
+      </Grid>
+      </Container>
+    </Container>
     </ResponsiveContainer>
   );
 };

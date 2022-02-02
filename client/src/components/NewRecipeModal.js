@@ -460,7 +460,7 @@ const NewRecipeModal = ({
                   options={tags}
                   placeholder="Vyberte tag..."
                   ref={typeaheadRef}
-                  selected={selectedTag}
+                  defaultSelected={selectedTag}
                   allowNew
                 />
               </Form.Field>
