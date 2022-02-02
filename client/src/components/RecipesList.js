@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, Dimmer, Loader } from "semantic-ui-react";
+import { Pagination, Dimmer, Loader, Container } from "semantic-ui-react";
 import Recipe from "./Recipe";
 import style from "./recipeslist.module.css";
 import { useHistory } from "react-router-dom";
@@ -100,7 +100,7 @@ const RecipesList = ({
   };
 
   return (
-    <div>
+    <Container fluid>
       <Dimmer active={isLoading} inverted>
         <Loader size="huge">Načítavanie...</Loader>
       </Dimmer>
@@ -131,7 +131,7 @@ const RecipesList = ({
           totalPages={totalPages}
         />
       </div>
-    </div>
+    </Container>
   );
 };
 

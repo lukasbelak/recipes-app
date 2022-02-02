@@ -32,7 +32,6 @@ class DesktopContainer extends Component {
   render() {
     const { children } = this.props;
 
-    debugger;
 
     return (
     <Media greaterThan='mobile'>
@@ -51,8 +50,6 @@ class MobileContainer extends Component {
 
   render() {
     const { children } = this.props;
-
-    debugger;
 
     return (
     <Media at='mobile'>
@@ -332,6 +329,14 @@ const Home = () => {
         showMessage={showMessage}
         selectedCategory={selectedCategory}
       />
+
+      <Grid columns={3} stackable style={{ backgroundColor: "#1b1c1d" }}>
+        <Grid.Row>
+          <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
+              <p>TEst</p>
+            </Grid.Column>
+            </Grid.Row>
+            </Grid>
     </div>
     </ResponsiveContainer>
   );
