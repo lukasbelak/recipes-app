@@ -51,8 +51,6 @@ const NewRecipeModal = ({
         const resp = await fetch("/api/tags", requestOptions);
         let result = await resp.json();
 
-        debugger;
-
         result.forEach((tag) => {
           data.push({
             key: tag._id,
@@ -85,7 +83,7 @@ const NewRecipeModal = ({
     setIsInProgressCreateBool(true);
 
     var createdTags = await createTags(selectedTag);
-    debugger;
+    
 
     const recipe = {
       name: name,
@@ -255,7 +253,6 @@ const NewRecipeModal = ({
   };
 
   const getSeason = (value) => {
-    debugger;
     let seasonValue = value;
     setSeason(seasonValue);
   };

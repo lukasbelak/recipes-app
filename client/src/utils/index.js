@@ -94,7 +94,7 @@ export function textEllipsis(str, maxLength, { side = "end", ellipsis = "..." } 
     let tags=[];
     var customTags = selectedTag.filter(x=>x.customOption);
     var existingTags = selectedTag.filter(x=>!x.customOption);
-debugger;
+
     existingTags.forEach(obj=>{
       tags.push({id:obj.key, name:obj.label});
     });
@@ -123,7 +123,6 @@ debugger;
   };
 
 export function parseTags(tags){
-    debugger;
     if(tags==null||tags==="")return null;
 
     var parsedTags = JSON.parse(tags);

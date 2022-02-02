@@ -33,7 +33,6 @@ const Admin = () => {
   };
 
   const handleLogoClick = () => {
-    debugger;
     history.push("/");
   };
 

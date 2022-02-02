@@ -123,7 +123,7 @@ const RegisterUserForm = ({
     fetch("/api/users/signup", requestOptions)
       .then((resp) => resp.json())
       .then((result) => {
-        debugger;
+        
         if (result.isError) {
           console.log(result.message);
 

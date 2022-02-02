@@ -166,7 +166,6 @@ const Home = () => {
   };
 
   const onChangeSort = (e) => {
-    debugger;
     let selectedValue = e.currentTarget.id;
     setSelectedSort(selectedValue);
   };
@@ -189,7 +188,6 @@ const Home = () => {
   };
 
   const onChangeCategory = (e, data) => {
-    debugger;
     let selectedValue = data.value;
     setSelectedCategory(selectedValue);
   };
@@ -203,7 +201,6 @@ const Home = () => {
   };
 
   const handleLogoClick = () => {
-    debugger;
     history.push("/");
   };
 

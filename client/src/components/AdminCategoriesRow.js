@@ -9,7 +9,6 @@ const AdminCategoriesRow = ({
   handleDeleted,
 }) => {
   const handleDelete = () => {
-    debugger;
     setIsLoading(true);
 
     const requestOptions = {

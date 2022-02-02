@@ -63,12 +63,6 @@ const ViewRecipeModal = ({
     }
   };
 
-  const getSeasonText = () => {
-    let seasons = getSeasonsList();
-    let season = seasons.find((x) => x.value === viewRecipe.season);
-    return season?.text;
-  };
-
   const getHeaderColor = () => {
     switch (viewRecipe.season) {
       case 1:
@@ -93,7 +87,7 @@ const ViewRecipeModal = ({
       </div>
     );
   }
-  debugger;
+
   return (
     <div>
       <Modal

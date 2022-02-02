@@ -63,8 +63,6 @@ const UpdateRecipeModal = ({
         const resp = await fetch("/api/tags", requestOptions);
         let result = await resp.json();
 
-        debugger;
-
         result.forEach((tag) => {
           data.push({
             key: tag._id,
@@ -214,8 +212,6 @@ const UpdateRecipeModal = ({
       }
     });
 
-    debugger;
-
     var createdTags = await createTags(selectedTag);
 
     const recipeToUpdate = {
@@ -269,7 +265,6 @@ const UpdateRecipeModal = ({
   };
 
   const tagOnChange = (value) => {
-    debugger;
     setSelectedTag(value);
   };
 

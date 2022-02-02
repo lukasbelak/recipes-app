@@ -80,7 +80,6 @@ const AdminCategories = ({
   };
 
   const handleSort = (clickedColumn) => () => {
-    debugger;
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
       setData(_.sortBy(data, [clickedColumn]));
@@ -94,7 +93,6 @@ const AdminCategories = ({
   };
 
   const handleDelete = () => {
-    debugger;
     let itemArray = Object.entries(selections);
     let items = [];
     itemArray.forEach((i) => {
@@ -105,8 +103,6 @@ const AdminCategories = ({
       method: "DELETE",
       headers: { Authorization: localStorage.getItem("rcp_token") },
     };
-
-    debugger;
 
     items.forEach((item) => {
       setIsLoading(true);
