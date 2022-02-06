@@ -1,13 +1,13 @@
 .App{
-    /* background:url('./images/main_darken.jpg');
+    background:url('./images/main_darken.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover; */
-    /* top: 0;  */
-    /* left: 0;  */
+    -o-background-size: cover;
+    /* top: 0; 
+    left: 0;  */
     /* min-width: 100%; */
     /* min-height: 100%; */
 }

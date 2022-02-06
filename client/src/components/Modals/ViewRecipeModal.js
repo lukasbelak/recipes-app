@@ -13,17 +13,6 @@ import UpdateRecipeModal from "./UpdateRecipeModal";
 import DeleteRecipeModal from "./DeleteRecipeModal";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useHistory } from "react-router-dom";
-import { createMedia } from "@artsy/fresnel";
-
-const breakpoint = 768;
-
-const { MediaContextProvider,Media } = createMedia({
-  breakpoints: {
-    mobile: 0,
-    tablet: 768,
-    computer: 1024,
-  },
-});
 
 const ViewRecipeModal = ({
   recipe,
@@ -38,13 +27,8 @@ const ViewRecipeModal = ({
   const [openDeleteRecipeModal, setOpenDeleteRecipeModal] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   const typeaheadRef = useRef(null);
-  const [width, setWidth] = useState(window.innerWidth);
 
   let history = useHistory();
-
-  useEffect(()=>{
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-  },[]);
 
   useEffect(() => {
     setSelectedTag(parseTags(viewRecipe.tags));
