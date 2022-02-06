@@ -5,11 +5,18 @@ import ViewRecipeModal from "../Modals/ViewRecipeModal";
 import { getImageUrl, getRequestOptions } from "../../utils";
 import { useHistory } from "react-router-dom";
 
+const breakpoint = 768;
+
 const Recipe = ({ user, recipe, reloadList, showMessage }) => {
   const [openViewRecipeModal, setOpenViewRecipeModal] = useState(false);
   const [recipeCreatedBy, setRecipeCreatedBy] = useState("");
+  const [width, setWidth] = useState(window.innerWidth);
 
   let history = useHistory();
+
+  useEffect(()=>{
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  },[]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -50,30 +57,30 @@ const Recipe = ({ user, recipe, reloadList, showMessage }) => {
   recipe.createdBy = recipeCreatedBy;
 
   return (
-    <div key={recipe._id} className={`${style.recipe} hvr-grow`}>
-      <div className={style.recipe_header}>
-      <h2
-        style={{paddingLeft:'15px', paddingBottom:'5px', paddingTop:'5px'}}
-        onClick={onRecipeClick.bind(onRecipeClick, true)}
-      >
-        {recipe.name}
-      </h2>
-      </div>
-      <Image
-        className={style.recipe_img}
-        src={recipe.img ? getImageUrl(recipe.img) : ""}
-        alt=""
-        onClick={onRecipeClick.bind(onRecipeClick, true)}
-      />
-      <ViewRecipeModal
-        recipe={recipe}
-        user={user}
-        openViewRecipeModal={openViewRecipeModal}
-        cancelViewRecipeModal={cancelViewRecipeModal}
-        reloadList={reloadList}
-        showMessage={showMessage}
-      />
-    </div>
+          <div key={recipe._id} className={`${width>breakpoint? style.recipe_desktop: style.recipe_mobile} hvr-grow`}>
+            <div className={style.recipe_header}>
+            <h2
+              style={{paddingLeft:'15px', paddingBottom:'5px', paddingTop:'5px'}}
+              onClick={onRecipeClick.bind(onRecipeClick, true)}
+            >
+              {recipe.name}
+            </h2>
+            </div>
+            <Image
+              className={style.recipe_img}
+              src={recipe.img ? getImageUrl(recipe.img) : ""}
+              alt=""
+              onClick={onRecipeClick.bind(onRecipeClick, true)}
+            />
+            <ViewRecipeModal
+              recipe={recipe}
+              user={user}
+              openViewRecipeModal={openViewRecipeModal}
+              cancelViewRecipeModal={cancelViewRecipeModal}
+              reloadList={reloadList}
+              showMessage={showMessage}
+            />
+          </div>
   );
 };
 

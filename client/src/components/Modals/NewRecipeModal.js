@@ -9,6 +9,7 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import { useHistory } from "react-router-dom";
 
 const compress = new Compress();
+const breakpoint = 768;
 
 const NewRecipeModal = ({
   user,
@@ -37,9 +38,14 @@ const NewRecipeModal = ({
   const typeaheadRef = useRef(null);
   const [selectedTag, setSelectedTag] = useState([]);
   const [tags, setTags] = useState([]);
+  const [width, setWidth] = useState(window.innerWidth);
   const errorMessage = "Vyplňte všetky povinné polia, prosím.";
 
   let history = useHistory();
+
+  useEffect(()=>{
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  },[]);
 
   useEffect(() => {
     const getTags = async () => {
@@ -301,7 +307,7 @@ const NewRecipeModal = ({
   };
 
   return (
-    <Container>
+    <Container fluid style={{ paddingTop:width>breakpoint?'0px':'10px'}}>
       <Modal
         open={openNewRecipeModal}
         dimmer="blurring"
@@ -311,7 +317,7 @@ const NewRecipeModal = ({
         trigger={
           <Button
             className="green"
-            style={{ position: "fixed", margin: "0 10px", height: "38px" }}
+            style={{  margin: "0 10px", height: "38px" }}
             onClick={handleNewRecipe.bind(handleNewRecipe, true)}
           >
             Nový

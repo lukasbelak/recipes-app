@@ -4,6 +4,8 @@ import Recipe from "./Recipe";
 import style from "./recipeslist.module.css";
 import { useHistory } from "react-router-dom";
 
+const breakpoint = 768;
+
 const RecipesList = ({
   user,
   query,
@@ -18,8 +20,13 @@ const RecipesList = ({
   const [activePage, setActivePage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefresh, setIsRefresh] = useState(1);
+  const [width, setWidth] = useState(window.innerWidth);
 
   let history = useHistory();
+
+  useEffect(()=>{
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  },[]);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -108,17 +115,17 @@ const RecipesList = ({
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            <div className={style.recipes}>
-              {recipes.map((recipe) => (
-                <Recipe
-                  key={recipe._id}
-                  user={user}
-                  recipe={recipe}
-                  reloadList={reloadList}
-                  showMessage={showMessage}
-                />
-              ))}
-            </div>
+              <div className={width > breakpoint? style.recipes_desktop:style.recipes_mobile}>
+                {recipes.map((recipe) => (
+                  <Recipe
+                    key={recipe._id}
+                    user={user}
+                    recipe={recipe}
+                    reloadList={reloadList}
+                    showMessage={showMessage}
+                  />
+                ))}
+              </div>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

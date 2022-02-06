@@ -31,7 +31,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
           </Message>
         </div>
 
-        <Container fluid>
+        <Container fluid >
           <Grid columns={3} stackable style={{ backgroundColor: "#1b1c1d" }}>
             <Grid.Row>
               <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
@@ -80,7 +80,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
                   color="grey"
                   onClick={handleIsAscSort}
                   style={{
-                    height: "38px",
+                    // height: "38px",
                     float: "left",
                     margin: "0 10px",
                   }}
@@ -92,7 +92,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
                   )}
                 </Button>
                 <Dropdown
-                  style={{ display: "flex" }}
+                //   style={{ display: "flex" }}
                   onChange={onChangeCategory}
                   selection
                   options={categoryOptions}

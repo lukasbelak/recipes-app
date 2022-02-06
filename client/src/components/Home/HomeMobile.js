@@ -34,18 +34,16 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
         <Container fluid>
           <Grid columns={3} stackable style={{ backgroundColor: "#1b1c1d" }}>
             <Grid.Row>
-              <Grid.Column mobile={4} style={{  }}>
+              <Grid.Column style={{  }}>
                 <Container>
                   <Image
-                    size="small"
                     src={logo}
                     onClick={handleLogoClick}
-                    style={{  }}
                   />
                 </Container>
               </Grid.Column>
-              <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
-                <form onSubmit={getSearch} style={{ float: "left" }}>
+              <Grid.Column textAlign="center">
+                <form onSubmit={getSearch} >
                   <div className="ui action input">
                     <input
                       type="text"
@@ -66,8 +64,8 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
                   showMessage={showMessage}
                 />
               </Grid.Column>
-              <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
-                <span style={{ float: "left" }}>
+              <Grid.Column textAlign="center">
+                <span >
                   <Dropdown
                     onChange={onChangeSort}
                     selection
@@ -81,7 +79,6 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
                   onClick={handleIsAscSort}
                   style={{
                     height: "38px",
-                    float: "left",
                     margin: "0 10px",
                   }}
                 >
@@ -92,15 +89,15 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
                   )}
                 </Button>
                 <Dropdown
-                  style={{ display: "flex" }}
+                  style={{ marginTop:'10px' }}
                   onChange={onChangeCategory}
                   selection
                   options={categoryOptions}
                   defaultValue={categoryOptions[0].value}
                 />
               </Grid.Column>
-              <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
-                <Container className="account-form">
+              <Grid.Column >
+                <Container className="account-form" textAlign="center">
                   <Grid columns={1} stackable>
                     <Grid.Column>
                       <Button.Group>
@@ -161,7 +158,7 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
             backgroundColor: "#1b1c1d",
             color: "white",
             bottom: "0",
-            position: "fixed",
+            // position: "fixed",
             overflow: "hidden",
           }}
           textAlign="center"

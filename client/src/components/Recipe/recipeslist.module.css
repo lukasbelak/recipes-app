@@ -1,10 +1,21 @@
-.recipes{
+.recipes_desktop{
     display: flex;
     flex-wrap: wrap;
-    padding-left: 12%;
+    padding-left: 12%; 
     padding-right: 12%;
     /* height: 95vh; */
     /* margin-top: 15px; */
     align-content: flex-start;
+    width: 100%;
+}
+
+.recipes_mobile{
+    display: flex;
+    flex-wrap: wrap;
+    /* padding-left: 12%; */
+    /* padding-right: 12%; */
+    /* height: 95vh; */
+    /* margin-top: 15px; */
+    /* align-content: flex-start; */
     width: 100%;
 }
