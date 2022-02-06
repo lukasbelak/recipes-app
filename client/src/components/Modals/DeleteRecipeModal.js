@@ -59,7 +59,7 @@ const DeleteRecipeModal = ({
         centered
       >
         <Modal.Header>Vymazať recept</Modal.Header>
-        <Modal.Content>
+        <Modal.Content style={{fontSize:'18px'}}>
           <Form className={isInProgressDelete}>
             <Form.Field>
               <p>Ste si istý, že chete vymazať tento recept?</p>

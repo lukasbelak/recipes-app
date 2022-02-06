@@ -83,7 +83,7 @@ const NewTagModal = ({
         centered
       >
         <Modal.Header>Nový tag</Modal.Header>
-        <Modal.Content>
+        <Modal.Content style={{fontSize:'18px'}}>
           <Form className={isInProgressCreate}>
             <Form.Field>
               <label className="requiredField">Názov</label>

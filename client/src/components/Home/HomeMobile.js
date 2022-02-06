@@ -34,14 +34,14 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
         <Container fluid>
           <Grid columns={3} stackable style={{ backgroundColor: "#1b1c1d" }}>
             <Grid.Row>
-              <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
+              <Grid.Column mobile={4} style={{  }}>
                 <Container>
-                  {/* <Image
+                  <Image
                     size="small"
                     src={logo}
                     onClick={handleLogoClick}
-                    style={{ marginLeft: "15px" }}
-                  /> */}
+                    style={{  }}
+                  />
                 </Container>
               </Grid.Column>
               <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>

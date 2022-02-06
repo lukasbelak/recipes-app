@@ -147,7 +147,7 @@ const ViewRecipeModal = ({
             </div>
           </div>
         </Modal.Header>
-        <Modal.Content>
+        <Modal.Content style={{fontSize:'18px'}}>
           <Modal.Description>
             <Grid columns={2}>
               <Grid.Row stretched>

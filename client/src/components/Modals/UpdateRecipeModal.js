@@ -278,7 +278,7 @@ const UpdateRecipeModal = ({
         onClose={handleCancelView}
       >
         <Modal.Header>Update</Modal.Header>
-        <Modal.Content>
+        <Modal.Content style={{fontSize:'18px'}}>
           <Modal.Description>
             <Form error={formError} className={isInProgressUpdate}>
               <Form.Field>

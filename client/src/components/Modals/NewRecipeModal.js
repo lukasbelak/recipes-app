@@ -319,7 +319,7 @@ const NewRecipeModal = ({
         }
       >
         <Modal.Header>Nový recept</Modal.Header>
-        <Modal.Content>
+        <Modal.Content style={{fontSize:'18px'}}>
           <Modal.Description>
             <Form error={formError} className={isInProgressCreate}>
               <Form.Field>
