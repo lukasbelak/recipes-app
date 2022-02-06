@@ -152,13 +152,12 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
           selectedCategory={selectedCategory}
         />
 
-        <Container
+        {/* <Container
           fluid
           style={{
             backgroundColor: "#1b1c1d",
             color: "white",
             bottom: "0",
-            // position: "fixed",
             overflow: "hidden",
           }}
           textAlign="center"
@@ -170,8 +169,8 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </Container>
-      </Container>
+        </Container>*/}
+      </Container> 
     );
 }
 

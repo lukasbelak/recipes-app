@@ -155,7 +155,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
           selectedCategory={selectedCategory}
         />
 
-        <Container
+        {/* <Container
           fluid
           style={{
             backgroundColor: "#1b1c1d",
@@ -173,7 +173,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </Container>
+        </Container> */}
       </Container>
     );
 }
