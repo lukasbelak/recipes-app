@@ -1,5 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { Link } from "react-router-dom";
 import NewRecipeModal from "../Modals/NewRecipeModal";
 import {
@@ -13,10 +12,7 @@ import {
 } from "semantic-ui-react";
 import { sortByOptions } from "../../enums";
 import RecipesList from "../Recipe/RecipesList";
-import { useHistory } from "react-router-dom";
-import { getLoggedUser } from "../../utils";
 import logo from "../../images/logo_white.png";
-import { createMedia } from "@artsy/fresnel";
 
 const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, search, updateSearch,
     user, openNewRecipeModal, createRecipe, cancelCreateRecipe, showMessage, onChangeSort, handleIsAscSort,
