@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import NewRecipeModal from "../components/Modals/NewRecipeModal";
+import NewRecipeModal from "../Modals/NewRecipeModal";
 import {
   Dropdown,
   Button,
@@ -11,199 +11,19 @@ import {
   Container,
   Image,
 } from "semantic-ui-react";
-import { sortByOptions } from "../enums";
-import RecipesList from "../components/Recipe/RecipesList";
+import { sortByOptions } from "../../enums";
+import RecipesList from "../Recipe/RecipesList";
 import { useHistory } from "react-router-dom";
-import { getLoggedUser } from "../utils";
-import logo from "../images/logo_white.png";
+import { getLoggedUser } from "../../utils";
+import logo from "../../images/logo_white.png";
 import { createMedia } from "@artsy/fresnel";
-import HomeDesktop from '../components/Home/HomeDesktop';
 
-const { MediaContextProvider, Media } = createMedia({
-  breakpoints: {
-    mobile: 0,
-    tablet: 768,
-    computer: 1024,
-  },
-});
+const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, search, updateSearch,
+    user, openNewRecipeModal, createRecipe, cancelCreateRecipe, showMessage, onChangeSort, handleIsAscSort,
+    isAscSort, onChangeCategory, handleLogOut, query, selectedSort, categoryOptions, recipeCreated, selectedCategory }) => {
 
-class DesktopContainer extends Component {
-  state = {};
-
-  render() {
-    const { children } = this.props;
-
-    return <Media greaterThan="mobile">{children}</Media>;
-  }
-}
-
-DesktopContainer.propTypes = {
-  children: PropTypes.node,
-};
-
-class MobileContainer extends Component {
-  state = {};
-
-  render() {
-    const { children } = this.props;
-
-    return <Media at="mobile">{children}</Media>;
-  }
-}
-
-MobileContainer.propTypes = {
-  children: PropTypes.node,
-};
-
-const ResponsiveContainer = ({ children }) => (
-  /* Heads up!
-   * For large applications it may not be best option to put all page into these containers at
-   * they will be rendered twice for SSR.
-   */
-  <MediaContextProvider>
-    <DesktopContainer>{children}</DesktopContainer>
-    <MobileContainer>{children}</MobileContainer>
-  </MediaContextProvider>
-);
-
-ResponsiveContainer.propTypes = {
-  children: PropTypes.node,
-};
-
-const Home = () => {
-  const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("");
-  const [recipeCreated, setRecipeCreated] = useState(false);
-  const [openNewRecipeModal, setOpenNewRecipeModal] = useState(false);
-  const [selectedSort, setSelectedSort] = useState(sortByOptions[0].value);
-  const [categoryOptions, setCategoryOptions] = useState([
-    { key: "All", text: "Všetky", value: "All" },
-  ]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isAscSort, setIsAscSort] = useState(true);
-  const [message, setMessage] = useState({});
-  const [messageVisibility, setMessageVisibility] = useState("hidden");
-  const [user, setUser] = useState(null);
-
-  let history = useHistory();
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        let user = await getLoggedUser();
-
-        if (user) {
-          setUser(user);
-        } else {
-          setUser("");
-        }
-      } catch (err) {
-        console.log(err.message);
-        setUser("");
-        history.push("/login");
-      }
-    };
-
-    getUser();
-  }, [history]);
-
-  useEffect(() => {
-    const getCategories = async () => {
-      let data = [{ key: "All", text: "Všetky", value: "All" }];
-      try {
-        const requestOptions = {
-          method: "GET",
-          headers: { Authorization: localStorage.getItem("rcp_token") },
-        };
-
-        const resp = await fetch("/api/categories", requestOptions);
-        let cats = await resp.json();
-        cats.forEach((cat) => {
-          data.push({
-            key: cat.name,
-            text: cat.name,
-            value: cat.name,
-          });
-        });
-        setCategoryOptions(data);
-      } catch (err) {
-        console.log(err.message);
-        history.push("/login");
-      }
-    };
-
-    getCategories();
-  }, [history]);
-
-  const updateSearch = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const getSearch = (e) => {
-    e.preventDefault();
-    setQuery(search);
-    setSearch("");
-  };
-
-  const createRecipe = (value) => {
-    setOpenNewRecipeModal(value);
-    setRecipeCreated(value);
-  };
-
-  const cancelCreateRecipe = () => {
-    setOpenNewRecipeModal(false);
-  };
-
-  const onChangeSort = (e) => {
-    let selectedValue = e.currentTarget.id;
-    setSelectedSort(selectedValue);
-  };
-
-  const handleIsAscSort = () => {
-    if (isAscSort === true) {
-      setIsAscSort(false);
-    } else {
-      setIsAscSort(true);
-    }
-  };
-
-  const showMessage = (value) => {
-    setMessageVisibility("visible");
-    setMessage(value);
-    setTimeout(function () {
-      setMessageVisibility("hidden");
-      setMessage({});
-    }, 5000);
-  };
-
-  const onChangeCategory = (e, data) => {
-    let selectedValue = data.value;
-    setSelectedCategory(selectedValue);
-  };
-
-  const handleLogOut = () => {
-    localStorage.removeItem("rcp_userName");
-    localStorage.removeItem("rcp_token");
-    fetch("/api/users/logout");
-
-    history.push("/login");
-  };
-
-  const handleLogoClick = () => {
-    history.push("/");
-  };
-
-  return (
-    <ResponsiveContainer>
-      <HomeDesktop 
-        message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
-        getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
-        openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
-        showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}
-        isAscSort={isAscSort} onChangeCategory={onChangeCategory} handleLogOut={handleLogOut} query={query}
-        selectedSort={selectedSort} categoryOptions={categoryOptions} recipeCreated={recipeCreated} selectedCategory={selectedCategory} />
-
-      {/* <Container fluid className="App">
+    return (
+        <Container fluid className="App">
         <div className="message">
           <Message
             className={`${messageVisibility} ${
@@ -358,9 +178,8 @@ const Home = () => {
             </Grid.Row>
           </Grid>
         </Container>
-      </Container> */}
-    </ResponsiveContainer>
-  );
-};
+      </Container>
+    );
+}
 
-export default Home;
+export default HomeDesktop;
