@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import style from "./recipe.module.css";
 import { Image } from "semantic-ui-react";
-import ViewRecipeModal from "./ViewRecipeModal";
-import { getImageUrl, getRequestOptions } from "../utils";
+import ViewRecipeModal from "../Modals/ViewRecipeModal";
+import { getImageUrl, getRequestOptions } from "../../utils";
 import { useHistory } from "react-router-dom";
 
 const Recipe = ({ user, recipe, reloadList, showMessage }) => {

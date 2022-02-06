@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Modal, Form, Input, Icon, Container } from "semantic-ui-react";
-import SearchCategory from "./SearchCategory";
-import { youtubeParser, getRequestOptions, createTags } from "../utils";
+import SearchCategory from "../Home/SearchCategory";
+import { youtubeParser, getRequestOptions, createTags } from "../../utils";
 import NewCategoryModal from "./NewCategoryModal";
 import Compress from "compress.js";
-import SeasonList from "./SeasonList";
+import SeasonList from "../Recipe/SeasonList";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useHistory } from "react-router-dom";
 

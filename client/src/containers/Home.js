@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import NewRecipeModal from "../components/NewRecipeModal";
+import NewRecipeModal from "../components/Modals/NewRecipeModal";
 import {
   Dropdown,
   Button,
@@ -12,7 +12,7 @@ import {
   Image,
 } from "semantic-ui-react";
 import { sortByOptions } from "../enums";
-import RecipesList from "../components/RecipesList";
+import RecipesList from "../components/Recipe/RecipesList";
 import { useHistory } from "react-router-dom";
 import { getLoggedUser } from "../utils";
 import logo from "../images/logo_white.png";

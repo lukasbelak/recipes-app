@@ -9,12 +9,12 @@ import {
   Loader,
   Segment,
 } from "semantic-ui-react";
-import AdminTagsRow from "./AdminTagsRow";
+import AdminCategoriesRow from "./AdminCategoriesRow";
 import withSelections from "react-item-select";
-import NewTagModal from "./NewTagModal";
+import NewCategoryModal from "../Modals/NewCategoryModal";
 import { useHistory } from "react-router-dom";
 
-const AdminTags = ({
+const AdminCategories = ({
   areAnySelected,
   selectedCount,
   handleClearAll,
@@ -30,7 +30,7 @@ const AdminTags = ({
   const [direction, setDirection] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isReload, setIsReload] = useState(0);
-  const [openNewTagModal, setOpenNewTagModal] = useState(false);
+  const [openNewCategoryModal, setOpenNewCategoryModal] = useState(false);
 
   let history = useHistory();
 
@@ -41,37 +41,37 @@ const AdminTags = ({
   };
 
   useEffect(() => {
-    const getTags = async () => {
+    const getCategories = async () => {
       setIsLoading(true);
-      let tags = [];
+      let categories = [];
       try {
         const requestOptions = {
           method: "GET",
           headers: { Authorization: localStorage.getItem("rcp_token") },
         };
 
-        const resp = await fetch("/api/tags", requestOptions);
-        let data = await resp.json();
-        data.forEach((tag) => {
-          tags.push({
-            name: tag.name,
-            id: tag._id,
+        const resp = await fetch("/api/categories", requestOptions);
+        let cats = await resp.json();
+        cats.forEach((cat) => {
+          categories.push({
+            name: cat.name,
+            id: cat._id,
           });
         });
-        setData(tags);
+        setData(categories);
         setIsLoading(false);
-        console.log("tags: " + tags);
+        console.log("categories: " + categories);
       } catch (err) {
         console.log(err.message);
         history.push("/login");
       }
     };
 
-    getTags();
+    getCategories();
   }, [isReload, history]);
 
-  const cancelNewTagModal = () => {
-    setOpenNewTagModal(false);
+  const cancelNewCategoryModal = () => {
+    setOpenNewCategoryModal(false);
   };
 
   const handleDeleted = () => {
@@ -80,7 +80,6 @@ const AdminTags = ({
   };
 
   const handleSort = (clickedColumn) => () => {
-
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
       setData(_.sortBy(data, [clickedColumn]));
@@ -108,7 +107,7 @@ const AdminTags = ({
     items.forEach((item) => {
       setIsLoading(true);
 
-      fetch("/api/tags/byid/" + item, requestOptions)
+      fetch("/api/categories/byid/" + item, requestOptions)
         .then((resp) => {
           resp.json();
         })
@@ -122,11 +121,11 @@ const AdminTags = ({
     });
   };
 
-  const handleAddTag = () => {
-    setOpenNewTagModal(true);
+  const handleAddCategory = () => {
+    setOpenNewCategoryModal(true);
   };
 
-  const reloadTags = () => {
+  const reloadCategories = () => {
     setIsReload(isReload + 1);
     handleClearAll();
   };
@@ -147,9 +146,9 @@ const AdminTags = ({
         </div>
         <div>
           {data.length === 1 ? (
-            <span>{data.length} Tag</span>
+            <span>{data.length} Kategória</span>
           ) : (
-            <span>{data.length} Tagov</span>
+            <span>{data.length} Kategórie</span>
           )}
         </div>
       </Segment>
@@ -174,10 +173,10 @@ const AdminTags = ({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {data.map((tag) => (
-            <AdminTagsRow
-              key={tag.id}
-              tag={tag}
+          {data.map((category) => (
+            <AdminCategoriesRow
+              key={category.id}
+              category={category}
               isItemSelected={isItemSelected}
               handleSelect={handleSelect}
               setIsLoading={setIsLoading}
@@ -195,15 +194,15 @@ const AdminTags = ({
                 labelPosition="left"
                 color="green"
                 size="small"
-                onClick={handleAddTag}
+                onClick={handleAddCategory}
               >
                 <Icon name="add" />
-                Nový tag
+                Nová kategória
               </Button>
-              <NewTagModal
-                openNewTagModal={openNewTagModal}
-                cancelNewTagModal={cancelNewTagModal}
-                reloadTags={reloadTags}
+              <NewCategoryModal
+                openNewCategoryModal={openNewCategoryModal}
+                cancelNewCategoryModal={cancelNewCategoryModal}
+                reloadCategories={reloadCategories}
               />
               <Button
                 size="small"
@@ -221,4 +220,4 @@ const AdminTags = ({
   );
 };
 
-export default withSelections(AdminTags);
+export default withSelections(AdminCategories);

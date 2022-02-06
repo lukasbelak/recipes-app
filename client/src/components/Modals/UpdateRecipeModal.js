@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { Button, Modal, Form, Icon, TextArea, Input } from "semantic-ui-react";
-import { youtubeParser, createTags, parseTags } from "../utils";
-import SearchCategory from "./SearchCategory";
+import { youtubeParser, createTags, parseTags } from "../../utils";
+import SearchCategory from "../Home/SearchCategory";
 import Compress from "compress.js";
 import NewCategoryModal from "./NewCategoryModal";
-import SeasonList from "./SeasonList";
+import SeasonList from "../Recipe/SeasonList";
 import { useHistory } from "react-router-dom";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";

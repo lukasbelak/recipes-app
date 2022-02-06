@@ -11,7 +11,7 @@ import {
 import { Redirect } from "react-router-dom";
 import RegisterUserForm from "./RegisterUserForm";
 import { ToastContainer } from "react-toastify";
-import logo from "../images/logo.png";
+import logo from "../../images/logo.png";
 
 const LoginForm = () => {
   const [isRedirectToHome, setIsRedirectToHome] = useState(false);

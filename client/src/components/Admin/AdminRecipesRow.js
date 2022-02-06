@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Checkbox, Button, Icon, Popup } from "semantic-ui-react";
 import Moment from "react-moment";
-import { textEllipsis } from "../utils";
+import { textEllipsis } from "../../utils";
 
 const AdminRecipesRow = ({
   recipe,

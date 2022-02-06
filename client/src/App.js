@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 import 'hover.css';
 import Home from './containers/Home';
 import Admin from './containers/Admin';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/Login/LoginForm';
 import ErrorPage from './containers/ErrorPage'; //
 
 const App=()=> {

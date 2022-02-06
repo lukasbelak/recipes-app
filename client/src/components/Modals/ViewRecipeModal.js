@@ -8,7 +8,7 @@ import {
   Grid,
   Container,
 } from "semantic-ui-react";
-import { getImageUrl, parseTags } from "../utils";
+import { getImageUrl, parseTags } from "../../utils";
 import UpdateRecipeModal from "./UpdateRecipeModal";
 import DeleteRecipeModal from "./DeleteRecipeModal";
 import { Typeahead } from "react-bootstrap-typeahead";
@@ -18,7 +18,7 @@ const ViewRecipeModal = ({
   recipe,
   user,
   openViewRecipeModal,
-  cancelViewRecipeModal,
+  cancelViewRecipeModal, //
   reloadList,
   showMessage,
 }) => {

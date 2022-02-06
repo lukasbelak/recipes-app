@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "semantic-ui-react";
-import { getSeasonsList } from "../utils";
+import { getSeasonsList } from "../../utils";
 
 const SeasonList = ({ defaultValue, getSeason }) => {
   const [value, setValue] = useState(defaultValue);

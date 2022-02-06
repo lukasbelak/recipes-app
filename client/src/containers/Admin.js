@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Container, Menu, Responsive, Image } from "semantic-ui-react";
-import AdminCategories from "../components/AdminCategories";
-import AdminRecipes from "../components/AdminRecipes";
-import AdminTags from "../components/AdminTags";
+import AdminCategories from "../components/Admin/AdminCategories";
+import AdminRecipes from "../components/Admin/AdminRecipes";
+import AdminTags from "../components/Admin/AdminTags";
 import "./Admin.css";
 import logo from "../images/logo_white.png";
 import { useHistory } from "react-router-dom";
