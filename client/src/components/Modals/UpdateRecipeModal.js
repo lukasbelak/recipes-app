@@ -353,6 +353,7 @@ const UpdateRecipeModal = ({
                       <div className="floatLeft">
                         <Button
                           type="button"
+                          color='red'
                           onClick={() => handleRemoveIngredient(index)}
                         >
                           Odstrániť
@@ -362,7 +363,7 @@ const UpdateRecipeModal = ({
                   );
                 })}
                 <div className="floatLeft">
-                  <Button type="button" onClick={handleAddIngredient}>
+                  <Button color='green' type="button" onClick={handleAddIngredient}>
                     Pridať
                   </Button>
                 </div>

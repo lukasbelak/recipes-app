@@ -50,7 +50,15 @@ module.exports = {
           break;
       }
 
-      let query = {};
+      let query = {
+        //   $lookup: [{
+        //   from: "users",
+        //   localField: "user_id",
+        //   foreignField: "_id",
+        //   as: "users"
+        // }]
+      };
+
       if (req.params.category !== "All") {
         query = { category: req.params.category };
       }
@@ -136,7 +144,7 @@ module.exports = {
 
       await Recipe.findById(req.params.id).then(async (recipe) => {
         let requestOptions = {
-          method: "GETmethod",
+          method: "GET",
           headers: { Authorization: localStorage.getItem("rcp_token") },
         };
         const resp = await fetch(

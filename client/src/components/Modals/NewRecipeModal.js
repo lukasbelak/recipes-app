@@ -200,19 +200,19 @@ const NewRecipeModal = ({
   const handleAddIngredientName = (e, index) => {
     let value = e.target.value;
     ingredients[index].name = value;
-    setIngredients(ingredients);
+    setIngredients([...ingredients]);
   };
 
   const handleAddIngredientQuantity = (e, index) => {
     let value = e.target.value;
     ingredients[index].quantity = value;
-    setIngredients(ingredients);
+    setIngredients([...ingredients]);
   };
 
   const handleAddIngredientUnit = (e, index) => {
     let value = e.target.value;
     ingredients[index].unit = value;
-    setIngredients(ingredients);
+    setIngredients([...ingredients]);
   };
 
   const updateYoutube = (e) => {
