@@ -18,10 +18,20 @@ export function getSeasonsList() {
 
 export function getImageUrl(img){
     if(!img) return null;
+
+    var binary_string = window.atob(img.data);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    var imgArrByte= Uint8Array.from(Buffer.from(bytes.buffer))
     
-    var imgArrByte= Uint8Array.from(Buffer.from(img.data))
+    // var imgArrByte= Uint8Array.from(Buffer.from(img.data))
+
     let image = new Blob([imgArrByte], { type: img.contentType });
     let url = URL.createObjectURL(image);
+
     return url;
 }
 

@@ -50,23 +50,21 @@ module.exports = {
           break;
       }
 
-      let query = {
-        //   $lookup: [{
-        //   from: "users",
-        //   localField: "user_id",
-        //   foreignField: "_id",
-        //   as: "users"
-        // }]
-      };
-
-      if (req.params.category !== "All") {
-        query = { category: req.params.category };
-      }
-
-      console.log("before get " + req.params.category);
-      await Recipe.paginate(query, options, (err, result) => {
+      var myAggregate = Recipe.aggregate(
+        [
+             {$match: req.params.category !== "All" ? { category: req.params.category } : {}},
+             {$lookup:{
+              from: "users",
+              localField: "user_id",
+              foreignField: "_id",
+              as: "users"
+             }}
+           ]
+      );
+      await Recipe.aggregatePaginate(myAggregate, options, (err, result) => {
         res.json(result);
       });
+
     } catch (err) {
       console.log(err.message);
       res.json({ message: err.message });
@@ -108,30 +106,31 @@ module.exports = {
           break;
       }
 
-      let query = {
-        $or: [
-          { "ingredients.name": new RegExp(filter, "i") },
-          { name: new RegExp(filter, "i") },
-        ],
-      };
-
-      if (req.params.category !== "All") {
-        query = {
-          $and: [
-            { category: req.params.category },
-            {
-              $or: [
-                { name: new RegExp(filter, "i") },
-                { "ingredients.name": new RegExp(filter, "i") },
-              ],
-            },
-          ],
-        };
-      }
-
-      await Recipe.paginate(query, options, (err, result) => {
+      var myAggregate = Recipe.aggregate(
+        [
+             {$match: {
+              $and: [
+                req.params.category !== "All" ? { category: req.params.category } : {},
+                {
+                  $or: [
+                    { name: new RegExp(filter, "i") },
+                    { "ingredients.name": new RegExp(filter, "i") },
+                  ],
+                },
+              ]
+             }},
+             {$lookup:{
+              from: "users",
+              localField: "user_id",
+              foreignField: "_id",
+              as: "users"
+             }}
+           ]
+      );
+      await Recipe.aggregatePaginate(myAggregate, options, (err, result) => {
         res.json(result);
       });
+
     } catch (err) {
       console.log(err.message);
       res.json({ message: err.message });

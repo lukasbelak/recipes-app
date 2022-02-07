@@ -1,6 +1,6 @@
 export const sortByOptions=[
-    { id: 'name', key: 'Name', text: 'Názov', value: 'Name'},
-    { id: 'category', key: 'Category', text: 'Kategória', value: 'Category'},
-    { id: 'date', key: 'Date', text: 'Dátum pridania', value: 'Date'},
-    { id: 'season', key: 'Season', text: 'Obdobie', value: 'Season'},
+    { id: 'name', key: 'name', text: 'Názov', value: 'name'},
+    { id: 'category', key: 'category', text: 'Kategória', value: 'category'},
+    { id: 'date', key: 'date', text: 'Dátum pridania', value: 'date'},
+    { id: 'season', key: 'season', text: 'Obdobie', value: 'season'},
   ];

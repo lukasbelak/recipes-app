@@ -2,47 +2,17 @@ import React, { useState, useEffect } from "react";
 import style from "./recipe.module.css";
 import { Image } from "semantic-ui-react";
 import ViewRecipeModal from "../Modals/ViewRecipeModal";
-import { getImageUrl, getRequestOptions } from "../../utils";
-import { useHistory } from "react-router-dom";
+import { getImageUrl } from "../../utils";
 
 const breakpoint = 768;
 
 const Recipe = ({ user, recipe, reloadList, showMessage }) => {
   const [openViewRecipeModal, setOpenViewRecipeModal] = useState(false);
-  const [recipeCreatedBy, setRecipeCreatedBy] = useState("");
   const [width, setWidth] = useState(window.innerWidth);
-
-  let history = useHistory();
 
   useEffect(()=>{
     window.addEventListener("resize", () => setWidth(window.innerWidth));
   },[]);
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const resp = await fetch(
-          "/api/users/byid/" + recipe.user_id,
-          getRequestOptions("GET")
-        );
-        let user = await resp.json();
-
-        if (user) {
-          setRecipeCreatedBy(user.firstName + " " + user.lastName);
-        } else {
-          setRecipeCreatedBy("");
-        }
-      } catch (err) {
-        console.log(err.message);
-
-        setRecipeCreatedBy("");
-
-        history.push("/login");
-      }
-    };
-
-    getUser();
-  }, [history, recipe]);
 
   const onRecipeClick = (value) => {
     setOpenViewRecipeModal(value);
@@ -53,8 +23,6 @@ const Recipe = ({ user, recipe, reloadList, showMessage }) => {
       setOpenViewRecipeModal(false);
     }
   };
-
-  recipe.createdBy = recipeCreatedBy;
 
   return (
           <div key={recipe._id} className={`${width>breakpoint? style.recipe_desktop: style.recipe_mobile} hvr-grow`}>

@@ -18,7 +18,7 @@ const ViewRecipeModal = ({
   recipe,
   user,
   openViewRecipeModal,
-  cancelViewRecipeModal, //
+  cancelViewRecipeModal,
   reloadList,
   showMessage,
 }) => {
@@ -86,6 +86,9 @@ const ViewRecipeModal = ({
       </div>
     );
   }
+
+  let createdByUser=viewRecipe.users !=null ? viewRecipe.users[0] : null;
+  let createdBy = createdByUser != null ? createdByUser.firstName+" " + createdByUser.lastName: null;
 
   return (
     <Container>
@@ -265,7 +268,7 @@ const ViewRecipeModal = ({
                       }).format(new Date(viewRecipe.date))}
                     </p>
                     <p style={{ textAlign: "center" }}>
-                      Vytvoril: <b>{viewRecipe.createdBy}</b>
+                      Vytvoril: <b>{createdBy}</b>
                     </p>
                   </Container>
                 </Grid.Column>

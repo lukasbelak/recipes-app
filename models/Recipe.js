@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
@@ -57,6 +58,7 @@ const RecipeSchema = new Schema({
 });
 
 RecipeSchema.plugin(mongoosePaginate);
+RecipeSchema.plugin(aggregatePaginate);
 
 // eslint-disable-next-line no-undef
 module.exports = Recipe = mongoose.model("Recipe", RecipeSchema, "recipes");
