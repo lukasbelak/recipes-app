@@ -7,6 +7,8 @@ import { createMedia } from "@artsy/fresnel";
 import HomeDesktop from '../components/Home/HomeDesktop';
 import HomeMobile from '../components/Home/HomeMobile';
 
+const breakpoint = 768;
+
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
     mobile: 0,
@@ -16,7 +18,13 @@ const { MediaContextProvider, Media } = createMedia({
 });
 
 class DesktopContainer extends Component {
-  state = {};
+  
+  constructor() {
+    super();
+    this.state = {
+      
+    };
+  }
 
   render() {
 
@@ -37,7 +45,12 @@ DesktopContainer.propTypes = {
 };
 
 class MobileContainer extends Component {
-  state = {};
+  constructor() {
+    super();
+    this.state = {
+      
+    };
+  }
 
   render() {
 
@@ -71,8 +84,13 @@ const Home = () => {
   const [message, setMessage] = useState({});
   const [messageVisibility, setMessageVisibility] = useState("hidden");
   const [user, setUser] = useState(null);
+  const [width, setWidth] = useState(window.innerWidth);
 
   let history = useHistory();
+
+  useEffect(()=>{
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  },[]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -182,22 +200,23 @@ const Home = () => {
 
   return (
     <MediaContextProvider>
-    <DesktopContainer 
-      message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
-      getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
-      openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
-      showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}
-      isAscSort={isAscSort} onChangeCategory={onChangeCategory} handleLogOut={handleLogOut} query={query}
-      selectedSort={selectedSort} categoryOptions={categoryOptions} recipeCreated={recipeCreated} selectedCategory={selectedCategory}>
-    </DesktopContainer>
-    <MobileContainer 
-      message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
-      getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
-      openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
-      showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}
-      isAscSort={isAscSort} onChangeCategory={onChangeCategory} handleLogOut={handleLogOut} query={query}
-      selectedSort={selectedSort} categoryOptions={categoryOptions} recipeCreated={recipeCreated} selectedCategory={selectedCategory}>
-    </MobileContainer>
+      {width > breakpoint ? (
+        <DesktopContainer
+          message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
+          getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
+          openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
+          showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}
+          isAscSort={isAscSort} onChangeCategory={onChangeCategory} handleLogOut={handleLogOut} query={query}
+          selectedSort={selectedSort} categoryOptions={categoryOptions} recipeCreated={recipeCreated} selectedCategory={selectedCategory}>
+        </DesktopContainer>):(
+        <MobileContainer
+          message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
+          getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
+          openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
+          showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}
+          isAscSort={isAscSort} onChangeCategory={onChangeCategory} handleLogOut={handleLogOut} query={query}
+          selectedSort={selectedSort} categoryOptions={categoryOptions} recipeCreated={recipeCreated} selectedCategory={selectedCategory}>
+        </MobileContainer>)}
   </MediaContextProvider>
   );
 };

@@ -1,3 +1,15 @@
+body{
+    height: 100%;
+}
+
+#root{
+    height: 100%;
+}
+
+.fresnel-container {
+    height: 100%;
+}
+
 .App{
     background:url('./images/main_darken.jpg');
     background-position: center;
@@ -6,6 +18,7 @@
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
+    height: 100%;
     /* top: 0; 
     left: 0;  */
     /* min-width: 100%; */

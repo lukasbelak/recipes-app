@@ -72,7 +72,6 @@ const RecipesList = ({
           data = await resp.json();
         }
         console.log(data.docs);
-        debugger;
 
         setIsLoading(false);
         setRecipes(data.docs);
