@@ -139,7 +139,7 @@ font-weight: bold;
 
 .category-search{
     float:left;
-    width: 450px;
+    /* width: 450px; */
 }
 
 .ui.search > .results {
