@@ -29,7 +29,7 @@ class DesktopContainer extends Component {
   render() {
 
     return <Media greaterThan="mobile">
-      <HomeDesktop 
+      <HomeDesktop width={this.props.width}
         message={this.props.message} messageVisibility={this.props.messageVisibility} handleLogoClick={this.props.handleLogoClick} 
         getSearch={this.props.getSearch} search={this.props.search} updateSearch={this.props.updateSearch} user={this.props.user}
         openNewRecipeModal={this.props.openNewRecipeModal} createRecipe={this.props.createRecipe} cancelCreateRecipe={this.props.cancelCreateRecipe}
@@ -55,7 +55,7 @@ class MobileContainer extends Component {
   render() {
 
     return <Media at="mobile">
-       <HomeMobile 
+       <HomeMobile width={this.props.width}
         message={this.props.message} messageVisibility={this.props.messageVisibility} handleLogoClick={this.props.handleLogoClick} 
         getSearch={this.props.getSearch} search={this.props.search} updateSearch={this.props.updateSearch} user={this.props.user}
         openNewRecipeModal={this.props.openNewRecipeModal} createRecipe={this.props.createRecipe} cancelCreateRecipe={this.props.cancelCreateRecipe}
@@ -202,7 +202,7 @@ const Home = () => {
     <MediaContextProvider>
       {width > breakpoint ? (
         <DesktopContainer
-          message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
+          width={width} message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
           getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
           openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
           showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}
@@ -210,7 +210,7 @@ const Home = () => {
           selectedSort={selectedSort} categoryOptions={categoryOptions} recipeCreated={recipeCreated} selectedCategory={selectedCategory}>
         </DesktopContainer>):(
         <MobileContainer
-          message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
+          width={width} message={message} messageVisibility={messageVisibility} handleLogoClick={handleLogoClick} 
           getSearch={getSearch} search={search} updateSearch={updateSearch} user={user}
           openNewRecipeModal={openNewRecipeModal} createRecipe={createRecipe} cancelCreateRecipe={cancelCreateRecipe}
           showMessage={showMessage} onChangeSort={onChangeSort} handleIsAscSort={handleIsAscSort}

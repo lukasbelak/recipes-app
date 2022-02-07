@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import style from "./recipe.module.css";
 import { Image } from "semantic-ui-react";
 import ViewRecipeModal from "../Modals/ViewRecipeModal";
@@ -6,13 +6,8 @@ import { getImageUrl } from "../../utils";
 
 const breakpoint = 768;
 
-const Recipe = ({ user, recipe, reloadList, showMessage }) => {
+const Recipe = ({ width, user, recipe, reloadList, showMessage }) => {
   const [openViewRecipeModal, setOpenViewRecipeModal] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
-
-  useEffect(()=>{
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-  },[]);
 
   const onRecipeClick = (value) => {
     setOpenViewRecipeModal(value);
@@ -41,6 +36,7 @@ const Recipe = ({ user, recipe, reloadList, showMessage }) => {
               onClick={onRecipeClick.bind(onRecipeClick, true)}
             />
             <ViewRecipeModal
+              width={width}
               recipe={recipe}
               user={user}
               openViewRecipeModal={openViewRecipeModal}

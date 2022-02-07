@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 const breakpoint = 768;
 
 const RecipesList = ({
+  width,
   user,
   query,
   isAscSort,
@@ -20,13 +21,8 @@ const RecipesList = ({
   const [activePage, setActivePage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefresh, setIsRefresh] = useState(1);
-  const [width, setWidth] = useState(window.innerWidth);
 
   let history = useHistory();
-
-  useEffect(()=>{
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-  },[]);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -119,6 +115,7 @@ const RecipesList = ({
                 {recipes.map((recipe) => (
                   <Recipe
                     key={recipe._id}
+                    width={width}
                     user={user}
                     recipe={recipe}
                     reloadList={reloadList}
@@ -135,26 +132,15 @@ const RecipesList = ({
                   ? "center show"
                   : "hidden"
               }>
-          {/* <Container
-              fluid
-              textAlign="center"
-              className={
-                !isLoading && recipes.length > 0 && totalPages > 1
-                  ? "center show"
-                  : "hidden"
-              } 
-            >*/}
               <Pagination
                 activePage={activePage}
                 onPageChange={onPaginationChange}
                 ellipsisItem={null}
                 totalPages={totalPages}
               />
-            {/* </Container> */}
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      {/* </div> */}
     </Container>
   );
 };

@@ -13,6 +13,7 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 const compress = new Compress();
 
 const UpdateRecipeModal = ({
+  width,
   recipe,
   openUpdateRecipeModal,
   cancelUpdateRecipeModal,

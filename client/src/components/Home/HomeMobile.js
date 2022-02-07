@@ -14,7 +14,7 @@ import { sortByOptions } from "../../enums";
 import RecipesList from "../Recipe/RecipesList";
 import logo from "../../images/logo_white.png";
 
-const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, search, updateSearch,
+const HomeMobile = ({width, message, messageVisibility, handleLogoClick, getSearch, search, updateSearch,
     user, openNewRecipeModal, createRecipe, cancelCreateRecipe, showMessage, onChangeSort, handleIsAscSort,
     isAscSort, onChangeCategory, handleLogOut, query, selectedSort, categoryOptions, recipeCreated, selectedCategory }) => {
 
@@ -57,6 +57,7 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
                   </div>
                 </form>
                 <NewRecipeModal
+                  width={width}
                   user={user}
                   openNewRecipeModal={openNewRecipeModal}
                   createRecipe={createRecipe}
@@ -143,6 +144,7 @@ const HomeMobile = ({message, messageVisibility, handleLogoClick, getSearch, sea
         </Container>
 
         <RecipesList
+          width={width}
           user={user}
           query={query}
           isAscSort={isAscSort}

@@ -12,6 +12,7 @@ const compress = new Compress();
 const breakpoint = 768;
 
 const NewRecipeModal = ({
+  width,
   user,
   openNewRecipeModal,
   createRecipe,
@@ -38,14 +39,9 @@ const NewRecipeModal = ({
   const typeaheadRef = useRef(null);
   const [selectedTag, setSelectedTag] = useState([]);
   const [tags, setTags] = useState([]);
-  const [width, setWidth] = useState(window.innerWidth);
   const errorMessage = "Vyplňte všetky povinné polia, prosím.";
 
   let history = useHistory();
-
-  useEffect(()=>{
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-  },[]);
 
   useEffect(() => {
     const getTags = async () => {

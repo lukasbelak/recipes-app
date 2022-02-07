@@ -14,7 +14,7 @@ import { sortByOptions } from "../../enums";
 import RecipesList from "../Recipe/RecipesList";
 import logo from "../../images/logo_white.png";
 
-const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, search, updateSearch,
+const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSearch, search, updateSearch,
     user, openNewRecipeModal, createRecipe, cancelCreateRecipe, showMessage, onChangeSort, handleIsAscSort,
     isAscSort, onChangeCategory, handleLogOut, query, selectedSort, categoryOptions, recipeCreated, selectedCategory }) => {
 
@@ -59,6 +59,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
                   </div>
                 </form>
                 <NewRecipeModal
+                  width={width}
                   user={user}
                   openNewRecipeModal={openNewRecipeModal}
                   createRecipe={createRecipe}
@@ -146,6 +147,7 @@ const HomeDesktop = ({message, messageVisibility, handleLogoClick, getSearch, se
         </Container>
 
         <RecipesList
+          width={width}
           user={user}
           query={query}
           isAscSort={isAscSort}

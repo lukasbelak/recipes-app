@@ -7,7 +7,7 @@ import {
   Label,
   Grid,
   Container,
-  Icon
+  Icon,
 } from "semantic-ui-react";
 import { getImageUrl, parseTags } from "../../utils";
 import UpdateRecipeModal from "./UpdateRecipeModal";
@@ -15,7 +15,10 @@ import DeleteRecipeModal from "./DeleteRecipeModal";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useHistory } from "react-router-dom";
 
+const breakpoint = 768;
+
 const ViewRecipeModal = ({
+  width,
   recipe,
   user,
   openViewRecipeModal,
@@ -88,8 +91,11 @@ const ViewRecipeModal = ({
     );
   }
 
-  let createdByUser=viewRecipe.users !=null ? viewRecipe.users[0] : null;
-  let createdBy = createdByUser != null ? createdByUser.firstName+" " + createdByUser.lastName: null;
+  let createdByUser = viewRecipe.users != null ? viewRecipe.users[0] : null;
+  let createdBy =
+    createdByUser != null
+      ? createdByUser.firstName + " " + createdByUser.lastName
+      : null;
 
   return (
     <Container>
@@ -101,55 +107,120 @@ const ViewRecipeModal = ({
         onClose={handleCancelView}
       >
         <Modal.Header style={getHeaderColor()}>
-        <Container fluid>
-          <Grid columns={5} stackable >
-            <Grid.Row>
-              <Grid.Column width={2} style={{  }}>
-                <Label
-                  as="a"
-                  color="brown"
-                  style={{ fontSize: "20px", float: "left" }}
-                  horizontal
-                >
-                  {" "}
-                  {recipe.category}{" "}
-                </Label>
-              </Grid.Column>
-              <Grid.Column width={8} style={{  }}>
-                <p style={{top:'50%', position:'absolute', transform:'translateY(-50%)'}}>{viewRecipe.name}</p>
-              </Grid.Column>
-              <Grid.Column width={2} >
-                <Button
-                  type="button"
-                  color="blue"
-                  onClick={handleUpdateRecipe}
-                >
-                  Zmeniť
-                </Button>
-              </Grid.Column>
-              <Grid.Column width={2}>
-                <Button
-                  type="button"
-                  color="red"
-                  onClick={handleDeleteRecipe}
-                >
-                  Vymazať
-                </Button>
-                <DeleteRecipeModal
-                  recipe={recipe}
-                  openDeleteRecipeModal={openDeleteRecipeModal}
-                  cancelDeleteRecipeModal={cancelDeleteRecipeModal}
-                  showMessage={showMessage}
-                />
-                </Grid.Column>
-                <Grid.Column width={2} >
+          <Container fluid>
+            {width > breakpoint ? (
+              <Grid columns={4} stackable>
+                <Grid.Row>
+                  <Grid.Column width={2}>
+                    <Label
+                      as="a"
+                      color="brown"
+                      style={{ fontSize: "22px", float: "left" }}
+                      horizontal
+                    >
+                      {" "}
+                      {recipe.category}{" "}
+                    </Label>
+                  </Grid.Column>
+                  <Grid.Column width={8}>
+                    <p
+                      style={{
+                        top: "50%",
+                        position: "absolute",
+                        transform: "translateY(-50%)",
+                      }}
+                    >
+                      {viewRecipe.name}
+                    </p>
+                  </Grid.Column>
+                  <Grid.Column width={4}>
+                    <Button
+                      type="button"
+                      color="blue"
+                      onClick={handleUpdateRecipe}
+                    >
+                      Zmeniť
+                    </Button>
+                    <Button
+                      type="button"
+                      color="red"
+                      onClick={handleDeleteRecipe}
+                    >
+                      Vymazať
+                    </Button>
+                    <DeleteRecipeModal
+                      recipe={recipe}
+                      openDeleteRecipeModal={openDeleteRecipeModal}
+                      cancelDeleteRecipeModal={cancelDeleteRecipeModal}
+                      showMessage={showMessage}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={2}>
                     <Icon link name="close" onClick={handleCancelView} />
-                </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Container>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            ) : (
+              <Grid columns={3} stackable>
+                <Grid.Row>
+                  <Grid.Column width={3}>
+                    <Grid columns={2}>
+                      <Grid.Row>
+                        <Grid.Column width={14}>
+                          <Label
+                            as="a"
+                            color="brown"
+                            style={{ fontSize: "22px", float: "left" }}
+                            horizontal
+                          >
+                            {recipe.category}
+                          </Label>
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                          <Icon link name="close" onClick={handleCancelView} style={{textAlign:'right'}}  />
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Grid.Column>
+                  <Grid.Column width={9}>
+                    <p
+                      style={{
+                        top: "50%",
+                        position: "absolute",
+                        transform: "translateY(-50%)",
+                      }}
+                    >
+                      {viewRecipe.name}
+                    </p>
+                  </Grid.Column>
+                  <Grid.Column width={4}>
+                    <Button
+                      type="button"
+                      color="blue"
+                      onClick={handleUpdateRecipe}
+                    >
+                      Zmeniť
+                    </Button>
+                    <Button
+                      type="button"
+                      color="red"
+                      onClick={handleDeleteRecipe}
+                    >
+                      Vymazať
+                    </Button>
+                    <DeleteRecipeModal
+                      recipe={recipe}
+                      openDeleteRecipeModal={openDeleteRecipeModal}
+                      cancelDeleteRecipeModal={cancelDeleteRecipeModal}
+                      showMessage={showMessage}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            )}
+          </Container>
         </Modal.Header>
-        <Modal.Content style={{fontSize:'18px'}}>
+        <Modal.Content style={{ fontSize: "18px" }}>
           <Modal.Description>
             <Grid stackable columns={2}>
               <Grid.Row stretched>
@@ -159,7 +230,7 @@ const ViewRecipeModal = ({
                     <ul>
                       {viewRecipe.ingredients.map((i) => (
                         <li key={i.name}>
-                          {i.name} {i.quantity>0?i.quantity:null} {i.unit}
+                          {i.name} {i.quantity > 0 ? i.quantity : null} {i.unit}
                         </li>
                       ))}
                     </ul>
@@ -229,6 +300,7 @@ const ViewRecipeModal = ({
             Zrušiť
           </Button>
           <UpdateRecipeModal
+            width={width}
             recipe={viewRecipe}
             openUpdateRecipeModal={openUpdateRecipeModal}
             cancelUpdateRecipeModal={cancelUpdateRecipeModal}
