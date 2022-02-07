@@ -7,6 +7,7 @@ import {
   Label,
   Grid,
   Container,
+  Icon
 } from "semantic-ui-react";
 import { getImageUrl, parseTags } from "../../utils";
 import UpdateRecipeModal from "./UpdateRecipeModal";
@@ -101,7 +102,7 @@ const ViewRecipeModal = ({
       >
         <Modal.Header style={getHeaderColor()}>
         <Container fluid>
-          <Grid columns={4} stackable >
+          <Grid columns={5} stackable >
             <Grid.Row>
               <Grid.Column width={2} style={{  }}>
                 <Label
@@ -114,17 +115,11 @@ const ViewRecipeModal = ({
                   {recipe.category}{" "}
                 </Label>
               </Grid.Column>
-              <Grid.Column width={10} style={{  }}>
-              <p style={{top:'50%', position:'absolute', transform:'translateY(-50%)'}}>{viewRecipe.name}</p>
+              <Grid.Column width={8} style={{  }}>
+                <p style={{top:'50%', position:'absolute', transform:'translateY(-50%)'}}>{viewRecipe.name}</p>
               </Grid.Column>
               <Grid.Column width={2} >
                 <Button
-                  style={{
-                    display:
-                      user?.isAdmin || user?._id === viewRecipe.user_id
-                        ? "inline"
-                        : "none",
-                  }}
                   type="button"
                   color="blue"
                   onClick={handleUpdateRecipe}
@@ -134,7 +129,6 @@ const ViewRecipeModal = ({
               </Grid.Column>
               <Grid.Column width={2}>
                 <Button
-                  style={{ display: user?.isAdmin ? "inline" : "none" }}
                   type="button"
                   color="red"
                   onClick={handleDeleteRecipe}
@@ -147,7 +141,10 @@ const ViewRecipeModal = ({
                   cancelDeleteRecipeModal={cancelDeleteRecipeModal}
                   showMessage={showMessage}
                 />
-              </Grid.Column>
+                </Grid.Column>
+                <Grid.Column width={2} >
+                    <Icon link name="close" onClick={handleCancelView} />
+                </Grid.Column>
             </Grid.Row>
           </Grid>
         </Container>
@@ -211,7 +208,7 @@ const ViewRecipeModal = ({
                     <ul>
                       {viewRecipe.ingredients.map((i) => (
                         <li key={i.name}>
-                          {i.name} {i.quantity} {i.unit}
+                          {i.name} {i.quantity>0?i.quantity:null} {i.unit}
                         </li>
                       ))}
                     </ul>
