@@ -148,55 +148,6 @@ const ViewRecipeModal = ({
             </Grid.Row>
           </Grid>
         </Container>
-          {/* <Label
-            as="a"
-            color="brown"
-            style={{ fontSize: "20px", float: "left" }}
-            horizontal
-          >
-            {" "}
-            {recipe.category}{" "}
-          </Label>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column-reverse",
-                alignSelf: "center",
-              }}
-            >
-              {viewRecipe.name}
-            </div>
-            <div>
-              <Button
-                style={{
-                  display:
-                    user?.isAdmin || user?._id === viewRecipe.user_id
-                      ? "inline"
-                      : "none",
-                }}
-                type="button"
-                color="blue"
-                onClick={handleUpdateRecipe}
-              >
-                Zmeniť
-              </Button>
-              <Button
-                style={{ display: user?.isAdmin ? "inline" : "none" }}
-                type="button"
-                color="red"
-                onClick={handleDeleteRecipe}
-              >
-                Vymazať
-              </Button>
-              <DeleteRecipeModal
-                recipe={recipe}
-                openDeleteRecipeModal={openDeleteRecipeModal}
-                cancelDeleteRecipeModal={cancelDeleteRecipeModal}
-                showMessage={showMessage}
-              />
-            </div>
-          </div> */}
         </Modal.Header>
         <Modal.Content style={{fontSize:'18px'}}>
           <Modal.Description>

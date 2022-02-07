@@ -3,9 +3,7 @@ const Category = require("../models/Category");
 module.exports = {
   get: async (req, res, next) => {
     try {
-      console.log("before get cats");
       await Category.find().then((categories) => res.json(categories));
-      console.log("in get cats");
     } catch (err) {
       res.json({ message: err.message });
     }

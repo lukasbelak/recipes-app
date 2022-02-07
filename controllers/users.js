@@ -18,10 +18,10 @@ const signToken = (user) => {
 module.exports = {
   getById: async (req, res, next) => {
     try {
-      console.log("UserID: " + req.params.id);
+      // console.log("UserID: " + req.params.id);
       await User.findById(req.params.id).then((user) => res.json(user));
     } catch (err) {
-      console.log("User.getById error: " + err.message);
+      // console.log("User.getById error: " + err.message);
       res.json({ message: err.message });
     }
   },
@@ -90,7 +90,7 @@ module.exports = {
   },
 
   logOut: async (req, res, next) => {
-    console.log("in logout");
+    // console.log("in logout");
     req.logOut();
     res.redirect("/");
   },

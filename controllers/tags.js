@@ -3,9 +3,7 @@ const Tag = require("../models/Tag");
 module.exports = {
   get: async (req, res, next) => {
     try {
-      console.log("before get tags");
       await Tag.find().then((tags) => res.json(tags));
-      console.log("in get tags");
     } catch (err) {
       res.json({ message: err.message });
     }

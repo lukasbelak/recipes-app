@@ -18,7 +18,6 @@ module.exports = {
 
   get: async (req, res, next) => {
     try {
-      console.log("in get recipe: ");
 
       const sortByValue = req.params.sortBy;
       let isAscSort = req.params.isAscSort;
@@ -73,7 +72,6 @@ module.exports = {
 
   getBySearch: async (req, res, next) => {
     try {
-      console.log("in getBySearch recipe: ");
 
       let filter = req.params.search;
       let sortByValue = req.params.sortBy;
@@ -139,7 +137,6 @@ module.exports = {
 
   getById: async (req, res, next) => {
     try {
-      console.log("in getById recipe: ");
 
       await Recipe.findById(req.params.id).then(async (recipe) => {
         let requestOptions = {
@@ -212,7 +209,6 @@ module.exports = {
 
       let query = { $set: {} };
       for (let key in req.body) {
-        console.log("Key: " + key);
         if (recipe[key] !== req.body[key] && key !== "img") {
           query.$set[key] = req.body[key];
         }
@@ -231,7 +227,6 @@ module.exports = {
         query,
         { new: true },
         (err, recipe) => {
-          console.log("created:" + recipe);
           res.json(recipe);
         }
       );
