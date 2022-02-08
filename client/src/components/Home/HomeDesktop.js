@@ -94,7 +94,6 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
                   )}
                 </Button>
                 <Dropdown
-                //   style={{ display: "flex" }}
                   onChange={onChangeCategory}
                   selection
                   options={categoryOptions}
@@ -104,7 +103,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
               <Grid.Column width={4} style={{ alignSelf: "flex-end" }}>
                 <Container className="account-form">
                   <Grid columns={1} stackable>
-                    <Grid.Column>
+                    <Grid.Column style={{marginRight:'15px'}}>
                       <Button.Group>
                         <Button color="yellow" circular floated="right">
                           {user?.firstName}
