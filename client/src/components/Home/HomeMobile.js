@@ -79,8 +79,9 @@ const HomeMobile = ({width, message, messageVisibility, handleLogoClick, getSear
                   color="grey"
                   onClick={handleIsAscSort}
                   style={{
-                    height: "38px",
+                    // height: "38px",
                     margin: "0 10px",
+                    lineHeight:'normal'
                   }}
                 >
                   {isAscSort ? (
@@ -154,7 +155,7 @@ const HomeMobile = ({width, message, messageVisibility, handleLogoClick, getSear
           selectedCategory={selectedCategory}
         />
 
-        {/* <Container
+        <Container
           fluid
           style={{
             backgroundColor: "#1b1c1d",
@@ -171,7 +172,7 @@ const HomeMobile = ({width, message, messageVisibility, handleLogoClick, getSear
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </Container>*/}
+        </Container>
       </Container> 
     );
 }

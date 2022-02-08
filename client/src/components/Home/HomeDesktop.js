@@ -84,6 +84,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
                     // height: "38px",
                     float: "left",
                     margin: "0 10px",
+                    lineHeight:'normal'
                   }}
                 >
                   {isAscSort ? (
@@ -157,7 +158,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
           selectedCategory={selectedCategory}
         />
 
-        {/* <Container
+        <Container
           fluid
           style={{
             backgroundColor: "#1b1c1d",
@@ -175,7 +176,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </Container> */}
+        </Container>
       </Container>
     );
 }
