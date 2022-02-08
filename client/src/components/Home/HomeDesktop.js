@@ -113,7 +113,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
                           floating
                           trigger={<React.Fragment />}
                         >
-                          <Dropdown.Menu>
+                          <Dropdown.Menu style={{backgroundColor:'rgb(27, 28, 29)'}}>
                             <Dropdown.Item
                               style={{
                                 display: user?.isAdmin ? "block" : "none",
