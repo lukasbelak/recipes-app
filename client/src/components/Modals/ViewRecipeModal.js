@@ -135,7 +135,7 @@ const ViewRecipeModal = ({
                   </Grid.Column>
                   <Grid.Column width={4}>
                     <Button
-                      style={{display:user?._id === viewRecipe.user_id?'inline-block':'none'}}
+                      style={{display:user?._id === viewRecipe.user_id || user?.isAdmin ?'inline-block':'none'}}
                       type="button"
                       color="blue"
                       onClick={handleUpdateRecipe}
