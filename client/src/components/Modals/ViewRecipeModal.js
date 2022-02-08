@@ -109,63 +109,34 @@ const ViewRecipeModal = ({
         <Modal.Header style={getHeaderColor()}>
           <Container fluid>
             {width > breakpoint ? (
-              <Grid columns={4} stackable>
+              <Grid columns={3} stackable>
                 <Grid.Row>
-                  <Grid.Column width={2}>
+                  <Grid.Column width={14}>
                     <Label
                       as="a"
                       color="brown"
-                      style={{ fontSize: "22px", float: "left" }}
+                      style={{ fontSize: "22px",float:'left',  width:'max-content' }}
                       horizontal
                     >
-                      {" "}
-                      {recipe.category}{" "}
+                      {recipe.category}
                     </Label>
-                  </Grid.Column>
-                  <Grid.Column width={8}>
                     <p
                       style={{
-                        top: "50%",
-                        position: "absolute",
-                        transform: "translateY(-50%)",
+                        fontSize: "22px",
                       }}
                     >
                       {viewRecipe.name}
                     </p>
                   </Grid.Column>
-                  <Grid.Column width={4}>
-                    <Button
-                      style={{display:user?._id === viewRecipe.user_id || user?.isAdmin ?'inline-block':'none'}}
-                      type="button"
-                      color="blue"
-                      onClick={handleUpdateRecipe}
-                    >
-                      Zmeniť
-                    </Button>
-                    <Button
-                      style={{display:user?.isAdmin?'inline-block':'none'}}
-                      type="button"
-                      color="red"
-                      onClick={handleDeleteRecipe}
-                    >
-                      Vymazať
-                    </Button>
-                    <DeleteRecipeModal
-                      recipe={recipe}
-                      openDeleteRecipeModal={openDeleteRecipeModal}
-                      cancelDeleteRecipeModal={cancelDeleteRecipeModal}
-                      showMessage={showMessage}
-                    />
-                  </Grid.Column>
                   <Grid.Column width={2}>
-                    <Icon link name="close" onClick={handleCancelView} />
+                    <Icon link name="close" onClick={handleCancelView} style={{textAlign:'right'}} />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
             ) : (
-              <Grid columns={3} stackable>
+              <Grid stackable>
                 <Grid.Row>
-                  <Grid.Column width={3}>
+                  <Grid.Column>
                     <Grid columns={2}>
                       <Grid.Row>
                         <Grid.Column width={14}>
@@ -178,45 +149,23 @@ const ViewRecipeModal = ({
                             {recipe.category}
                           </Label>
                         </Grid.Column>
-                        <Grid.Column width={2}>
+                        <Grid.Column width={2} style={{display:'grid'}}>
                           <Icon link name="close" onClick={handleCancelView} style={{textAlign:'right'}}  />
                         </Grid.Column>
                       </Grid.Row>
                     </Grid>
                   </Grid.Column>
-                  <Grid.Column width={9}>
-                    <p
-                      style={{
-                        top: "50%",
-                        position: "absolute",
-                        transform: "translateY(-50%)",
-                      }}
-                    >
-                      {viewRecipe.name}
-                    </p>
-                  </Grid.Column>
-                  <Grid.Column width={4}>
-                    <Button
-                      type="button"
-                      color="blue"
-                      onClick={handleUpdateRecipe}
-                    >
-                      Zmeniť
-                    </Button>
-                    <Button
-                      type="button"
-                      color="red"
-                      onClick={handleDeleteRecipe}
-                    >
-                      Vymazať
-                    </Button>
-                    <DeleteRecipeModal
-                      recipe={recipe}
-                      openDeleteRecipeModal={openDeleteRecipeModal}
-                      cancelDeleteRecipeModal={cancelDeleteRecipeModal}
-                      showMessage={showMessage}
-                    />
-                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column>
+                      <p
+                        style={{
+                          fontSize:'22px'
+                        }}
+                      >
+                        {viewRecipe.name}
+                      </p>
+                    </Grid.Column>
                 </Grid.Row>
               </Grid>
             )}
@@ -298,6 +247,23 @@ const ViewRecipeModal = ({
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
+        <Button
+                      style={{display:user?._id === viewRecipe.user_id || user?.isAdmin ?'inline-block':'none'}}
+                      type="button"
+                      color="blue"
+                      onClick={handleUpdateRecipe}
+                    >
+                      Zmeniť
+                    </Button>
+                    <Button
+                      style={{display:user?.isAdmin?'inline-block':'none'}}
+                      type="button"
+                      color="red"
+                      onClick={handleDeleteRecipe}
+                    >
+                      Vymazať
+                    </Button>
+                   
           <Button type="button" onClick={handleCancelView}>
             Zrušiť
           </Button>
@@ -308,6 +274,12 @@ const ViewRecipeModal = ({
             cancelUpdateRecipeModal={cancelUpdateRecipeModal}
             setUpdatedRecipe={setUpdatedRecipe}
           />
+           <DeleteRecipeModal
+                      recipe={recipe}
+                      openDeleteRecipeModal={openDeleteRecipeModal}
+                      cancelDeleteRecipeModal={cancelDeleteRecipeModal}
+                      showMessage={showMessage}
+                    />
         </Modal.Actions>
       </Modal>
     </Container>
