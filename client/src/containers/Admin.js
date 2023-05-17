@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Menu, Responsive, Image } from "semantic-ui-react";
+import { Container, Menu, Responsive, Image,Grid } from "semantic-ui-react";
 import AdminCategories from "../components/Admin/AdminCategories";
 import AdminRecipes from "../components/Admin/AdminRecipes";
 import AdminTags from "../components/Admin/AdminTags";
@@ -36,11 +36,12 @@ const Admin = () => {
     history.push("/");
   };
 
+  /* jshint ignore:start */
   return (
     <div>
       <Responsive>
         <Menu fixed="top" inverted>
-          <Container>
+          <Container >
             <Menu.Item>
               <Image size="small" src={logo} onClick={handleLogoClick} />
             </Menu.Item>
@@ -56,6 +57,10 @@ const Admin = () => {
           </Container>
         </Menu>
 
+        
+        <Grid stackable>
+        <Grid.Row columns={1}>
+          <Grid.Column>
         <Container
           style={
             isCategoriesVisible
@@ -65,6 +70,9 @@ const Admin = () => {
         >
           <AdminCategories />
         </Container>
+          </Grid.Column>
+          </Grid.Row>
+          </Grid>
 
         <Container
           style={
@@ -88,6 +96,7 @@ const Admin = () => {
       </Responsive>
     </div>
   );
+  /* jshint ignore:end */
 };
 
 export default Admin;

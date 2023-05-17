@@ -102,6 +102,9 @@ const RecipesList = ({
     setIsRefresh(isRefresh + 1);
   };
 
+// debugger;
+
+  /* jshint ignore:start */
   return (
     <Container fluid>
       <Dimmer active={isLoading} inverted>
@@ -143,6 +146,7 @@ const RecipesList = ({
       </Grid>
     </Container>
   );
+  /* jshint ignore:end */
 };
 
 export default RecipesList;

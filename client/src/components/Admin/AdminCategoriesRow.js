@@ -29,16 +29,17 @@ const AdminCategoriesRow = ({
       });
   };
 
+  /* jshint ignore:start */
   return (
     <Table.Row key={category.id}>
-      <Table.Cell>
+      <Table.Cell width={2}>
         <Checkbox
           checked={isItemSelected(category.id)}
           onChange={() => handleSelect(category.id)}
         />
       </Table.Cell>
-      <Table.Cell>{category.name}</Table.Cell>
-      <Table.Cell>
+      <Table.Cell width={12}>{category.name}</Table.Cell>
+      <Table.Cell width={2}>
         <Button
           icon
           circular
@@ -51,6 +52,7 @@ const AdminCategoriesRow = ({
       </Table.Cell>
     </Table.Row>
   );
+  /* jshint ignore:end */
 };
 
 export default AdminCategoriesRow;

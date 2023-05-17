@@ -51,6 +51,7 @@ const ViewRecipeModal = ({
   };
 
   const setUpdatedRecipe = (value) => {
+    debugger;
     setViewRecipe(value);
   };
 
@@ -81,6 +82,8 @@ const ViewRecipeModal = ({
     }
   };
 
+/* jshint ignore:start */
+
   let video;
   if (viewRecipe.youtube !== "") {
     video = (
@@ -96,6 +99,8 @@ const ViewRecipeModal = ({
     createdByUser != null
       ? createdByUser.firstName + " " + createdByUser.lastName
       : null;
+      
+debugger;
 
   return (
     <Container>
@@ -284,6 +289,7 @@ const ViewRecipeModal = ({
       </Modal>
     </Container>
   );
+    /* jshint ignore:end */
 };
 
 export default ViewRecipeModal;

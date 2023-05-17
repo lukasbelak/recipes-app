@@ -19,6 +19,8 @@ const Recipe = ({ width, user, recipe, reloadList, showMessage }) => {
     }
   };
 
+  debugger;
+  /* jshint ignore:start */
   return (
           <div key={recipe._id} className={`${width>breakpoint? style.recipe_desktop: style.recipe_mobile} hvr-grow`}>
             <div className={style.recipe_header}>
@@ -46,6 +48,7 @@ const Recipe = ({ width, user, recipe, reloadList, showMessage }) => {
             />
           </div>
   );
+    /* jshint ignore:end */
 };
 
 export default Recipe;

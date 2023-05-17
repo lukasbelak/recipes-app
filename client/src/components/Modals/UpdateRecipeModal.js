@@ -245,6 +245,7 @@ const UpdateRecipeModal = ({
 
     setIsInProgressUpdateBool(false);
     setIsInProgressUpdate("");
+    debugger;
     setUpdatedRecipe(recipe);
     handleCancelView();
   };
@@ -268,6 +269,8 @@ const UpdateRecipeModal = ({
   const tagOnChange = (value) => {
     setSelectedTag(value);
   };
+
+debugger;
 
   return (
     <div>

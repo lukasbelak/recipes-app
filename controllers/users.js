@@ -28,12 +28,14 @@ module.exports = {
 
   getByUserName: async (req, res, next) => {
     await User.findOne({ userName: req.params.userName }, function (err, user) {
-      if (err)
+      if (err){
+        console.log("User.getByUserName error: " + err.message);
         return res.json({
           isError: true,
           message: err.message,
           user: null,
         });
+      }
 
       if (user) {
         return res.json({

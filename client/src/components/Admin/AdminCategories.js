@@ -130,6 +130,7 @@ const AdminCategories = ({
     handleClearAll();
   };
 
+  /* jshint ignore:start */
   return (
     <div style={{ margin: "auto", width: "700px" }}>
       <Dimmer active={isLoading} inverted>
@@ -152,10 +153,10 @@ const AdminCategories = ({
           )}
         </div>
       </Segment>
-      <Table sortable fixed celled collapsing>
+      <Table sortable fixed celled >
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell width={1}>
+            <Table.HeaderCell width={2}>
               <Checkbox
                 checked={areAllSelected(data)}
                 indeterminate={areAllIndeterminate(data)}
@@ -163,13 +164,13 @@ const AdminCategories = ({
               />
             </Table.HeaderCell>
             <Table.HeaderCell
-              width={14}
+              width={12}
               sorted={column === "name" ? direction : null}
               onClick={handleSort("name")}
             >
               Názov
             </Table.HeaderCell>
-            <Table.HeaderCell width={1}></Table.HeaderCell>
+            <Table.HeaderCell width={2}></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -218,6 +219,7 @@ const AdminCategories = ({
       </Table>
     </div>
   );
+  /* jshint ignore:end */
 };
 
 export default withSelections(AdminCategories);

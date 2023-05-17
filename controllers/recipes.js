@@ -9,7 +9,9 @@ const createRecipe = (recipe) => {
 module.exports = {
   getAll: async (req, res, next) => {
     try {
-      await Recipe.find().then((recipes) => res.json(recipes));
+      await Recipe.find().then((recipes) =>{
+         res.json(recipes);
+    });
     } catch (err) {
       console.log(err.message);
       res.json({ message: err.message });
@@ -226,7 +228,8 @@ module.exports = {
         { _id: req.params.id },
         query,
         { new: true },
-        (err, recipe) => {
+        (err, result) => {
+
           res.json(recipe);
         }
       );

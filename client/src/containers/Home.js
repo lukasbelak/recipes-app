@@ -17,6 +17,7 @@ const { MediaContextProvider, Media } = createMedia({
   },
 });
 
+    /* jshint ignore:start */
 class DesktopContainer extends Component {
   
   constructor() {
@@ -38,6 +39,7 @@ class DesktopContainer extends Component {
         selectedSort={this.props.selectedSort} categoryOptions={this.props.categoryOptions} recipeCreated={this.props.recipeCreated} selectedCategory={this.props.selectedCategory} />
       </Media>;
   }
+ 
 }
 
 DesktopContainer.propTypes = {
@@ -69,6 +71,8 @@ class MobileContainer extends Component {
 MobileContainer.propTypes = {
   children: PropTypes.node,
 };
+
+ /* jshint ignore:end */
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -198,6 +202,7 @@ const Home = () => {
     history.push("/");
   };
 
+      /* jshint ignore:start */
   return (
     <MediaContextProvider>
       {width > breakpoint ? (
@@ -219,6 +224,7 @@ const Home = () => {
         </MobileContainer>)}
   </MediaContextProvider>
   );
+      /* jshint ignore:end */
 };
 
 export default Home;

@@ -18,6 +18,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
     user, openNewRecipeModal, createRecipe, cancelCreateRecipe, showMessage, onChangeSort, handleIsAscSort,
     isAscSort, onChangeCategory, handleLogOut, query, selectedSort, categoryOptions, recipeCreated, selectedCategory }) => {
 
+          /* jshint ignore:start */
     return (
         <Container fluid className="App">
         <div className="message">
@@ -178,6 +179,7 @@ const HomeDesktop = ({width, message, messageVisibility, handleLogoClick, getSea
         </Container>
       </Container>
     );
-}
+        /* jshint ignore:end */
+};
 
 export default HomeDesktop;
