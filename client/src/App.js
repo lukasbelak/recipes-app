@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import './libraries/bootstrap/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-css/semantic.js';
 import 'hover.css';
 import './App.css';
 import Home from './containers/Home';
