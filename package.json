@@ -38,15 +38,15 @@
   },
   "scripts": {
     "install-client": "cd client && npm install",
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
-  },
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
   "eslintConfig": {
     "extends": "react-app"
   },
