@@ -1,6 +1,5 @@
 {
   "name": "reciperaptor",
-  "homepage": "https://lukasbelak.github.io/recipes-app/",
   "version": "0.1.0",
   "private": true,
   "main": "server.js",
@@ -38,8 +37,6 @@
   },
   "scripts": {
     "install-client": "cd client && npm install",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "node server.js",
