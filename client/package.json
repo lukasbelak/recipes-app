@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "faker": "^4.1.0"
   }
 }
